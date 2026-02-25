@@ -1,0 +1,595 @@
+/* Duvidas.module.css — FIX FINAL
+   ✅ FAQ no fluxo (empurra rodapé)
+   ✅ sem scroll interno
+   ✅ rodapé centralizado
+   ✅ quando tudo fechado: rodapé cola no fim
+   ✅ quando abre resposta: seção cresce e rodapé desce junto
+   ✅ 1025–1439 sem “espaço fantasma” com zoom
+*/
+
+/* =========================
+   STAGE (vars por breakpoint)
+========================= */
+.stage {
+  position: relative;
+  width: 100%;
+
+  overflow-x: hidden;
+  overflow-y: visible;
+
+  /* DEFAULT = 320 */
+  --canvas-w: 320px;
+  --canvas-h: 627px;
+  --scale: 1;
+
+  /* Chamada */
+  --chamada-left: 16.5px;
+  --chamada-top: 44px;
+  --chamada-w: 288px;
+  --chamada-h: 125px;
+
+  --duvidas-w: 170px;
+  --duvidas-h: 65px;
+  --duvidas-top: -5px;
+  --duvidas-left: -15px;
+
+  --freq-w: 269px;
+  --freq-h: 65px;
+  --freq-top: 46px;
+  --freq-left: -0.5px;
+
+  /* Box dúvidas */
+  --box-left: 16px;
+  --box-top: 238px;
+  --box-w: 288px;
+
+  --pergunta-h: 22px;
+  --pergunta-radius: 5.5px;
+  --pergunta-pad-x: 5.5px;
+  --pergunta-gap: 5.5px;
+
+  --texto-size: 14px;
+
+  --seta-w: 11px;
+  --seta-h: 13px;
+
+  /* Rodapé */
+  --rodape-w: 288px;
+  --rodape-h: 56px;
+  --rodape-radius: 6px;
+
+  --logos-w: 139px;
+  --logos-h: 22px;
+
+  --logo-mcc-w: 90px;
+  --logo-mcc-h: 22px;
+
+  --logo-enjc-w: 41px;
+  --logo-enjc-h: 21px;
+  --logo-enjc-left: 98px;
+  --logo-enjc-top: 0.3px;
+
+  --c1-size: 6.5px;
+  --c2-size: 6.5px;
+
+  /* Decorações */
+  --ua-left: 25px;
+  --ua-top: 132px;
+  --ua-w: 169px;
+  --ua-h: 171px;
+  --ua-rot: 0deg;
+
+  --sr-left: 150px;
+  --sr-top: 43px;
+  --sr-w: 52px;
+  --sr-h: 61px;
+  --sr-rot: 0deg;
+
+  /* ✅ espaço entre FAQ e rodapé (controle aqui) */
+  --gap-faq-rodape: 18px;
+
+  /* altura mínima da seção */
+  min-height: 100vh;
+}
+
+/* 642 */
+@media (min-width: 642px) {
+  .stage {
+    --canvas-w: 642px;
+    --canvas-h: 1058px;
+    --scale: 1;
+
+    --chamada-left: 24px;
+    --chamada-top: 75px;
+    --chamada-w: 446px;
+    --chamada-h: 193px;
+
+    --duvidas-w: 317px;
+    --duvidas-h: 123px;
+    --duvidas-top: -5px;
+    --duvidas-left: -15px;
+
+    --freq-w: 486px;
+    --freq-h: 118px;
+    --freq-top: 90px;
+    --freq-left: -0.3px;
+
+    --box-left: 80px;
+    --box-top: 393px;
+    --box-w: 481px;
+
+    --pergunta-h: 37px;
+    --pergunta-radius: 9.5px;
+    --pergunta-pad-x: 9.5px;
+    --pergunta-gap: 9.5px;
+
+    --texto-size: 24px;
+
+    --seta-w: 18px;
+    --seta-h: 22px;
+
+    --rodape-w: 482px;
+    --rodape-h: 97px;
+    --rodape-radius: 10.5px;
+
+    --logos-w: 233px;
+    --logos-h: 37px;
+
+    --logo-mcc-w: 151px;
+    --logo-mcc-h: 37px;
+
+    --logo-enjc-w: 69px;
+    --logo-enjc-h: 36px;
+    --logo-enjc-left: 164px;
+    --logo-enjc-top: 0.5px;
+
+    --c1-size: 10.5px;
+    --c2-size: 10.5px;
+
+    --ua-left: 20px;
+    --ua-top: 245px;
+    --ua-w: 262px;
+    --ua-h: 265px;
+    --ua-rot: 0deg;
+
+    --sr-left: 290px;
+    --sr-top: 73px;
+    --sr-w: 90px;
+    --sr-h: 104px;
+    --sr-rot: 0deg;
+
+    --gap-faq-rodape: 22px;
+  }
+}
+
+/* 1025 → canvas REAL = 1344 (scale 0.762) */
+@media (min-width: 1025px) {
+  .stage {
+    --canvas-w: 1344px;
+    --canvas-h: 862px;
+    --scale: 0.762;
+
+    --chamada-left: 50px;
+    --chamada-top: 182px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --duvidas-w: 430px;
+    --duvidas-h: 164px;
+    --duvidas-top: -15px;
+    --duvidas-left: -40px;
+
+    --freq-w: 577px;
+    --freq-h: 140px;
+    --freq-top: 120px;
+    --freq-left: 0px;
+
+    --box-left: 810px;
+    --box-top: 185px;
+    --box-w: 498px;
+
+    --pergunta-h: 39px;
+    --pergunta-radius: 10px;
+    --pergunta-pad-x: 10px;
+    --pergunta-gap: 10px;
+
+    --texto-size: 25px;
+
+    --seta-w: 19px;
+    --seta-h: 23px;
+
+    --rodape-w: 892px;
+    --rodape-h: 180px;
+    --rodape-radius: 20px;
+
+    --logos-w: 433px;
+    --logos-h: 70px;
+
+    --logo-mcc-w: 281px;
+    --logo-mcc-h: 69px;
+
+    --logo-enjc-w: 128px;
+    --logo-enjc-h: 68px;
+    --logo-enjc-left: 305px;
+    --logo-enjc-top: 1px;
+
+    --c1-size: 20px;
+    --c2-size: 20px;
+
+    --ua-left: 60px;
+    --ua-top: 395px;
+    --ua-w: 304px;
+    --ua-h: 308px;
+    --ua-rot: 0deg;
+
+    --sr-left: 400px;
+    --sr-top: 185px;
+    --sr-w: 120px;
+    --sr-h: 143px;
+    --sr-rot: 0deg;
+
+    /* ✅ controla aqui */
+    --gap-faq-rodape: 4px; /* ajuste fino (pode ser 0) */
+  }
+}
+
+/* 1440 */
+@media (min-width: 1440px) {
+  .stage {
+    --canvas-w: 1440px;
+    --canvas-h: 861px;
+    --scale: 1;
+
+    --chamada-left: 80px;
+    --chamada-top: 186px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --duvidas-w: 440px;
+    --duvidas-h: 164px;
+    --duvidas-left: -60px;
+    --duvidas-top: -10px;
+
+    --freq-w: 577px;
+    --freq-h: 140px;
+    --freq-top: 124px;
+    --freq-left: 0px;
+
+    --box-left: 862px;
+    --box-top: 186px;
+    --box-w: 498px;
+
+    --pergunta-h: 39px;
+    --pergunta-radius: 10px;
+    --pergunta-pad-x: 10px;
+    --pergunta-gap: 10px;
+
+    --texto-size: 25px;
+
+    --seta-w: 19px;
+    --seta-h: 23px;
+
+    --rodape-w: 846px;
+    --rodape-h: 180px;
+    --rodape-radius: 20px;
+
+    --logos-w: 441px;
+    --logos-h: 70px;
+
+    --logo-mcc-w: 285px;
+    --logo-mcc-h: 70px;
+
+    --logo-enjc-w: 132px;
+    --logo-enjc-h: 70px;
+    --logo-enjc-left: 309px;
+    --logo-enjc-top: 0px;
+
+    --c1-size: 20px;
+    --c2-size: 20px;
+
+    --ua-left: 90px;
+    --ua-top: 405px;
+    --ua-w: 304px;
+    --ua-h: 308px;
+    --ua-rot: 0deg;
+
+    --sr-left: 425px;
+    --sr-top: 183px;
+    --sr-w: 120px;
+    --sr-h: 143px;
+    --sr-rot: 0deg;
+
+    --gap-faq-rodape: 12px; /* ajuste fino (pode ser 0) */
+  }
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+.bg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.contain {
+  object-fit: contain;
+}
+
+/* =========================
+   CANVAS (centralizado)
+========================= */
+.canvas {
+  position: relative;
+  left: 50%;
+  width: var(--canvas-w);
+  transform: translateX(-50%) scale(var(--scale));
+  transform-origin: top center;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+
+  /* ✅ altura mínima pra rodapé colar no fundo quando faltar conteúdo */
+  min-height: max(var(--canvas-h), calc(100vh / var(--scale)));
+
+  height: auto;
+}
+
+/* =========================
+   CHAMADA (absoluta)
+========================= */
+.chamada {
+  position: absolute;
+  left: var(--chamada-left);
+  top: var(--chamada-top);
+  width: var(--chamada-w);
+  height: var(--chamada-h);
+}
+
+.duvidasWord {
+  position: absolute;
+  left: var(--duvidas-left);
+  top: var(--duvidas-top);
+  width: var(--duvidas-w);
+  height: var(--duvidas-h);
+  z-index: 20; /* 👈 FICA POR CIMA */
+}
+
+.frequentesWord {
+  position: absolute;
+  left: var(--freq-left);
+  top: var(--freq-top);
+  width: var(--freq-w);
+  height: var(--freq-h);
+}
+
+/* =========================
+   DECORAÇÕES
+========================= */
+.underlineAmarelo {
+  position: absolute;
+  left: var(--ua-left);
+  top: var(--ua-top);
+  width: var(--ua-w);
+  height: var(--ua-h);
+  transform: rotate(var(--ua-rot));
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.setaRoxa {
+  position: absolute;
+  left: var(--sr-left);
+  top: var(--sr-top);
+  width: var(--sr-w);
+  height: var(--sr-h);
+  transform: rotate(var(--sr-rot));
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* =========================
+   FAQ BOX (NO FLUXO)
+========================= */
+.faqBox {
+  position: relative;
+  margin-top: var(--box-top);
+  margin-left: var(--box-left);
+
+  width: var(--box-w);
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--pergunta-gap);
+
+  overflow: visible;
+
+  /* ✅ único controle de espaço entre FAQ e rodapé */
+  margin-bottom: var(--gap-faq-rodape);
+}
+
+.faqItem {
+  position: relative;
+}
+
+.pergunta {
+  width: 100%;
+  height: var(--pergunta-h);
+  border: 0;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 var(--pergunta-pad-x);
+  border-radius: var(--pergunta-radius);
+
+  background: linear-gradient(90deg, #ffc300 0.28%, #e3b00b 82.56%);
+}
+
+.perguntaTexto {
+  font-family: var(--font-luckiest) !important;
+  font-weight: 400;
+  font-size: var(--texto-size);
+  line-height: 1;
+
+  background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.chevronWrap {
+  width: var(--seta-w);
+  height: var(--seta-h);
+  color: #ffffff;
+  flex: 0 0 auto;
+}
+
+.chevron {
+  display: block;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+  transition: transform 220ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* resposta */
+.respostaWrap {
+  max-height: 0;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(-6px);
+
+  padding-top: 0;
+
+  transition:
+    max-height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms ease,
+    transform 260ms ease,
+    padding-top 260ms ease;
+  will-change: max-height, opacity, transform;
+}
+
+.respostaOpen {
+  max-height: 520px; /* mantém teu limite */
+  opacity: 1;
+  transform: translateY(0);
+  padding-top: 6px; /* “respiro” suave antes da resposta */
+}
+
+.resposta {
+  margin-top: 0; /* agora o respiro fica no wrap */
+  border-radius: calc(var(--pergunta-radius) * 1.2);
+  padding: 10px 12px;
+
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-family: var(--font-crayon) !important;
+  font-size: calc(var(--texto-size) * 0.85);
+  line-height: 1.15;
+  color: #ffffff;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* =========================
+   RODAPÉ
+========================= */
+.rodape {
+  position: relative;
+  width: var(--rodape-w);
+  height: var(--rodape-h);
+
+  margin-left: auto;
+  margin-right: auto;
+
+  /* ✅ cola no fim quando sobrar altura */
+  margin-top: auto;
+
+  border-top-left-radius: var(--rodape-radius);
+  border-top-right-radius: var(--rodape-radius);
+
+  background: linear-gradient(119deg, #00a0ff 30.33%, #006099 126.36%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logos {
+  position: relative;
+  width: var(--logos-w);
+  height: var(--logos-h);
+  margin-bottom: 6px;
+}
+
+.logoMcc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--logo-mcc-w);
+  height: var(--logo-mcc-h);
+}
+
+.logoEnjc {
+  position: absolute;
+  left: var(--logo-enjc-left);
+  top: var(--logo-enjc-top);
+  width: var(--logo-enjc-w);
+  height: var(--logo-enjc-h);
+}
+
+.creditos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.credito1,
+.credito2 {
+  font-family: var(--font-crayon) !important;
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.credito1 {
+  font-size: var(--c1-size);
+}
+
+.credito2 {
+  font-size: var(--c2-size);
+  border: none;
+  border-radius: 0;
+}
+
+/* =========================
+   ✅ 1025–1439: remove “espaço fantasma” do scale usando zoom
+========================= */
+@supports (zoom: 1) {
+  .canvas {
+    left: 0;
+    transform: none;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    zoom: var(--scale);
+  }
+}

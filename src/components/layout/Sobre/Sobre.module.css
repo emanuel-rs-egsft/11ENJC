@@ -1,0 +1,719 @@
+/* Sobre.module.css (corrigido: fonte da descrição dos tópicos) */
+
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  /* ✅ respiro inferior */
+  --pad-bottom: 190px;
+  padding-bottom: var(--pad-bottom);
+
+  /* DEFAULT = 320 */
+  --canvas-w: 320px;
+  --canvas-h: 800px;
+  --scale: 1;
+
+  /* Chamada */
+  --chamada-left: 15.5px;
+  --chamada-top: 41.498px;
+  --chamada-w: 288.5001px;
+  --chamada-h: 125.0723px;
+
+  --praquem-w: 208.5001px; /*288 - 228 */
+  --praquem-h: 65.0376px;
+  --praquem-top: 0px;
+  --praquem-left: -15px; /* -50 */
+
+  --oenjc-w: 190.9658px;
+  --oenjc-h: 70.1631px;
+  --oenjc-top: 44.7931px;
+  --oenjc-left: 0px;
+
+  /* Descrição */
+  --desc-left: 117px;
+  --desc-top: 162px;
+  --desc-w: 187px;
+  --desc-h: 90px;
+  --desc-font: 12px;
+
+  /* Tópicos */
+  --topicos-left: 16px;
+  --topicos-top: 308px;
+  --topicos-w: 288px;
+  --topicos-h: 432.637px;
+
+  --titulo-font: 15px;
+  --body-font: 14px;
+  --body-lh: 18px;
+
+  /* Decorações (esq) */
+  --uv-left: 20px;
+  --uv-top: 135px;
+  --uv-w: 120.565px;
+  --uv-h: 126.6337px;
+  --uv-rot: 0deg;
+
+  --la-left: 60px;
+  --la-top: 238.6102px;
+  --la-w: 134.3234px;
+  --la-h: 8.5105px;
+  --la-rot: 0deg;
+
+  --sa-left: 200px;
+  --sa-top: 115px;
+  --sa-w: 21px;
+  --sa-h: 36.894px;
+  --sa-rot: 0deg;
+
+  /* ====== POSIÇÕES underlines/círculos (TÓPICOS) ====== */
+
+  /* Tópico 01 */
+  --t1u1-left: 50px;
+  --t1u1-top: 60px;
+  --t1u1-w: 100px;
+  --t1u1-h: 5.0007px;
+  --t1u1-rot: 1.46deg;
+
+  --t1u2-left: 155px;
+  --t1u2-top: 132px;
+  --t1u2-w: 65px;
+  --t1u2-h: 6px;
+  --t1u2-rot: 1.46deg;
+
+  --t1c-left: 140px;
+  --t1c-top: -5px;
+  --t1c-w: 76px;
+  --t1c-h: 25px;
+
+  /* Tópico 02 */
+  --t2u1-left: 75px;
+  --t2u1-top: 40px;
+  --t2u1-w: 120px;
+  --t2u1-h: 5.0007px;
+  --t2u1-rot: 1.46deg;
+
+  --t2c-left: 48px;
+  --t2c-top: -5px;
+  --t2c-w: 88px;
+  --t2c-h: 27px;
+
+  /* Tópico 03 */
+  --t3u1-left: 90px;
+  --t3u1-top: 40px;
+  --t3u1-w: 155px;
+  --t3u1-h: 5.7011px;
+  --t3u1-rot: 1.48deg;
+
+  --t3u2-left: -280px;
+  --t3u2-top: 58px;
+  --t3u2-w: 900px;
+  --t3u2-h: 3px;
+  --t3u2-rot: 0.74deg;
+
+  --t3u3-left: 10px;
+  --t3u3-top: 95px;
+  --t3u3-w: 100px;
+  --t3u3-h: 6.7195px;
+  --t3u3-rot: 1.28deg;
+
+  --t3c-left: 50px;
+  --t3c-top: -10px;
+  --t3c-w: 116px;
+  --t3c-h: 36px;
+
+  height: calc((var(--canvas-h) * var(--scale)) + var(--pad-bottom));
+}
+
+/* 642 */
+@media (min-width: 642px) {
+  .stage {
+    --canvas-w: 642px;
+    --canvas-h: 1020px;
+    --scale: 1;
+    --pad-bottom: 140px;
+
+    --chamada-left: 19.3518px;
+    --chamada-top: 75.8359px;
+    --chamada-w: 446.6482px;
+    --chamada-h: 193.6336px;
+
+    --praquem-w: 377px; /*447*/
+    --praquem-h: 123px; /*123*/
+    --praquem-top: -2.8359px;
+    --praquem-left: -15px; /*-50*/
+
+    --oenjc-w: 325px;
+    --oenjc-h: 138px;
+    --oenjc-top: 69.3477px;
+    --oenjc-left: 0px;
+
+    --desc-left: 177px;
+    --desc-top: 280px;
+    --desc-w: 289px;
+    --desc-h: 140px;
+    --desc-font: 17px;
+
+    --topicos-left: 25px;
+    --topicos-top: 477.1003px;
+    --topicos-w: 593px;
+    --topicos-h: 501.0349px;
+
+    --titulo-font: 25px;
+    --body-font: 20px;
+    --body-lh: 23.6067px;
+
+    --uv-left: 20px;
+    --uv-top: 240px;
+    --uv-w: 186.6555px;
+    --uv-h: 196.0509px;
+    --uv-rot: -0deg;
+
+    --la-left: 100px;
+    --la-top: 381px;
+    --la-w: 207.956px;
+    --la-h: 13.1757px;
+    --la-rot: 0deg;
+
+    --sa-left: 350px;
+    --sa-top: 200px;
+    --sa-w: 40px;
+    --sa-h: 67px;
+    --sa-rot: 24.16deg;
+
+    /* ====== POSIÇÕES underlines/círculos (TÓPICOS) ====== */
+
+    /* Tópico 01 */
+    --t1u1-left: 0px;
+    --t1u1-top: 80px;
+    --t1u1-w: 204.6117px;
+    --t1u1-h: 5.0007px;
+    --t1u1-rot: 1.46deg;
+
+    --t1u2-left: 255px;
+    --t1u2-top: 150px;
+    --t1u2-w: 112.996px;
+    --t1u2-h: 4.766px;
+    --t1u2-rot: 1.46deg;
+
+    --t1c-left: 256px;
+    --t1c-top: -5px;
+    --t1c-w: 86px;
+    --t1c-h: 35px;
+
+    /* Tópico 02 */
+    --t2u1-left: 115px;
+    --t2u1-top: 60px;
+    --t2u1-w: 172.1603px;
+    --t2u1-h: 5.0007px;
+    --t2u1-rot: 1.46deg;
+
+    --t2c-left: 100px;
+    --t2c-top: -5px;
+    --t2c-w: 104px;
+    --t2c-h: 42px;
+
+    /* Tópico 03 */
+    --t3u1-left: 210px;
+    --t3u1-top: 55px;
+    --t3u1-w: 127.5554px;
+    --t3u1-h: 5.7011px;
+    --t3u1-rot: 1.48deg;
+
+    --t3u2-left: 160px;
+    --t3u2-top: 78px;
+    --t3u2-w: 248.7082px;
+    --t3u2-h: 8.0653px;
+    --t3u2-rot: 0.74deg;
+
+    --t3u3-left: 240px;
+    --t3u3-top: 105px;
+    --t3u3-w: 263.6811px;
+    --t3u3-h: 6.7195px;
+    --t3u3-rot: 1.28deg;
+
+    --t3c-left: 80px;
+    --t3c-top: -5px;
+    --t3c-w: 196px;
+    --t3c-h: 36px;
+
+    height: calc((var(--canvas-h) * var(--scale)) + var(--pad-bottom));
+  }
+}
+
+/* 1025 → canvas REAL do Figma = 1344 (pra não cortar) */
+@media (min-width: 1025px) {
+  .stage {
+    --canvas-w: 1344px;
+    --canvas-h: 820px;
+    --scale: 0.762; /* 1025 / 1344 */
+    --pad-bottom: 210px;
+
+    --chamada-left: 48.4866px;
+    --chamada-top: 190px;
+    --chamada-w: 519px;
+    --chamada-h: 225px;
+
+    --praquem-w: 519px;
+    --praquem-h: 168px;
+    --praquem-top: -25px;
+    --praquem-left: -40px; /*-40*/
+
+    --oenjc-w: 491px;
+    --oenjc-h: 231px;
+    --oenjc-top: 54px;
+    --oenjc-left: 0px;
+
+    --desc-left: 265.4866px;
+    --desc-top: 465px;
+    --desc-w: 302px;
+    --desc-h: 142px;
+    --desc-font: 20px;
+
+    --topicos-left: 764px;
+    --topicos-top: 165px;
+    --topicos-w: 628px;
+    --topicos-h: 506px;
+
+    --titulo-font: 25px;
+    --body-font: 22px;
+    --body-lh: 25px;
+
+    --uv-left: 66px;
+    --uv-top: 400px;
+    --uv-w: 216.8916px;
+    --uv-h: 227.8089px;
+    --uv-rot: 0deg;
+
+    --la-left: 190px;
+    --la-top: 589px;
+    --la-w: 241.6424px;
+    --la-h: 15.31px;
+    --la-rot: -0.06deg;
+
+    --sa-left: 540px;
+    --sa-top: 350px;
+    --sa-w: 67px;
+    --sa-h: 112px;
+    --sa-rot: 24.16deg;
+
+    /* ====== POSIÇÕES underlines/círculos (TÓPICOS) ====== */
+
+    /* Tópico 01 */
+    --t1u1-left: 33.4888px;
+    --t1u1-top: 83.4323px;
+    --t1u1-w: 204.6117px;
+    --t1u1-h: 5.0007px;
+    --t1u1-rot: 1.46deg;
+
+    --t1u2-left: 282.0062px;
+    --t1u2-top: 159.6692px;
+    --t1u2-w: 112.996px;
+    --t1u2-h: 4.766px;
+    --t1u2-rot: 1.46deg;
+
+    --t1c-left: 256px;
+    --t1c-top: -5px;
+    --t1c-w: 86px;
+    --t1c-h: 35px;
+
+    /* Tópico 02 */
+    --t2u1-left: 131.6457px;
+    --t2u1-top: 60px;
+    --t2u1-w: 172.1603px;
+    --t2u1-h: 5.0007px;
+    --t2u1-rot: 1.46deg;
+
+    --t2c-left: 100px;
+    --t2c-top: -10px;
+    --t2c-w: 104px;
+    --t2c-h: 42px;
+
+    /* Tópico 03 */
+    --t3u1-left: 270.2826px;
+    --t3u1-top: 60px;
+    --t3u1-w: 127.5554px;
+    --t3u1-h: 5.7011px;
+    --t3u1-rot: 1.48deg;
+
+    --t3u2-left: 143.178px;
+    --t3u2-top: 82px;
+    --t3u2-w: 248.7082px;
+    --t3u2-h: 8.0653px;
+    --t3u2-rot: 0.74deg;
+
+    --t3u3-left: 298.1907px;
+    --t3u3-top: 108px;
+    --t3u3-w: 263.6811px;
+    --t3u3-h: 6.7195px;
+    --t3u3-rot: 1.28deg;
+
+    --t3c-left: 80px;
+    --t3c-top: -5px;
+    --t3c-w: 196px;
+    --t3c-h: 36px;
+
+    height: calc((var(--canvas-h) * var(--scale)) + var(--pad-bottom));
+  }
+}
+
+/* 1440 */
+@media (min-width: 1440px) {
+  .stage {
+    --canvas-w: 1440px;
+    --canvas-h: 820px;
+    --scale: 1;
+    --pad-bottom: 180px;
+
+    --chamada-left: 80.4866px;
+    --chamada-top: 201px;
+    --chamada-w: 519px;
+    --chamada-h: 225px;
+
+    --praquem-w: 519px;
+    --praquem-h: 171px;
+    --praquem-top: -24px;
+    --praquem-left: -50px; /*-50*/
+
+    --oenjc-w: 480px;
+    --oenjc-h: 230px;
+    --oenjc-top: 64px;
+    --oenjc-left: 0px;
+
+    --desc-left: 297.4866px;
+    --desc-top: 465px;
+    --desc-w: 302px;
+    --desc-h: 142px;
+    --desc-font: 20px;
+
+    --topicos-left: 732px;
+    --topicos-top: 176px;
+    --topicos-w: 628px;
+    --topicos-h: 505.6509px;
+
+    --titulo-font: 25px;
+    --body-font: 22px;
+    --body-lh: 25px;
+
+    --uv-left: 100px;
+    --uv-top: 415px;
+    --uv-w: 226px;
+    --uv-h: 327px;
+    --uv-rot: 0deg;
+
+    --la-left: 200px;
+    --la-top: 590px;
+    --la-w: 341px;
+    --la-h: 25px;
+    --la-rot: 0deg;
+
+    --sa-left: 560px;
+    --sa-top: 350px;
+    --sa-w: 57px;
+    --sa-h: 102px;
+    --sa-rot: 24.16deg;
+
+    /* ====== POSIÇÕES underlines/círculos (TÓPICOS) ====== */
+
+    /* Tópico 01 */
+    --t1u1-left: 33.4888px;
+    --t1u1-top: 83.4323px;
+    --t1u1-w: 204.6117px;
+    --t1u1-h: 5.0007px;
+    --t1u1-rot: 1.46deg;
+
+    --t1u2-left: 282.0062px;
+    --t1u2-top: 159.6692px;
+    --t1u2-w: 112.996px;
+    --t1u2-h: 4.766px;
+    --t1u2-rot: 1.46deg;
+
+    --t1c-left: 256px;
+    --t1c-top: -5px;
+    --t1c-w: 86px;
+    --t1c-h: 35px;
+
+    /* Tópico 02 */
+    --t2u1-left: 131.6457px;
+    --t2u1-top: 60px;
+    --t2u1-w: 172.1603px;
+    --t2u1-h: 5.0007px;
+    --t2u1-rot: 1.46deg;
+
+    --t2c-left: 100px;
+    --t2c-top: -5px;
+    --t2c-w: 104px;
+    --t2c-h: 42px;
+
+    /* Tópico 03 */
+    --t3u1-left: 270.2826px;
+    --t3u1-top: 60px;
+    --t3u1-w: 127.5554px;
+    --t3u1-h: 5.7011px;
+    --t3u1-rot: 1.48deg;
+
+    --t3u2-left: 143.178px;
+    --t3u2-top: 82px;
+    --t3u2-w: 248.7082px;
+    --t3u2-h: 8.0653px;
+    --t3u2-rot: 0.74deg;
+
+    --t3u3-left: 298.1907px;
+    --t3u3-top: 108px;
+    --t3u3-w: 263.6811px;
+    --t3u3-h: 6.7195px;
+    --t3u3-rot: 1.28deg;
+
+    --t3c-left: 80px;
+    --t3c-top: -5px;
+    --t3c-w: 196px;
+    --t3c-h: 36px;
+
+    height: calc((var(--canvas-h) * var(--scale)) + var(--pad-bottom));
+  }
+}
+
+/* BG */
+.bg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Canvas centralizado e escalado */
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  transform: translateX(-50%) scale(var(--scale));
+  transform-origin: top center;
+  z-index: 10;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+/* Chamada */
+.chamada {
+  position: absolute;
+  left: var(--chamada-left);
+  top: var(--chamada-top);
+  width: var(--chamada-w);
+  height: var(--chamada-h);
+}
+
+.praQuemE {
+  position: absolute;
+  left: var(--praquem-left);
+  top: var(--praquem-top);
+  width: var(--praquem-w);
+  height: var(--praquem-h);
+  z-index: 20; /* 👈 FICA POR CIMA */
+}
+
+.oEnjc {
+  position: absolute;
+  left: var(--oenjc-left);
+  top: var(--oenjc-top);
+  width: var(--oenjc-w);
+  height: var(--oenjc-h);
+  z-index: 10; /* 👈 FICA POR BAIXO */
+}
+
+/* Decorações */
+.underlineVerde {
+  position: absolute;
+  left: var(--uv-left);
+  top: var(--uv-top);
+  width: var(--uv-w);
+  height: var(--uv-h);
+  transform: rotate(var(--uv-rot));
+  transform-origin: top left;
+}
+
+.linhaAmarela {
+  position: absolute;
+  left: var(--la-left);
+  top: var(--la-top);
+  width: var(--la-w);
+  height: var(--la-h);
+  transform: rotate(var(--la-rot));
+  transform-origin: left center;
+}
+
+.setaAzul {
+  position: absolute;
+  left: var(--sa-left);
+  top: var(--sa-top);
+  width: var(--sa-w);
+  height: var(--sa-h);
+  transform: rotate(var(--sa-rot));
+  transform-origin: top left;
+}
+
+/* Descrição (lado esquerdo) */
+.descricao {
+  position: absolute;
+  left: var(--desc-left);
+  top: var(--desc-top);
+  width: var(--desc-w);
+  height: var(--desc-h);
+}
+
+.textoDescricao {
+  margin: 0;
+  font-family: var(--font-crayon);
+  font-size: var(--desc-font);
+  line-height: 1;
+  color: #f7f7f7;
+  transform: rotate(-5.2deg);
+  transform-origin: top left;
+}
+
+/* Tópicos */
+.topicos {
+  position: absolute;
+  left: var(--topicos-left);
+  top: var(--topicos-top);
+  width: var(--topicos-w);
+  height: var(--topicos-h);
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 24px;
+}
+
+.topico {
+  position: relative;
+}
+
+/* TÍTULO: Luckiest Guy */
+.tituloGradiente {
+  margin: 0 0 12px 0;
+  font-family: var(--font-luckiest) !important;
+  font-weight: 400;
+  font-size: var(--titulo-font);
+  line-height: 1;
+
+  background: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* DESCRIÇÃO dos tópicos = DK Crayon */
+.descTopico {
+  font-family: var(--font-crayon) !important;
+  font-weight: 400;
+  font-size: var(--body-font);
+  line-height: var(--body-lh);
+  color: #ffffff;
+}
+
+/* garante herança correta */
+.descTopico p,
+.descTopico li {
+  font-family: inherit;
+}
+
+.descTopico p {
+  margin: 0;
+}
+
+.lista {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.frase {
+  margin: 8px 0 0 0;
+}
+
+/* ====== POSIÇÕES dos underlines/círculos (com variáveis) ====== */
+.t1u1,
+.t1u2,
+.t1c,
+.t2u1,
+.t2c,
+.t3u1,
+.t3u2,
+.t3u3,
+.t3c {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Tópico 01 */
+.t1u1 {
+  left: var(--t1u1-left);
+  top: var(--t1u1-top);
+  width: var(--t1u1-w);
+  height: var(--t1u1-h);
+  transform: rotate(var(--t1u1-rot));
+}
+
+.t1u2 {
+  left: var(--t1u2-left);
+  top: var(--t1u2-top);
+  width: var(--t1u2-w);
+  height: var(--t1u2-h);
+  transform: rotate(var(--t1u2-rot));
+}
+
+.t1c {
+  left: var(--t1c-left);
+  top: var(--t1c-top);
+  width: var(--t1c-w);
+  height: var(--t1c-h);
+}
+
+/* Tópico 02 */
+.t2u1 {
+  left: var(--t2u1-left);
+  top: var(--t2u1-top);
+  width: var(--t2u1-w);
+  height: var(--t2u1-h);
+  transform: rotate(var(--t2u1-rot));
+}
+
+.t2c {
+  left: var(--t2c-left);
+  top: var(--t2c-top);
+  width: var(--t2c-w);
+  height: var(--t2c-h);
+}
+
+/* Tópico 03 */
+.t3u1 {
+  left: var(--t3u1-left);
+  top: var(--t3u1-top);
+  width: var(--t3u1-w);
+  height: var(--t3u1-h);
+  transform: rotate(var(--t3u1-rot));
+}
+
+.t3u2 {
+  left: var(--t3u2-left);
+  top: var(--t3u2-top);
+  width: var(--t3u2-w);
+  height: var(--t3u2-h);
+  transform: rotate(var(--t3u2-rot));
+}
+
+.t3u3 {
+  left: var(--t3u3-left);
+  top: var(--t3u3-top);
+  width: var(--t3u3-w);
+  height: var(--t3u3-h);
+  transform: rotate(var(--t3u3-rot));
+}
+
+.t3c {
+  left: var(--t3c-left);
+  top: var(--t3c-top);
+  width: var(--t3c-w);
+  height: var(--t3c-h);
+}

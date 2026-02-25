@@ -1,0 +1,773 @@
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  /* 👇 NOVO: respiro superior (default 320) */
+  --pad-top: 220px; /* ajuste fino (ex: 180~260) */
+  padding-top: var(--pad-top);
+
+  /* DEFAULT = 320 */
+  --canvas-w: 320px;
+  --canvas-h: 660px;
+  --scale: 1;
+  --pad-top: 200px;
+
+  /* Chamada */
+  --chamada-left: 16.5px;
+  --chamada-top: 44px;
+  --chamada-w: 288px;
+  --chamada-h: 125px;
+
+  --conheca-w: 228px;
+  --conheca-h: 65px;
+  --conheca-left: -15px;
+  --conheca-top: 0px;
+
+  --ident-w: 272px;
+  --ident-h: 64px;
+  --ident-left: -0.5px;
+  --ident-top: 45px;
+
+  /* Descrição */
+  --desc-left: 124px;
+  --desc-top: 167px;
+  --desc-w: 105px;
+  --desc-h: 45px;
+  --desc-font: 12px;
+
+  /* Decorações */
+  --uv-left: 20px;
+  --uv-top: 140px;
+  --uv-w: 120px;
+  --uv-h: 126px;
+  --uv-rot: 0deg;
+
+  --la-left: 88px;
+  --la-top: 205px;
+  --la-w: 134px;
+  --la-h: 8px;
+  --la-rot: 2deg;
+
+  --sa-left: 280px;
+  --sa-top: 134px;
+  --sa-w: 38px;
+  --sa-h: 66px;
+  --sa-rot: 50deg;
+
+  /* Área símbolo + significados */
+  --area-left: 17px;
+  --area-top: 232px;
+  --area-w: 287px;
+  --area-h: 186px;
+
+  /* Símbolo */
+  --simbolo-left: 73px;
+  --simbolo-top: 0px;
+  --simbolo-w: 150px;
+  --simbolo-h: 196px;
+
+  /* Itens (posições absolutas dentro da área) */
+  /* Mapa Brasil */
+  --mapa-left: 15px;
+  --mapa-top: 31px;
+  --mapa-w: 81px;
+  --mapa-h: 45px;
+  --mapa-img-w: 57px;
+  --mapa-img-h: 54px;
+  --mapa-img-left: 4px;
+  --mapa-img-top: 10px;
+  --mapa-txt-left: -10px;
+  --mapa-txt-top: 38px;
+  --mapa-txt-w: 23px;
+  --mapa-txt-h: 24px;
+  --mapa-arrow-w: 29px;
+  --mapa-arrow-h: 16px;
+  --mapa-arrow-left: 60px;
+  --mapa-arrow-top: -5px;
+  --mapa-arrow-rot: -335deg;
+
+  /* Silhuetas */
+  --sil-left: 14px;
+  --sil-top: 105px;
+  --sil-w: 79px;
+  --sil-h: 65px;
+  --sil-img-w: 57px;
+  --sil-img-h: 61px;
+  --sil-img-left: -20px;
+  --sil-img-top: 24px;
+  --sil-txt-left: 36px;
+  --sil-txt-top: 38px;
+  --sil-txt-w: 41px;
+  --sil-txt-h: 32px;
+  --sil-arrow-w: 21px;
+  --sil-arrow-h: 11px;
+  --sil-arrow-left: 30px;
+  --sil-arrow-top: -5px;
+  --sil-arrow-rot: 20deg;
+
+  /* MCC */
+  --mcc-left: 205px;
+  --mcc-top: 31px;
+  --mcc-w: 65px;
+  --mcc-h: 46px;
+  --mcc-img-w: 55px;
+  --mcc-img-h: 52px;
+  --mcc-img-left: 30px;
+  --mcc-img-top: 0px;
+  --mcc-txt-left: 0px;
+  --mcc-txt-top: -5px;
+  --mcc-txt-w: 33px;
+  --mcc-txt-h: 16px;
+  --mcc-arrow-w: 25px;
+  --mcc-arrow-h: 14px;
+  --mcc-arrow-left: 15px;
+  --mcc-arrow-top: 25px;
+  --mcc-arrow-rot: 0deg;
+
+  /* Edição 11 */
+  --e11-left: 190px;
+  --e11-top: 120px;
+  --e11-w: 95px;
+  --e11-h: 43px;
+  --e11-img-w: 53px;
+  --e11-img-h: 49px;
+  --e11-img-left: 15px;
+  --e11-img-top: -15px;
+  --e11-txt-left: 37px;
+  --e11-txt-top: 30px;
+  --e11-txt-w: 56px;
+  --e11-txt-h: 24px;
+  --e11-arrow-w: 33px;
+  --e11-arrow-h: 13px;
+  --e11-arrow-left: 0px;
+  --e11-arrow-top: 29px;
+  --e11-arrow-rot: 0deg;
+
+  height: calc(var(--canvas-h) * var(--scale));
+}
+
+/* 642 */
+@media (min-width: 642px) {
+  .stage {
+    --canvas-w: 642px;
+    --canvas-h: 860px;
+    --scale: 1;
+    --pad-top: 120px;
+
+    --chamada-left: 24px;
+    --chamada-top: 75px;
+    --chamada-w: 446px;
+    --chamada-h: 193px;
+
+    --conheca-w: 377px;
+    --conheca-h: 123px;
+    --conheca-left: -15px;
+    --conheca-top: -2px;
+
+    --ident-w: 433px;
+    --ident-h: 101px;
+    --ident-left: -0.3px;
+    --ident-top: 70px;
+
+    --desc-left: 239px;
+    --desc-top: 276px;
+    --desc-w: 175px;
+    --desc-h: 72px;
+    --desc-font: 17px;
+
+    --uv-top: 220px;
+    --uv-left: 30px;
+    --uv-w: 186.6555px;
+    --uv-h: 196.0509px;
+
+    --la-left: 136px;
+    --la-top: 330px;
+    --la-w: 207px;
+    --la-h: 13px;
+
+    --sa-left: 448px;
+    --sa-top: 177px;
+    --sa-w: 49px;
+    --sa-h: 77px;
+    --sa-rot: 30deg;
+
+    --area-left: 24px;
+    --area-top: 330px;
+    --area-w: 594px;
+    --area-h: 385px;
+
+    --simbolo-left: 151px;
+    --simbolo-w: 291px;
+    --simbolo-h: 385px;
+
+    /* Mapa */
+    --mapa-left: 36px;
+    --mapa-top: 96px;
+    --mapa-w: 169px;
+    --mapa-h: 93px;
+    --mapa-img-w: 77px;
+    --mapa-img-h: 71px;
+    --mapa-img-left: 22px;
+    --mapa-img-top: 22px;
+    --mapa-txt-top: 58px;
+    --mapa-arrow-w: 61px;
+    --mapa-arrow-h: 33px;
+    --mapa-arrow-left: 102px;
+
+    /* Silhuetas */
+    --sil-left: 10px;
+    --sil-top: 195px;
+    --sil-w: 165px;
+    --sil-h: 135px;
+    --sil-img-w: 77px;
+    --sil-img-h: 85px;
+    --sil-img-top: 50px;
+    --sil-txt-left: 76px;
+    --sil-txt-top: 80px;
+    --sil-txt-w: 85px;
+    --sil-txt-h: 42px;
+    --sil-arrow-w: 40px;
+    --sil-arrow-h: 32px;
+    --sil-arrow-left: 80px;
+    --sil-arrow-top: 0px;
+    --sil-arrow-rot: 30deg;
+
+    /* MCC */
+    --mcc-left: 380px;
+    --mcc-w: 134px;
+    --mcc-h: 96px;
+    --mcc-img-w: 74px;
+    --mcc-img-h: 66px;
+    --mcc-img-left: 56px;
+    --mcc-txt-top: 7.4px;
+    --mcc-txt-w: 70px;
+    --mcc-txt-h: 14px;
+    --mcc-arrow-w: 52px;
+    --mcc-arrow-h: 30px;
+    --mcc-arrow-left: 11px;
+    --mcc-arrow-top: 52px;
+
+    /* 11 */
+    --e11-left: 395px;
+    --e11-top: 187px;
+    --e11-w: 198px;
+    --e11-h: 90px;
+    --e11-img-w: 70px;
+    --e11-img-h: 60px;
+    --e11-img-left: 46px;
+    --e11-txt-left: 119px;
+    --e11-txt-top: 12px;
+    --e11-txt-w: 75px;
+    --e11-txt-h: 28px;
+    --e11-arrow-w: 69px;
+    --e11-arrow-h: 27px;
+    --e11-arrow-top: 61px;
+  }
+}
+
+/* 1025 (canvas real do Figma = 1342) */
+@media (min-width: 1025px) {
+  .stage {
+    --canvas-w: 1342px;
+    --canvas-h: 1459px; /* 289 + 870 */
+    --scale: 0.764; /* 1025 / 1342 */
+    --pad-top: 280px;
+
+    --chamada-left: 50px;
+    --chamada-top: 82px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --conheca-w: 519px;
+    --conheca-h: 164px;
+    --conheca-left: -40px;
+
+    --ident-w: 583px;
+    --ident-h: 136px;
+    --ident-top: 95px;
+
+    --desc-left: 393px;
+    --desc-top: 347px;
+    --desc-w: 175px;
+    --desc-h: 72px;
+    --desc-font: 20px;
+
+    --uv-left: 68px;
+    --uv-top: 280px;
+    --uv-w: 216px;
+    --uv-h: 227px;
+
+    --la-left: 257px;
+    --la-top: 416px;
+    --la-w: 241px;
+    --la-h: 15px;
+
+    --sa-left: 610px;
+    --sa-top: 200px;
+    --sa-w: 87px;
+    --sa-h: 132px;
+    --sa-rot: 10deg;
+
+    --area-left: -20px;
+    --area-top: 289px;
+    --area-w: 1342px;
+    --area-h: 870px;
+
+    --simbolo-left: 342px;
+    --simbolo-top: 0px;
+    --simbolo-w: 657px;
+    --simbolo-h: 869px;
+
+    /* Mapa */
+    --mapa-left: 100px;
+    --mapa-top: 194px;
+    --mapa-w: 383px;
+    --mapa-h: 210px;
+    --mapa-img-w: 173px;
+    --mapa-img-h: 160px;
+    --mapa-img-left: 51px;
+    --mapa-img-top: 50px;
+    --mapa-txt-left: 0px;
+    --mapa-txt-top: 133px;
+    --mapa-txt-w: 108px;
+    --mapa-txt-h: 58px;
+    --mapa-arrow-w: 139px;
+    --mapa-arrow-h: 75px;
+    --mapa-arrow-left: 232px;
+    --mapa-arrow-top: 0px;
+
+    /* Silhuetas */
+    --sil-left: 114px;
+    --sil-top: 418px;
+    --sil-w: 373px;
+    --sil-h: 305px;
+    --sil-img-w: 176px;
+    --sil-img-h: 192px;
+    --sil-img-top: 113px;
+    --sil-txt-left: 172px;
+    --sil-txt-top: 182px;
+    --sil-txt-w: 193px;
+    --sil-txt-h: 87px;
+    --sil-arrow-w: 80px;
+    --sil-arrow-h: 62px;
+    --sil-arrow-left: 140px;
+    --sil-arrow-top: -25px;
+    --sil-arrow-rot: 20deg;
+
+    /* MCC */
+    --mcc-left: 910px;
+    --mcc-top: 145px;
+    --mcc-w: 304px;
+    --mcc-h: 217px;
+    --mcc-img-w: 168px;
+    --mcc-img-h: 150px;
+    --mcc-img-left: 128px;
+    --mcc-img-top: 0.3px;
+    --mcc-txt-top: 50px;
+    --mcc-txt-w: 158px;
+    --mcc-txt-h: 29px;
+    --mcc-arrow-w: 119px;
+    --mcc-arrow-h: 68px;
+    --mcc-arrow-left: 25px;
+    --mcc-arrow-top: 119px;
+
+    /* 11 */
+    --e11-left: 893px;
+    --e11-top: 423px;
+    --e11-w: 448px;
+    --e11-h: 204px;
+    --e11-img-w: 159px;
+    --e11-img-h: 137px;
+    --e11-img-left: 105px;
+    --e11-img-top: -0.1px;
+    --e11-txt-left: 272px;
+    --e11-txt-top: 27px;
+    --e11-txt-w: 171px;
+    --e11-txt-h: 58px;
+    --e11-arrow-w: 156px;
+    --e11-arrow-h: 63px;
+    --e11-arrow-top: 139px;
+  }
+}
+
+/* 1440 */
+@media (min-width: 1440px) {
+  .stage {
+    --canvas-w: 1440px;
+    --canvas-h: 1290px; /* 281 + 830 */
+    --scale: 1;
+    --pad-top: 190px;
+
+    --chamada-left: 80px;
+    --chamada-top: 86px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --conheca-w: 519px;
+    --conheca-h: 164px;
+
+    --ident-w: 583px;
+    --ident-h: 136px;
+    --ident-top: 95px;
+
+    --desc-left: 423px;
+    --desc-top: 351px;
+    --desc-w: 175px;
+    --desc-h: 72px;
+    --desc-font: 20px;
+
+    --uv-left: 100px;
+    --uv-top: 285px;
+    --uv-w: 216px;
+    --uv-h: 227px;
+
+    --la-left: 287px;
+    --la-top: 420px;
+    --la-w: 241px;
+    --la-h: 15px;
+
+    --sa-left: 630px;
+    --sa-top: 196px;
+    --sa-w: 97px;
+    --sa-h: 142px;
+    --sa-rot: 5deg;
+
+    --area-left: 80px;
+    --area-top: 281px;
+    --area-w: 1280px;
+    --area-h: 830px;
+
+    --simbolo-left: 327px;
+    --simbolo-w: 627px;
+    --simbolo-h: 830px;
+
+    /* Mapa */
+    --mapa-left: 50px;
+    --mapa-top: 186px;
+    --mapa-w: 365px;
+    --mapa-h: 200px;
+    --mapa-img-w: 166px;
+    --mapa-img-h: 153px;
+    --mapa-img-left: 49px;
+    --mapa-img-top: 48px;
+    --mapa-txt-left: 0px;
+    --mapa-txt-top: 127px;
+    --mapa-txt-w: 103px;
+    --mapa-txt-h: 58px;
+    --mapa-arrow-w: 139px;
+    --mapa-arrow-h: 71px;
+    --mapa-arrow-left: 250px;
+    --mapa-arrow-top: 30px;
+
+    /* Silhuetas */
+    --sil-left: 109px;
+    --sil-top: 399px;
+    --sil-w: 356px;
+    --sil-h: 291px;
+    --sil-img-w: 168px;
+    --sil-img-h: 184px;
+    --sil-img-top: 107px;
+    --sil-txt-left: 165px;
+    --sil-txt-top: 173px;
+    --sil-txt-w: 184px;
+    --sil-txt-h: 87px;
+    --sil-arrow-w: 76px;
+    --sil-arrow-h: 60px;
+    --sil-arrow-left: 70px;
+
+    /* MCC */
+    --mcc-left: 886px;
+    --mcc-top: 139px;
+    --mcc-w: 290px;
+    --mcc-h: 207px;
+    --mcc-img-w: 168px;
+    --mcc-img-h: 150px;
+    --mcc-img-left: 122px;
+    --mcc-txt-top: 16px;
+    --mcc-txt-w: 151px;
+    --mcc-txt-h: 29px;
+    --mcc-arrow-w: 119px;
+    --mcc-arrow-h: 65px;
+    --mcc-arrow-left: 24px;
+    --mcc-arrow-top: 114px;
+
+    /* 11 */
+    --e11-left: 820px;
+    --e11-top: 450px;
+    --e11-w: 428px;
+    --e11-h: 195px;
+    --e11-img-w: 159px;
+    --e11-img-h: 137px;
+    --e11-img-left: 101px;
+    --e11-txt-left: 260px;
+    --e11-txt-top: 25px;
+    --e11-txt-w: 163px;
+    --e11-txt-h: 58px;
+    --e11-arrow-w: 149px;
+    --e11-arrow-h: 60px;
+    --e11-arrow-top: 133px;
+  }
+}
+
+/* BG */
+.bg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Canvas centralizado e escalado */
+.canvas {
+  position: relative; /* ✅ era absolute */
+  left: 50%;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  transform: translateX(-50%) scale(var(--scale));
+  transform-origin: top center;
+  z-index: 10;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+/* Chamada */
+.chamada {
+  position: absolute;
+  left: var(--chamada-left);
+  top: var(--chamada-top);
+  width: var(--chamada-w);
+  height: var(--chamada-h);
+  z-index: 20; /* base da chamada */
+}
+
+.conhecaNossa {
+  position: absolute;
+  left: var(--conheca-left);
+  top: var(--conheca-top);
+  width: var(--conheca-w);
+  height: var(--conheca-h);
+  z-index: 30;
+}
+
+.identidadeTitulo {
+  position: absolute;
+  left: var(--ident-left);
+  top: var(--ident-top);
+  width: var(--ident-w);
+  height: var(--ident-h);
+  z-index: 10;
+}
+
+/* Decorações */
+.underlineVerde {
+  position: absolute;
+  left: var(--uv-left);
+  top: var(--uv-top);
+  width: var(--uv-w);
+  height: var(--uv-h);
+  transform: rotate(var(--uv-rot));
+  transform-origin: top left;
+  z-index: 5;
+}
+
+.linhaAmarela {
+  position: absolute;
+  left: var(--la-left);
+  top: var(--la-top);
+  width: var(--la-w);
+  height: var(--la-h);
+  transform: rotate(var(--la-rot));
+  transform-origin: left center;
+}
+
+.setaAzul {
+  position: absolute;
+  left: var(--sa-left);
+  top: var(--sa-top);
+  width: var(--sa-w);
+  height: var(--sa-h);
+  transform: rotate(var(--sa-rot));
+  transform-origin: top left;
+}
+
+/* Descrição */
+.descricao {
+  position: absolute;
+  left: var(--desc-left);
+  top: var(--desc-top);
+  width: var(--desc-w);
+  height: var(--desc-h);
+}
+
+.textoDescricao {
+  margin: 0;
+  white-space: pre-line;
+  font-family: var(--font-crayon);
+  font-size: var(--desc-font);
+  line-height: 1;
+  color: #8d48ef;
+  transform: rotate(-5.2deg);
+  transform-origin: top left;
+}
+
+/* Área símbolo + significados */
+.area {
+  position: absolute;
+  left: var(--area-left);
+  top: var(--area-top);
+  width: var(--area-w);
+  height: var(--area-h);
+}
+
+.simbolo {
+  position: absolute;
+  left: var(--simbolo-left);
+  top: var(--simbolo-top);
+  width: var(--simbolo-w);
+  height: var(--simbolo-h);
+}
+
+/* Itens (base) */
+.mapaBrasil,
+.silhuetas,
+.mcc,
+.edicao11 {
+  position: absolute;
+}
+
+.itemImg,
+.itemSeta {
+  position: absolute;
+}
+
+.itemTexto {
+  position: absolute;
+  margin: 0;
+  white-space: pre-line;
+  font-family: var(--font-crayon);
+  font-weight: 400;
+  line-height: 1;
+  color: #5b585b;
+}
+
+/* MAPA */
+.mapaBrasil {
+  left: var(--mapa-left);
+  top: var(--mapa-top);
+  width: var(--mapa-w);
+  height: var(--mapa-h);
+}
+.mapaBrasil .itemImg {
+  left: var(--mapa-img-left);
+  top: var(--mapa-img-top);
+  width: var(--mapa-img-w);
+  height: var(--mapa-img-h);
+}
+.mapaBrasil .itemTexto {
+  left: var(--mapa-txt-left);
+  top: var(--mapa-txt-top);
+  width: var(--mapa-txt-w);
+  height: var(--mapa-txt-h);
+  transform: rotate(-5.2deg);
+  font-size: calc(var(--desc-font) * 1.3);
+}
+.mapaBrasil .itemSeta {
+  left: var(--mapa-arrow-left);
+  top: var(--mapa-arrow-top);
+  width: var(--mapa-arrow-w);
+  height: var(--mapa-arrow-h);
+  transform: rotate(var(--mapa-arrow-rot));
+  transform-origin: top left;
+}
+
+/* SILHUETAS */
+.silhuetas {
+  left: var(--sil-left);
+  top: var(--sil-top);
+  width: var(--sil-w);
+  height: var(--sil-h);
+}
+.silhuetas .itemImg {
+  left: var(--sil-img-left);
+  top: var(--sil-img-top);
+  width: var(--sil-img-w);
+  height: var(--sil-img-h);
+}
+.silhuetas .itemTexto {
+  left: var(--sil-txt-left);
+  top: var(--sil-txt-top);
+  width: var(--sil-txt-w);
+  height: var(--sil-txt-h);
+  transform: rotate(-5.2deg);
+  font-size: calc(var(--desc-font) * 1.3);
+}
+.silhuetas .itemSeta {
+  left: var(--sil-arrow-left);
+  top: var(--sil-arrow-top);
+  width: var(--sil-arrow-w);
+  height: var(--sil-arrow-h);
+  transform: rotate(var(--sil-arrow-rot));
+  transform-origin: top left;
+}
+
+/* MCC */
+.mcc {
+  left: var(--mcc-left);
+  top: var(--mcc-top);
+  width: var(--mcc-w);
+  height: var(--mcc-h);
+}
+.mcc .itemImg {
+  left: var(--mcc-img-left);
+  top: var(--mcc-img-top);
+  width: var(--mcc-img-w);
+  height: var(--mcc-img-h);
+}
+.mcc .itemTexto {
+  left: 0px;
+  top: var(--mcc-txt-top);
+  width: var(--mcc-txt-w);
+  height: var(--mcc-txt-h);
+  transform: rotate(-5.2deg);
+  font-size: calc(var(--desc-font) * 1.3);
+}
+.mcc .itemSeta {
+  left: var(--mcc-arrow-left);
+  top: var(--mcc-arrow-top);
+  width: var(--mcc-arrow-w);
+  height: var(--mcc-arrow-h);
+  transform: rotate(var(--mcc-arrow-rot));
+  transform-origin: top left;
+}
+
+/* 11 */
+.edicao11 {
+  left: var(--e11-left);
+  top: var(--e11-top);
+  width: var(--e11-w);
+  height: var(--e11-h);
+}
+.edicao11 .itemImg {
+  left: var(--e11-img-left);
+  top: var(--e11-img-top);
+  width: var(--e11-img-w);
+  height: var(--e11-img-h);
+}
+.edicao11 .itemTexto {
+  left: var(--e11-txt-left);
+  top: var(--e11-txt-top);
+  width: var(--e11-txt-w);
+  height: var(--e11-txt-h);
+  transform: rotate(-5.2deg);
+  font-size: calc(var(--desc-font) * 1.3);
+}
+.edicao11 .itemSeta {
+  left: var(--e11-arrow-left);
+  top: var(--e11-arrow-top);
+  width: var(--e11-arrow-w);
+  height: var(--e11-arrow-h);
+  transform: rotate(var(--e11-arrow-rot));
+  transform-origin: top left;
+}

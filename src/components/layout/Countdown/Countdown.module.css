@@ -1,0 +1,154 @@
+/* âncora entre Hero e Sobre (altura 0 para “flutuar”) */
+.anchor {
+  position: relative;
+  width: 100%;
+  height: 0;
+  z-index: 20; /* acima do BG */
+}
+
+/* defaults = 320 */
+.box {
+  --w: 244px;
+  --h: 51px;
+  --r: 8px;
+  --title-size: 10px;
+  --num-size: 16px;
+  --lab-size: 12px;
+  --agiliza-size: 8px;
+
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * (var(--h) / 2)); /* ✅ metade no Hero e metade no Sobre */
+  transform: translateX(-50%);
+
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+
+  background: linear-gradient(238deg, #00cf83 14.15%, #00925c 125.54%);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+
+  overflow: hidden;
+}
+
+/* Título */
+.title {
+  width: 100%;
+  text-align: center;
+
+  font-family: var(--font-luckiest);
+  font-weight: 400;
+  font-size: var(--title-size);
+  line-height: 1;
+  color: #ff9a15;
+}
+
+/* Texto flutuante */
+.agiliza {
+  position: absolute;
+  top: 14px;
+  left: 69px; /* 320 spec */
+  transform: rotate(-21.56deg);
+  transform-origin: left top;
+
+  font-family: var(--font-crayon);
+  font-weight: 400;
+  font-size: var(--agiliza-size);
+  line-height: 1;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+/* números e labels (3 colunas) */
+.numbers,
+.labels {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+}
+
+.num {
+  font-family: var(--font-luckiest);
+  font-weight: 400;
+  font-size: var(--num-size);
+  line-height: 1;
+  color: #ff9a15;
+}
+
+.lab {
+  font-family: var(--font-luckiest);
+  font-weight: 400;
+  font-size: var(--lab-size);
+  line-height: 1;
+  color: #ff9a15;
+}
+
+/* ===== 642 ===== */
+@media (min-width: 642px) {
+  .box {
+    --w: 483px;
+    --h: 102px;
+    --r: 16px;
+    --title-size: 20px;
+    --num-size: 33px;
+    --lab-size: 25px;
+    --agiliza-size: 16px;
+  }
+  .labels {
+    transform: translateY(-5px);
+  }
+
+  .agiliza {
+    top: 30px;
+    left: 130px; /* 642 spec */
+  }
+}
+
+/* ===== 1025 ===== */
+@media (min-width: 1025px) {
+  .box {
+    --w: 890px;
+    --h: 188px;
+    --r: 30px;
+    --title-size: 30px;
+    --num-size: 45px;
+    --lab-size: 30px;
+    --agiliza-size: 30px;
+  }
+
+  .labels {
+    transform: translateY(-25px);
+  }
+
+  .agiliza {
+    top: 50px;
+    left: 252px; /* 1025 spec */
+  }
+}
+
+/* ===== 1440 ===== */
+@media (min-width: 1440px) {
+  .box {
+    --w: 846px;
+    --h: 188px;
+    --r: 30px;
+    --title-size: 30px;
+    --num-size: 45px;
+    --lab-size: 30px;
+    --agiliza-size: 30px;
+  }
+  .labels {
+    transform: translateY(-20px);
+  }
+
+  .agiliza {
+    top: 60px;
+    left: 228px; /* 1440 spec */
+  }
+}

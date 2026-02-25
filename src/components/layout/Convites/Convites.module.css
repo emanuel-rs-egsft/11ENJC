@@ -1,0 +1,739 @@
+.stage {
+  position: relative;
+  width: 100%;
+
+  /* ✅ não corta as bolinhas abaixo */
+  overflow-x: hidden;
+  overflow-y: visible;
+
+  /* DEFAULT = 320 */
+  --canvas-w: 320px;
+  --canvas-h: 600px;
+  --scale: 1;
+
+  /* Chamada principal */
+  --chamada-left: 16.5px;
+  --chamada-top: 44px;
+  --chamada-w: 288px;
+  --chamada-h: 125px;
+
+  --seliga-left: -15px;
+  --seliga-top: 0px;
+  --seliga-w: 208px;
+  --seliga-h: 65px;
+
+  --convites-left: 0px;
+  --convites-top: 45px;
+  --convites-w: 229px;
+  --convites-h: 64px;
+
+  /* Descrição */
+  --desc-left: 101px;
+  --desc-top: 167px;
+  --desc-w: 135px;
+  --desc-h: 130px;
+  --desc-font: 12px;
+  --desc-rot: -8.2deg;
+
+  /* Box depoimentos */
+  --box-left: 16px;
+  --box-top: 359px;
+  --box-w: 288px;
+  --box-h: 160px; /*aumenta*/
+
+  /* Depoimento */
+  --depo-left: 42px;
+  --depo-top: 0px;
+  --depo-w: 118px;
+  --depo-h: 160px; /*aumenta*/
+
+  --aspas-left: -30px;
+  --aspas-top: -20px;
+  --aspas-w: 75px;
+  --aspas-h: 39px;
+  --aspas-size: 156px;
+  --aspas-color: rgba(147, 84, 0, 0.3);
+
+  --texto-left: -30px;
+  --texto-top: 34px;
+  --texto-w: 168px;
+  --texto-h: 115px; /*aumenta*/
+  --texto-font: 13px;
+  --texto-stroke: 0.3px;
+
+  /* Representante */
+  --rep-left: 169px;
+  --rep-top: 0px;
+  --rep-w: 75px;
+  --rep-h: 160px; /*aumenta*/
+
+  --foto-left: 20px;
+  --foto-top: 25px;
+  --foto-w: 95px;
+  --foto-h: 99px;
+
+  --nome-top: 130px;
+  --nome-font: 8px;
+
+  --regiao-top: 140px;
+  --regiao-font: 6px;
+  --regiao-left: 25px;
+
+  /* Setas */
+  --prev-left: 7px;
+  --prev-top: 47px;
+  --arrow-w: 15px;
+  --arrow-h: 18px;
+
+  --next-left: 264px;
+  --next-top: 47px;
+
+  /* Dots */
+  --dots-gap: 10px;
+  --dots-top-gap: 10px; /* distância abaixo do box */
+  --dot-size: 10px;
+  --dot-border: 2px;
+
+  /* Decorações */
+  --uv-left: 25px;
+  --uv-top: 140px;
+  --uv-w: 120px;
+  --uv-h: 126px;
+  --uv-rot: 0deg;
+
+  --lr-left: 43px;
+  --lr-top: 294px;
+  --lr-w: 144px;
+  --lr-h: 18px;
+  --lr-rot: 0deg;
+
+  --sr-left: 242px;
+  --sr-top: 126px;
+  --sr-w: 28px;
+  --sr-h: 46px;
+  --sr-rot: 0deg;
+
+  height: calc(var(--canvas-h) * var(--scale));
+}
+
+/* 642 */
+@media (min-width: 642px) {
+  .stage {
+    --canvas-w: 642px;
+    --canvas-h: 890px;
+    --scale: 1;
+
+    --chamada-left: 24px;
+    --chamada-top: 75px;
+    --chamada-w: 446px;
+    --chamada-h: 193px;
+
+    --seliga-left: -15px;
+    --seliga-top: -2px;
+    --seliga-w: 377px;
+    --seliga-h: 123px;
+
+    --convites-left: -0.3px;
+    --convites-top: 78px;
+    --convites-w: 371px;
+    --convites-h: 103px;
+
+    --desc-left: 189px;
+    --desc-top: 300px;
+    --desc-w: 214px;
+    --desc-h: 170px;
+    --desc-font: 17px;
+
+    --box-left: 24px;
+    --box-top: 544px;
+    --box-w: 594px;
+    --box-h: 232px;
+
+    --depo-left: 87px;
+    --depo-w: 243px;
+    --depo-h: 232px;
+
+    --aspas-top: -40px;
+    --aspas-w: 155px;
+    --aspas-h: 80px;
+    --aspas-size: 322px;
+
+    --texto-top: 70px;
+    --texto-w: 243px;
+    --texto-h: 161px;
+    --texto-font: 20px;
+    --texto-stroke: 0.7px;
+
+    --rep-left: 350px;
+    --rep-w: 155px;
+    --rep-h: 232px;
+
+    --foto-left: -0.5px;
+    --foto-top: 25px;
+    --foto-w: 156px;
+    --foto-h: 143px;
+
+    --nome-top: 179px;
+    --nome-font: 16px;
+
+    --regiao-top: 194px;
+    --regiao-font: 12px;
+    --regiao-left: 0px;
+
+    --prev-left: 16px;
+    --prev-top: 97px;
+    --arrow-w: 32px;
+    --arrow-h: 37px;
+
+    --next-left: 546px;
+    --next-top: 97px;
+
+    --uv-left: 40px;
+    --uv-top: 235px;
+    --uv-w: 186px;
+    --uv-h: 196px;
+
+    --lr-left: 106px;
+    --lr-top: 460px;
+    --lr-w: 217px;
+    --lr-h: 23px;
+
+    --sr-left: 389px;
+    --sr-top: 201px;
+    --sr-w: 49px;
+    --sr-h: 77px;
+    --sr-rot: 0deg;
+
+    --dots-top-gap: 12px;
+  }
+}
+
+/* 1025 → canvas REAL do Figma = 1344 (pra não cortar) */
+@media (min-width: 1025px) {
+  .stage {
+    --canvas-w: 1344px;
+    --canvas-h: 710px;
+    --scale: 0.762; /* 1025 / 1344 */
+
+    --chamada-left: 50px;
+    --chamada-top: 82px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --seliga-left: -40px;
+    --seliga-top: 0px;
+    --seliga-w: 519px;
+    --seliga-h: 164px;
+
+    --convites-left: 0px;
+    --convites-top: 120px;
+    --convites-w: 490px;
+    --convites-h: 136px;
+
+    --desc-left: 280px;
+    --desc-top: 360px;
+    --desc-w: 265px;
+    --desc-h: 175px;
+    --desc-font: 20px;
+
+    --box-left: 600px;
+    --box-top: 182px;
+    --box-w: 737px;
+    --box-h: 289px;
+
+    --depo-left: 109px;
+    --depo-w: 302px;
+    --depo-h: 289px;
+
+    --aspas-top: -60px;
+    --aspas-w: 193px;
+    --aspas-h: 100px;
+    --aspas-size: 400px;
+
+    --texto-top: 88px;
+    --texto-w: 302px;
+    --texto-h: 200px;
+    --texto-font: 25px;
+    --texto-stroke: 1px;
+
+    --rep-left: 435px;
+    --rep-w: 193px;
+    --rep-h: 289px;
+
+    --foto-top: 30px;
+    --foto-w: 193px;
+    --foto-h: 177px;
+
+    --nome-top: 223px;
+    --nome-font: 20px;
+
+    --regiao-top: 241px;
+    --regiao-font: 15px;
+
+    --prev-left: 20px;
+    --prev-top: 121px;
+    --arrow-w: 40px;
+    --arrow-h: 47px;
+
+    --next-left: 678px;
+    --next-top: 121px;
+
+    --uv-left: 78px;
+    --uv-top: 310px;
+    --uv-w: 216px;
+    --uv-h: 227px;
+
+    --lr-left: 212px;
+    --lr-top: 517px;
+    --lr-w: 261px;
+    --lr-h: 35px;
+
+    --sr-left: 530px;
+    --sr-top: 250px;
+    --sr-w: 47px;
+    --sr-h: 92px;
+    --sr-rot: 0deg;
+
+    --dots-top-gap: 14px;
+  }
+}
+
+/* 1440 */
+@media (min-width: 1440px) {
+  .stage {
+    --canvas-w: 1440px;
+    --canvas-h: 720px;
+    --scale: 1;
+
+    --chamada-left: 80px;
+    --chamada-top: 86px;
+    --chamada-w: 587px;
+    --chamada-h: 212px;
+
+    --seliga-left: -50px;
+    --seliga-top: 0px;
+    --seliga-w: 519px;
+    --seliga-h: 164px;
+
+    --convites-left: 0px;
+    --convites-top: 110px;
+    --convites-w: 490px;
+    --convites-h: 136px;
+
+    --desc-left: 300px;
+    --desc-top: 370px;
+    --desc-w: 272px;
+    --desc-h: 193px;
+    --desc-font: 20px;
+
+    --box-left: 623px;
+    --box-top: 196px;
+    --box-w: 737px;
+    --box-h: 289px;
+
+    --depo-left: 109px;
+    --depo-w: 302px;
+    --depo-h: 289px;
+
+    --aspas-top: -60px;
+    --aspas-w: 193px;
+    --aspas-h: 100px;
+    --aspas-size: 400px;
+
+    --texto-top: 88px;
+    --texto-w: 302px;
+    --texto-h: 200px;
+    --texto-font: 25px;
+    --texto-stroke: 1px;
+
+    --rep-left: 435px;
+    --rep-w: 193px;
+    --rep-h: 289px;
+
+    --foto-top: 30px;
+    --foto-w: 213px;
+    --foto-h: 197px;
+
+    --nome-top: 223px;
+    --nome-font: 20px;
+
+    --regiao-top: 241px;
+    --regiao-font: 15px;
+
+    --prev-left: 20px;
+    --prev-top: 121px;
+    --arrow-w: 40px;
+    --arrow-h: 47px;
+
+    --next-left: 678px;
+    --next-top: 121px;
+
+    --uv-left: 98px;
+    --uv-top: 305px;
+    --uv-w: 216px;
+    --uv-h: 227px;
+
+    --lr-left: 188px;
+    --lr-top: 540px;
+    --lr-w: 261px;
+    --lr-h: 35px;
+
+    --sr-left: 568px;
+    --sr-top: 256px;
+    --sr-w: 47px;
+    --sr-h: 92px;
+    --sr-rot: 0deg;
+
+    --dots-top-gap: 14px;
+  }
+}
+
+/* BG */
+.bg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Canvas */
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  transform: translateX(-50%) scale(var(--scale));
+  transform-origin: top center;
+  z-index: 10;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+/* Chamada */
+.chamada {
+  position: absolute;
+  left: var(--chamada-left);
+  top: var(--chamada-top);
+  width: var(--chamada-w);
+  height: var(--chamada-h);
+}
+
+.seLiga {
+  position: absolute;
+  left: var(--seliga-left);
+  top: var(--seliga-top);
+  width: var(--seliga-w);
+  height: var(--seliga-h);
+  z-index: 20; /* 👈 FICA POR CIMA */
+}
+
+.convitesTitle {
+  position: absolute;
+  left: var(--convites-left);
+  top: var(--convites-top);
+  width: var(--convites-w);
+  height: var(--convites-h);
+  z-index: 10; /* 👈 FICA POR BAIXO */
+}
+
+/* Decorações */
+.underlineVerde {
+  position: absolute;
+  left: var(--uv-left);
+  top: var(--uv-top);
+  width: var(--uv-w);
+  height: var(--uv-h);
+  transform: rotate(var(--uv-rot));
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.linhaRoxa {
+  position: absolute;
+  left: var(--lr-left);
+  top: var(--lr-top);
+  width: var(--lr-w);
+  height: var(--lr-h);
+  transform: rotate(var(--lr-rot));
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.setaRosa {
+  position: absolute;
+  left: var(--sr-left);
+  top: var(--sr-top);
+  width: var(--sr-w);
+  height: var(--sr-h);
+  transform: rotate(var(--sr-rot));
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* Descrição */
+.descricao {
+  position: absolute;
+  left: var(--desc-left);
+  top: var(--desc-top);
+  width: var(--desc-w);
+  height: var(--desc-h);
+}
+
+.textoDescricao {
+  margin: 0;
+  font-family: var(--font-crayon);
+  font-size: var(--desc-font);
+  line-height: 1;
+  color: #000;
+  transform: rotate(var(--desc-rot));
+  transform-origin: top left;
+}
+
+/* ===========================
+   CARROSSEL (WRAP + BOX)
+=========================== */
+.boxWrap {
+  position: absolute;
+  left: var(--box-left);
+  top: var(--box-top);
+  width: var(--box-w);
+  height: var(--box-h);
+}
+
+/* BOX corta o que sai (sem cortar os dots pq dots ficam no wrap) */
+.box {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  user-select: none;
+  touch-action: pan-y;
+
+  cursor: grab;
+}
+
+.box:active {
+  cursor: grabbing;
+}
+
+.box:focus {
+  outline: none;
+}
+
+/* ✅ opcional: cursor no depoimento também */
+.depoimento,
+.textoDepo {
+  cursor: grab;
+}
+.depoimento:active,
+.textoDepo:active {
+  cursor: grabbing;
+}
+
+/* Track/Slide */
+.track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 860ms cubic-bezier(0.16, 1.15, 0.3, 1);
+  will-change: transform;
+}
+
+.slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 0 0 100%;
+  opacity: 0.65;
+  transition: opacity 500ms ease;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}
+
+/* Setas */
+.btnPrev,
+.btnNext {
+  position: absolute;
+  width: var(--arrow-w);
+  height: var(--arrow-h);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.btnPrev:disabled,
+.btnNext:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btnPrev {
+  left: var(--prev-left);
+  top: var(--prev-top);
+  transform: rotate(0deg);
+}
+
+.btnNext {
+  left: var(--next-left);
+  top: var(--next-top);
+}
+
+/* Depoimento */
+.depoimento {
+  position: absolute;
+  left: var(--depo-left);
+  top: var(--depo-top);
+  width: var(--depo-w);
+  height: var(--depo-h);
+}
+
+.aspas {
+  position: absolute;
+  left: var(--aspas-left);
+  top: var(--aspas-top);
+  width: var(--aspas-w);
+  height: var(--aspas-h);
+  font-family: var(--font-luckiest);
+  font-size: var(--aspas-size);
+  line-height: 1;
+  color: var(--aspas-color);
+  pointer-events: none;
+}
+
+.textoDepo {
+  position: absolute;
+  left: var(--texto-left);
+  top: var(--texto-top);
+  width: var(--texto-w);
+  height: var(--texto-h);
+
+  display: flex;
+  align-items: center;
+
+  font-family: var(--font-luckiest);
+  font-weight: 400;
+  font-size: var(--texto-font);
+  line-height: 1;
+
+  /* stroke branco */
+  -webkit-text-stroke: var(--texto-stroke) #fff;
+
+  /* gradiente no texto */
+  background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Representante */
+.representante {
+  position: absolute;
+  left: var(--rep-left);
+  top: var(--rep-top);
+  width: var(--rep-w);
+  height: var(--rep-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fotoWrap {
+  position: absolute;
+  left: var(--foto-left);
+  top: var(--foto-top);
+  width: var(--foto-w);
+  height: var(--foto-h);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.nome {
+  position: absolute;
+  left: var(--regiao-left);
+  top: var(--nome-top);
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-crayon);
+  font-size: var(--nome-font);
+  line-height: 1;
+  color: #000;
+}
+
+.regiao {
+  position: absolute;
+  left: var(--regiao-left);
+  top: var(--regiao-top);
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-crayon);
+  font-size: var(--regiao-font);
+  line-height: 1;
+  color: #000;
+}
+
+/* Dots (sempre visível, fora do overflow) */
+.dots {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--dots-top-gap));
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--dots-gap);
+  z-index: 60;
+  pointer-events: auto;
+}
+
+.dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 999px;
+  border: var(--dot-border) solid rgba(255, 255, 255, 0.9);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+
+  pointer-events: auto;
+}
+
+.dotActive {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ===========================
+   SETAS: esconder no 320 (default)
+   e mostrar a partir de 642
+=========================== */
+
+/* ✅ 320 (default): sem setas */
+.btnPrev,
+.btnNext {
+  display: none;
+}
+
+/* ✅ 642+ (e consequentemente 1025+, 1440+): volta a mostrar */
+@media (min-width: 642px) {
+  .btnPrev,
+  .btnNext {
+    display: block;
+  }
+}

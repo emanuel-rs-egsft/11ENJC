@@ -1,0 +1,522 @@
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  /* DEFAULT = 320 */
+  --canvas-w: 320px;
+  --canvas-h: 440px;
+  --scale: 1;
+
+  /* CTA vars (coords do canvas) */
+  --cta-w: 138px;
+  --cta-h: 30.2927px;
+  --cta-top: 12px;
+  --cta-left: 91px;
+
+  /* 320 */
+  --callout-left: 16px;
+  --callout-top: 55px;
+  --callout-w: 213px;
+  --callout-h: 119.7637px;
+
+  --vemai-w: 168.6763px;
+  --vemai-h: 91.1098px;
+
+  --enjc-w: 213px;
+  --enjc-h: 65.6647px;
+  --enjc-top: 54px;
+
+  --jovens-left: 16px;
+  --jovens-top: 175px;
+  --jovens-w: 288px;
+  --jovens-h: 211.0176px;
+
+  --floatTop-left: 180px;
+  --floatTop-top: 66px;
+  --floatTop-w: 62px;
+  --floatTop-h: 51.4227px;
+
+  --floatTopText-size: 13.898px;
+
+  --floatTopArrow-w: 16.3302px;
+  --floatTopArrow-h: 31.9654px;
+  --floatTopArrow-top: 19.4572px;
+  --floatTopArrow-left: 45.6699px;
+
+  --show-bottom: 0;
+
+  /* altura da seção = altura do canvas (com scale) */
+  height: calc(var(--canvas-h) * var(--scale));
+}
+
+/* 642 */
+@media (min-width: 642px) {
+  .stage {
+    --canvas-w: 642px;
+    --canvas-h: 850px;
+    --scale: 1;
+
+    --cta-w: 289px;
+    --cta-h: 63.439px;
+    --cta-top: 16px;
+    --cta-left: 177px;
+
+    --callout-left: 24px;
+    --callout-top: 120.8498px;
+    --callout-w: 442px;
+    --callout-h: 248.5237px;
+
+    --vemai-w: 350.0231px;
+    --vemai-h: 189.0636px;
+
+    --enjc-w: 442px;
+    --enjc-h: 136.2621px;
+    --enjc-top: 112px;
+
+    --jovens-left: 24px;
+    --jovens-top: 335.6757px;
+    --jovens-w: 594px;
+    --jovens-h: 435.2239px;
+
+    --floatTop-left: 349px;
+    --floatTop-top: 120px;
+    --floatTop-w: 137px;
+    --floatTop-h: 113.6275px;
+
+    --floatTopText-size: 30.7101px;
+
+    --floatTopArrow-w: 36.0844px;
+    --floatTopArrow-h: 70.6333px;
+    --floatTopArrow-top: 42.9942px;
+    --floatTopArrow-left: 100.9155px;
+
+    --show-bottom: 0;
+
+    height: calc(var(--canvas-h) * var(--scale));
+  }
+}
+
+/* 1025 → canvas REAL do Figma = 1344 (pra não cortar) */
+@media (min-width: 1025px) {
+  .stage {
+    --canvas-w: 1344px;
+    --canvas-h: 820px;
+    --scale: 0.762; /* 1025 / 1344 */
+
+    --cta-w: 430.5px;
+    --cta-h: 94.5px;
+    --cta-top: 18px;
+    --cta-left: 456.75px;
+
+    --callout-left: 48px;
+    --callout-top: 193.4414px;
+    --callout-w: 662px;
+    --callout-h: 372.2232px;
+
+    --vemai-w: 524.2428px;
+    --vemai-h: 283.1676px;
+
+    --enjc-w: 662px;
+    --enjc-h: 204.0848px;
+    --enjc-top: 168px;
+
+    --jovens-left: 616px;
+    --jovens-top: 96px;
+    --jovens-w: 776px;
+    --jovens-h: 568.5753px;
+
+    --floatTop-left: 448px;
+    --floatTop-top: 171px;
+    --floatTop-w: 178.4427px;
+    --floatTop-h: 148px;
+
+    --floatTopText-size: 40px;
+
+    --floatTopArrow-w: 47px;
+    --floatTopArrow-h: 92px;
+    --floatTopArrow-top: 56px;
+    --floatTopArrow-left: 131.4427px;
+
+    --show-bottom: 1;
+
+    --floatBottom-left: 278px;
+    --floatBottom-top: 564.0249px;
+    --floatBottom-w: 354.5136px;
+    --floatBottom-h: 108.8281px;
+
+    height: calc(var(--canvas-h) * var(--scale));
+  }
+}
+
+/* 1440 */
+@media (min-width: 1440px) {
+  .stage {
+    --canvas-w: 1440px;
+    --canvas-h: 860px;
+    --scale: 1;
+
+    --cta-w: 410px;
+    --cta-h: 90px;
+    --cta-top: 18px;
+    --cta-left: 515px;
+
+    --callout-left: 80px;
+    --callout-top: 233px;
+    --callout-w: 628px;
+    --callout-h: 353.106px;
+
+    --vemai-w: 460px;
+    --vemai-h: 236px;
+
+    --enjc-w: 628px;
+    --enjc-h: 194px;
+    --enjc-top: 159px;
+
+    --jovens-left: 623px;
+    --jovens-top: 140px;
+    --jovens-w: 737px;
+    --jovens-h: 540px;
+
+    --floatTop-left: 445px;
+    --floatTop-top: 177px;
+    --floatTop-w: 178.4427px;
+    --floatTop-h: 148px;
+
+    --floatTopText-size: 40px;
+
+    --show-bottom: 1;
+
+    --floatBottom-left: 351px;
+    --floatBottom-top: 630.0249px;
+    --floatBottom-w: 354.5136px;
+    --floatBottom-h: 108.8281px;
+
+    height: calc(var(--canvas-h) * var(--scale));
+  }
+}
+
+/* BG cobre a seção inteira */
+.bg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* Canvas centralizado e escalado (conteúdo por cima do BG) */
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  transform: translateX(-50%) scale(var(--scale));
+  transform-origin: top center;
+  z-index: 10;
+}
+
+.cover {
+  object-fit: cover;
+}
+.contain {
+  object-fit: contain;
+}
+
+/* CTA FIXO e alinhado ao canvas */
+.cta {
+  position: fixed;
+  top: calc(var(--cta-top) * var(--scale));
+  left: calc(
+    50vw - (var(--canvas-w) * var(--scale) / 2) +
+      (var(--cta-left) * var(--scale))
+  );
+  width: calc(var(--cta-w) * var(--scale));
+  height: calc(var(--cta-h) * var(--scale));
+  z-index: 50;
+  display: block;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.brushWrap {
+  position: absolute;
+  inset: 0;
+}
+.brushRed {
+  object-fit: contain;
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+.brushWhite {
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.ctaText {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-luckiest);
+  font-size: calc((var(--cta-h) * 0.56) * var(--scale));
+  line-height: 1;
+  color: #fff;
+  transform: translateY(-2px);
+  transition: color 0.18s ease;
+}
+
+/* “Aqui!” */
+.ctaAqui {
+  position: absolute;
+  transform: rotate(-13.16deg);
+  font-family: var(--font-crayon);
+  line-height: 1;
+  transition: color 0.18s ease;
+
+  /* default */
+  top: 31.8713px;
+  left: 299px;
+  width: 106px;
+  height: 35px;
+  font-size: 60px;
+  color: #ffb222;
+}
+
+/* 1025 */
+@media (min-width: 1025px) and (max-width: 1439.98px) {
+  .ctaAqui {
+    top: 20px;
+    left: 240px;
+    width: 111.3px;
+    height: 36.75px;
+    font-size: 50px;
+  }
+}
+/* 642 */
+@media (min-width: 642px) and (max-width: 1024.98px) {
+  .ctaAqui {
+    top: 22.4654px;
+    left: 210.7583px;
+    width: 74.7171px;
+    height: 24.6707px;
+    font-size: 42.2927px;
+  }
+}
+/* 320 */
+@media (max-width: 641.98px) {
+  .ctaAqui {
+    top: 10.7274px;
+    left: 100.6392px;
+    width: 35.6781px;
+    height: 11.7805px;
+    font-size: 20.1951px;
+  }
+}
+
+/* Hover CTA */
+.cta:hover .brushRed {
+  opacity: 0;
+}
+.cta:hover .brushWhite {
+  opacity: 1;
+}
+.cta:hover .ctaText {
+  color: #ffc300;
+}
+.cta:hover .ctaAqui {
+  color: #ff0c07;
+}
+
+/* HERO */
+.callout {
+  position: absolute;
+  left: var(--callout-left);
+  top: var(--callout-top);
+  width: var(--callout-w);
+  height: var(--callout-h);
+}
+
+.vemAi {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--vemai-w);
+  height: var(--vemai-h);
+}
+
+.enjc {
+  position: absolute;
+  left: 0;
+  top: var(--enjc-top);
+  width: var(--enjc-w);
+  height: var(--enjc-h);
+}
+
+.jovens {
+  position: absolute;
+  left: var(--jovens-left);
+  top: var(--jovens-top);
+  width: var(--jovens-w);
+  height: var(--jovens-h);
+}
+
+/* FLOAT TOP */
+.floatTop {
+  position: absolute;
+  left: var(--floatTop-left);
+  top: var(--floatTop-top);
+  width: var(--floatTop-w);
+  height: var(--floatTop-h);
+}
+
+.floatTopText {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 140px;
+  transform: rotate(14.14deg);
+  font-family: var(--font-crayon);
+  font-size: var(--floatTopText-size);
+  line-height: 1;
+  color: #ce3194;
+  white-space: pre-line;
+}
+
+.floatTopArrow {
+  position: absolute;
+  left: var(--floatTopArrow-left);
+  top: var(--floatTopArrow-top);
+  width: var(--floatTopArrow-w);
+  height: var(--floatTopArrow-h);
+}
+
+/* FLOAT BOTTOM */
+.floatBottom {
+  position: absolute;
+  left: var(--floatBottom-left);
+  top: var(--floatBottom-top);
+  width: var(--floatBottom-w);
+  height: var(--floatBottom-h);
+  display: none;
+}
+@media (min-width: 1025px) {
+  .floatBottom {
+    display: block;
+  }
+}
+
+.floatBottomText {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 220px;
+  transform: rotate(8.72deg);
+  font-family: var(--font-crayon);
+  font-size: 40px;
+  line-height: 1;
+  color: #ff9a15;
+}
+
+.floatBottomArrow {
+  position: absolute;
+  right: 0;
+  top: 22.2718px;
+  width: 183.3133px;
+  height: 85px;
+}
+
+/* ===== CAMADAS (ORDEM CORRETA) ===== */
+/* Base: BG (0) já está ok */
+
+.jovens {
+  z-index: 10; /* 1) jovens (base) */
+}
+
+.enjc {
+  z-index: 20; /* 2) 11ENJC por cima dos jovens */
+}
+
+.vemAi {
+  z-index: 30; /* 3) Vem-aí por cima do 11ENJC */
+}
+
+.floatTop,
+.floatBottom {
+  z-index: 40; /* 4) flutuantes por cima de tudo */
+}
+
+/* CTA sempre acima */
+.cta {
+  z-index: 50;
+}
+
+/* =========================
+   ANIMAÇÕES (FLOAT INFINITO)
+========================= */
+
+.floatJovens {
+  animation: floatYSoft 0.8s ease-in-out infinite;
+  animation-delay: -20.1s;
+  will-change: transform;
+}
+
+.floatEnjc {
+  animation: floatYSoft 1.9s ease-in-out infinite;
+  animation-delay: -0.9s;
+  will-change: transform;
+}
+
+.floatTopAnim {
+  animation: floatYPop 1.6s ease-in-out infinite;
+  animation-delay: -1s;
+  will-change: transform;
+}
+
+.floatBottomAnim {
+  animation: floatYPop 1.3s ease-in-out infinite;
+  animation-delay: -2.7s;
+  will-change: transform;
+}
+
+/* Keyframes (somente 1 versão!) */
+@keyframes floatYSoft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes floatYPop {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0);
+  }
+}
+
+/* Acessibilidade:
+   Se o usuário pedir reduzir movimento, a animação desliga */
+@media (prefers-reduced-motion: reduce) {
+  .floatJovens,
+  .floatEnjc,
+  .floatTopAnim,
+  .floatBottomAnim {
+    animation-duration: 10s !important; /* mais lento */
+  }
+}
+
+/* ✅ garante que o wrapper tenha tamanho pro next/image fill */
+.floatEnjc,
+.floatJovens {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

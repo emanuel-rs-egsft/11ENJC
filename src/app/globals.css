@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+body {
+  font-family:
+    var(--font-madinah),
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================
+   FLOAT GLOBAL (REUTILIZÁVEL)
+========================= */
+
+/* Soft (mais suave) */
+.float-soft {
+  animation-name: floatYSoft;
+  animation-duration: var(--float-dur, 2s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+}
+
+/* Pop (mais vivo) */
+.float-pop {
+  animation-name: floatYPop;
+  animation-duration: var(--float-dur, 1s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+}
+
+/* Keyframes (1 vez só no projeto todo) */
+@keyframes floatYSoft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-dist, -10px), 0);
+  }
+}
+
+@keyframes floatYPop {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-dist, -16px), 0);
+  }
+}
+
+/* Acessibilidade: se tiver reduce, fica bem mais lento */
+@media (prefers-reduced-motion: reduce) {
+  .float-soft,
+  .float-pop {
+    animation-duration: 10s !important;
+  }
+}
+
+/* =========================
+   FADE IN/OUT GLOBAL (REUTILIZÁVEL)
+========================= */
+
+/* FADE ONLY */
+[data-reveal="fade"].reveal {
+  opacity: 0;
+  transition: opacity 520ms ease;
+  will-change: opacity;
+}
+[data-reveal="fade"].reveal.is-in {
+  opacity: 1;
+}
+[data-reveal="up"].reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 600ms ease,
+    transform 600ms ease;
+}
+
+[data-reveal="up"].reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal="left"].reveal {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 1200ms ease;
+}
+
+[data-reveal="right"].reveal {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: all 1200ms ease;
+}
+
+[data-reveal="left"].reveal.is-in,
+[data-reveal="right"].reveal.is-in {
+  opacity: 1;
+  transform: translateX(0);
+}
