@@ -316,7 +316,7 @@ export default function InscricaoPopup({
         return;
       }
 
-      // 1) Upload do comprovante pro Blob
+      // 1) upload no Blob
       const fd = new FormData();
       fd.append("file", data.comprovante);
 
@@ -325,22 +325,23 @@ export default function InscricaoPopup({
         body: fd,
       });
 
-      const upText = await up.text();
-      let upOut: any;
+      const upRaw = await up.text();
+      let upOut: any = null;
       try {
-        upOut = JSON.parse(upText);
+        upOut = JSON.parse(upRaw);
       } catch {
-        upOut = { ok: false, raw: upText };
+        upOut = { ok: false, error: "Upload não é JSON", raw: upRaw };
       }
 
-      if (!up.ok || !upOut?.ok) {
+      if (!up.ok || !upOut?.url) {
         setSubmitError(upOut?.error || "Falha no upload do comprovante");
         setIsSubmitting(false);
         return;
       }
 
-      const comprovanteUrl = upOut.url;
+      const comprovanteUrl = String(upOut.url);
 
+      // 2) envia inscrição (Apps Script via route.ts)
       const payload = {
         nome: data.nome,
         apelido: data.apelido,
@@ -367,12 +368,12 @@ export default function InscricaoPopup({
 
         camiseta: data.camiseta,
         pagamento: data.pagamento,
-
         lgpdOk: data.lgpdOk,
 
-        // 👇 AGORA É URL (não base64)
+        // ✅ AGORA É URL (NÃO BASE64)
         comprovanteUrl,
         comprovanteType: data.comprovante.type,
+        comprovanteName: data.comprovante.name,
       };
 
       const res = await fetch("/api/inscricao", {
