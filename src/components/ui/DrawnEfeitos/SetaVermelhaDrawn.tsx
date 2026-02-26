@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 type Props = {
   className?: string;
@@ -11,8 +12,8 @@ type Props = {
 
 const vp = {
   once: false,
-  amount: 0.15, // ✅ era 0.6 (muito alto no mobile)
-  margin: "120px 0px 120px 0px", // ✅ ajuda no mobile (dispara antes)
+  amount: 0.15,
+  margin: "120px 0px 120px 0px",
 };
 
 const D =
@@ -26,6 +27,16 @@ export default function SetaVermelhaDrawn({
 }: Props) {
   const fillDelay = drawDelay + drawDuration + 0.08;
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // coarse pointer = celular/tablet na maioria dos casos
+    setIsMobile(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  const fillAnim = { opacity: 1 };
+  const strokeAnim = { pathLength: 1, opacity: 0 };
+
   return (
     <svg
       className={className}
@@ -37,13 +48,10 @@ export default function SetaVermelhaDrawn({
         d={D}
         fill="#EB1916"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={vp}
-        transition={{
-          duration: 0.28,
-          delay: fillDelay,
-          ease: "easeOut",
-        }}
+        {...(isMobile
+          ? { animate: fillAnim }
+          : { whileInView: fillAnim, viewport: vp })}
+        transition={{ duration: 0.28, delay: fillDelay, ease: "easeOut" }}
       />
 
       <motion.path
@@ -55,8 +63,9 @@ export default function SetaVermelhaDrawn({
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 1 }}
-        whileInView={{ pathLength: 1, opacity: 0 }}
-        viewport={vp}
+        {...(isMobile
+          ? { animate: strokeAnim }
+          : { whileInView: strokeAnim, viewport: vp })}
         transition={{
           pathLength: {
             duration: 1.05,
