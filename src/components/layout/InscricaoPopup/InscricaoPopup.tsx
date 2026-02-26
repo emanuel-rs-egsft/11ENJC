@@ -325,20 +325,21 @@ export default function InscricaoPopup({
         body: fd,
       });
 
-      const upRaw = await up.text();
-      let upOut: any = null;
-
+      const upText = await up.text();
+      let upOut: any;
       try {
-        upOut = JSON.parse(upRaw);
+        upOut = JSON.parse(upText);
       } catch {
-        upOut = { ok: false, error: "Upload não retornou JSON", raw: upRaw };
+        upOut = { ok: false, raw: upText };
       }
 
-      if (!up.ok || !upOut?.ok || !upOut?.url) {
-        setSubmitError(upOut?.error || "Falha ao enviar comprovante (upload)");
+      if (!up.ok || !upOut?.ok) {
+        setSubmitError(upOut?.error || "Falha no upload do comprovante");
         setIsSubmitting(false);
         return;
       }
+
+      const comprovanteUrl = upOut.url;
 
       const payload = {
         nome: data.nome,
@@ -370,7 +371,7 @@ export default function InscricaoPopup({
         lgpdOk: data.lgpdOk,
 
         // 👇 AGORA É URL (não base64)
-        comprovanteUrl: upOut.url,
+        comprovanteUrl,
         comprovanteType: data.comprovante.type,
       };
 
