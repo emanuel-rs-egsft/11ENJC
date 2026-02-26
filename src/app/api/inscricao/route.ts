@@ -275,7 +275,7 @@ export async function POST(req: Request) {
   const firstName = ((payload?.nome || "").split(" ")[0] || "").trim();
   const nomeJovem = apelido || firstName || "Jovem";
 
-  const subject = `${escapeHtml(nomeJovem)}, você está confirmado no 11º ENJC!!!`;
+  const subject = `${escapeHtml(nomeJovem)}, você estará conosco no 11º ENJC!!!`;
 
   try {
     await resend.emails.send({
