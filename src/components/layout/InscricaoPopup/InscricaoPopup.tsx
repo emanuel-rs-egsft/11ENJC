@@ -316,7 +316,29 @@ export default function InscricaoPopup({
         return;
       }
 
-      const comprovanteBase64 = await fileToBase64(data.comprovante);
+      // 1) Upload do comprovante pro Blob
+      const fd = new FormData();
+      fd.append("file", data.comprovante);
+
+      const up = await fetch("/api/upload-comprovante", {
+        method: "POST",
+        body: fd,
+      });
+
+      const upRaw = await up.text();
+      let upOut: any = null;
+
+      try {
+        upOut = JSON.parse(upRaw);
+      } catch {
+        upOut = { ok: false, error: "Upload não retornou JSON", raw: upRaw };
+      }
+
+      if (!up.ok || !upOut?.ok || !upOut?.url) {
+        setSubmitError(upOut?.error || "Falha ao enviar comprovante (upload)");
+        setIsSubmitting(false);
+        return;
+      }
 
       const payload = {
         nome: data.nome,
@@ -347,8 +369,8 @@ export default function InscricaoPopup({
 
         lgpdOk: data.lgpdOk,
 
-        comprovanteBase64,
-        comprovanteName: data.comprovante.name,
+        // 👇 AGORA É URL (não base64)
+        comprovanteUrl: upOut.url,
         comprovanteType: data.comprovante.type,
       };
 
