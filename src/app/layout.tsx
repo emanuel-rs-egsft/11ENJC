@@ -32,25 +32,11 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://11-enjc.vercel.app"),
-  // ✅ Quando você tiver o link final (Vercel/domínio), troque aqui:
-  // metadataBase: new URL("https://seu-dominio.com"),
   title: {
     default: siteTitle,
     template: `%s | ${siteName}`,
   },
   description,
-  keywords: ["ENJC", "Cursilho", "Jovens", "MCC", "Evento", "Inscrição"],
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
   openGraph: {
     type: "website",
     url: "/",
