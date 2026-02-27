@@ -1,12 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 
 type Props = {
   className?: string;
   drawDuration?: number;
   drawDelay?: number;
   strokeWidth?: number;
+};
+
+const vp = {
+  once: false,
+  amount: 0.15,
+  margin: "120px 0px 120px 0px",
 };
 
 const D =
@@ -20,25 +26,67 @@ export default function SetaRosaDrawn({
 }: Props) {
   const fillDelay = drawDelay + drawDuration + 0.08;
 
+  const fillControls = useAnimationControls();
+  const strokeControls = useAnimationControls();
+
+  const play = () => {
+    // reset imediato (pra sempre recomeçar igual)
+    fillControls.set({ opacity: 0 });
+    strokeControls.set({ pathLength: 0, opacity: 1 });
+
+    // desenha o stroke
+    strokeControls.start({
+      pathLength: 1,
+      transition: {
+        duration: 1.05,
+        delay: drawDelay,
+        ease: [0.65, 0, 0.35, 1],
+      },
+    });
+
+    // some o stroke quando o fill entra
+    strokeControls.start({
+      opacity: 0,
+      transition: {
+        duration: 0.25,
+        delay: fillDelay,
+        ease: "easeOut",
+      },
+    });
+
+    // aparece o fill
+    fillControls.start({
+      opacity: 1,
+      transition: {
+        duration: 0.28,
+        delay: fillDelay,
+        ease: "easeOut",
+      },
+    });
+  };
+
+  const reset = () => {
+    fillControls.set({ opacity: 0 });
+    strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
+
   return (
-    <svg
+    <motion.svg
       className={className}
       viewBox="0 0 45 93"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewport={vp}
+      onViewportEnter={play}
+      onViewportLeave={reset}
     >
       <motion.path
         d={D}
         fill="#F22AA8"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: false, amount: 0.6 }}
-        transition={{
-          duration: 0.28,
-          delay: fillDelay,
-          ease: "easeOut",
-        }}
+        animate={fillControls}
       />
+
       <motion.path
         d={D}
         fill="none"
@@ -48,21 +96,8 @@ export default function SetaRosaDrawn({
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 1 }}
-        whileInView={{ pathLength: 1, opacity: 0 }}
-        viewport={{ once: false, amount: 0.6 }}
-        transition={{
-          pathLength: {
-            duration: 1.05,
-            delay: drawDelay,
-            ease: [0.65, 0, 0.35, 1],
-          },
-          opacity: {
-            duration: 0.25,
-            delay: fillDelay,
-            ease: "easeOut",
-          },
-        }}
+        animate={strokeControls}
       />
-    </svg>
+    </motion.svg>
   );
 }

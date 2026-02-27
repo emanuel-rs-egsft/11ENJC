@@ -80,7 +80,7 @@ export default function HeaderHero({ onOpenInscricao }: Props) {
 
             <div className={styles.floatBottomArrow} aria-hidden="true">
               <SetaVerdeDrawn
-                className={styles.contain}
+                className={styles.svgFill}
                 drawDelay={0.25}
                 drawDuration={1.2}
                 strokeWidth={1}

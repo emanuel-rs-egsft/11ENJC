@@ -68,7 +68,7 @@ export default function Identidade() {
         {/*UNDERLINE VERDE*/}
         <div className={styles.underlineVerde} aria-hidden="true">
           <UnderlineVerdeDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -77,7 +77,7 @@ export default function Identidade() {
         {/*SETA AZUL*/}
         <div className={styles.setaAzul} aria-hidden="true">
           <SetaAzulDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -86,7 +86,7 @@ export default function Identidade() {
         {/*LINHA AMARELA*/}
         <div className={styles.linhaAmarela} aria-hidden="true">
           <LinhaAmarelaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}

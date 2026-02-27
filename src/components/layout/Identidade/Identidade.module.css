@@ -532,6 +532,13 @@
   object-fit: contain;
 }
 
+.svgFill {
+  /*ANIMACAO DRAWN*/
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 /* Chamada */
 .chamada {
   position: absolute;

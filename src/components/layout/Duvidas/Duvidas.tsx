@@ -145,7 +145,7 @@ Dê preferencia ao aeroporto Viracopos - distancia 45 km facil acesso`,
           aria-hidden="true"
         >
           <UnderlineAmarelaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -165,7 +165,7 @@ Dê preferencia ao aeroporto Viracopos - distancia 45 km facil acesso`,
           aria-hidden="true"
         >
           <SetaRoxaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}

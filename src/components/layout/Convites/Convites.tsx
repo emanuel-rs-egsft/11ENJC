@@ -255,7 +255,7 @@ export default function Convites() {
           aria-hidden="true"
         >
           <UnderlineVerdeDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -275,7 +275,7 @@ export default function Convites() {
           aria-hidden="true"
         >
           <LinhaRoxaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -295,7 +295,7 @@ export default function Convites() {
           aria-hidden="true"
         >
           <SetaRosaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}

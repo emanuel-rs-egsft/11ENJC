@@ -69,7 +69,7 @@ export default function Sobre() {
           aria-hidden="true"
         >
           <UnderlineVerdeDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -88,7 +88,7 @@ export default function Sobre() {
           aria-hidden="true"
         >
           <SetaAzulDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
@@ -107,7 +107,7 @@ export default function Sobre() {
           aria-hidden="true"
         >
           <LinhaAmarelaDrawn
-            className={styles.contain}
+            className={styles.svgFill}
             drawDelay={0.25}
             drawDuration={1.2}
             strokeWidth={1}
