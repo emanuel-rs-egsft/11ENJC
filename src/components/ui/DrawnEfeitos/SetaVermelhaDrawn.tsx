@@ -1,7 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
 
 type Props = {
   className?: string;
@@ -27,31 +24,55 @@ export default function SetaVermelhaDrawn({
 }: Props) {
   const fillDelay = drawDelay + drawDuration + 0.08;
 
-  const [isMobile, setIsMobile] = useState(false);
+  const fillControls = useAnimationControls();
+  const strokeControls = useAnimationControls();
 
-  useEffect(() => {
-    // coarse pointer = celular/tablet na maioria dos casos
-    setIsMobile(window.matchMedia("(pointer: coarse)").matches);
-  }, []);
+  const play = async () => {
+    // reset (garante replay)
+    fillControls.set({ opacity: 0 });
+    strokeControls.set({ pathLength: 0, opacity: 1 });
 
-  const fillAnim = { opacity: 1 };
-  const strokeAnim = { pathLength: 1, opacity: 0 };
+    // anima
+    strokeControls.start({
+      pathLength: 1,
+      transition: {
+        duration: 1.05,
+        delay: drawDelay,
+        ease: [0.65, 0, 0.35, 1],
+      },
+    });
+
+    strokeControls.start({
+      opacity: 0,
+      transition: { duration: 0.25, delay: fillDelay, ease: "easeOut" },
+    });
+
+    fillControls.start({
+      opacity: 1,
+      transition: { duration: 0.28, delay: fillDelay, ease: "easeOut" },
+    });
+  };
+
+  const reset = () => {
+    fillControls.set({ opacity: 0 });
+    strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
 
   return (
-    <svg
+    <motion.svg
       className={className}
       viewBox="0 0 47 92"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewport={vp}
+      onViewportEnter={play}
+      onViewportLeave={reset}
     >
       <motion.path
         d={D}
         fill="#EB1916"
         initial={{ opacity: 0 }}
-        {...(isMobile
-          ? { animate: fillAnim }
-          : { whileInView: fillAnim, viewport: vp })}
-        transition={{ duration: 0.28, delay: fillDelay, ease: "easeOut" }}
+        animate={fillControls}
       />
 
       <motion.path
@@ -63,22 +84,8 @@ export default function SetaVermelhaDrawn({
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 1 }}
-        {...(isMobile
-          ? { animate: strokeAnim }
-          : { whileInView: strokeAnim, viewport: vp })}
-        transition={{
-          pathLength: {
-            duration: 1.05,
-            delay: drawDelay,
-            ease: [0.65, 0, 0.35, 1],
-          },
-          opacity: {
-            duration: 0.25,
-            delay: fillDelay,
-            ease: "easeOut",
-          },
-        }}
+        animate={strokeControls}
       />
-    </svg>
+    </motion.svg>
   );
 }
