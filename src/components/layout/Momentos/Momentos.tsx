@@ -1,4 +1,7 @@
-// import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import styles from "./Momentos.module.css";
 
 import OlhaOQueTeEsperaHandwrite from "@/components/ui/Momentos/OlhaOQueTeEspera";
@@ -18,7 +21,44 @@ const TOPICOS = [
   },
 ];
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 642);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+}
+
+function getFloatVars(i: number, isMobile: boolean): CSSProperties {
+  // 🔵 MOBILE (mais suave)
+  if (isMobile) {
+    return {
+      "--float-dur": i === 0 ? "2.4s" : i === 1 ? "2.8s" : "3.2s",
+
+      "--float-delay": i === 0 ? "-0.6s" : i === 1 ? "-1.2s" : "-0.8s",
+
+      "--float-dist": i === 0 ? "-5px" : i === 1 ? "-3px" : "-2px",
+    } as CSSProperties;
+  }
+
+  // 🟢 DESKTOP (seus valores originais)
+  return {
+    "--float-dur": i === 0 ? "1.1s" : i === 1 ? "0.8s" : "1.4s",
+
+    "--float-delay": i === 0 ? "-0.6s" : i === 1 ? "-1.8s" : "-1s",
+
+    "--float-dist": i === 0 ? "-10px" : i === 1 ? "-30px" : "-40px",
+  } as CSSProperties;
+}
+
 export default function Momentos() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       className={styles.anchor}
@@ -42,17 +82,10 @@ export default function Momentos() {
           {TOPICOS.map((t, i) => (
             <article
               key={i}
-              className={`${styles.card} ${i % 2 === 0 ? "float-soft" : "float-pop"}`}
-              style={
-                {
-                  // tempos diferentes por card
-                  "--float-dur": i === 0 ? "1.1s" : i === 1 ? "0.8s" : "1.4s",
-                  "--float-delay":
-                    i === 0 ? "-0.6s" : i === 1 ? "-1.8s" : "-1s",
-                  "--float-dist":
-                    i === 0 ? "-20px" : i === 1 ? "-30px" : "-40px",
-                } as any
-              }
+              className={`${styles.card} ${
+                i % 2 === 0 ? "float-soft" : "float-pop"
+              }`}
+              style={getFloatVars(i, isMobile)}
             >
               <h3 className={styles.cardTitle}>
                 {t.titulo.split("\n").map((line, idx) => (
@@ -62,6 +95,7 @@ export default function Momentos() {
                   </span>
                 ))}
               </h3>
+
               <p className={styles.cardDesc}>{t.desc}</p>
             </article>
           ))}

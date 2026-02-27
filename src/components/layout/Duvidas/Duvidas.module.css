@@ -43,10 +43,10 @@
   --box-top: 238px;
   --box-w: 288px;
 
-  --pergunta-h: 22px;
+  --pergunta-h: 30px;
   --pergunta-radius: 5.5px;
   --pergunta-pad-x: 5.5px;
-  --pergunta-gap: 5.5px;
+  --pergunta-gap: 10.5px;
 
   --texto-size: 14px;
 
@@ -74,7 +74,7 @@
 
   /* Decorações */
   --ua-left: 25px;
-  --ua-top: 132px;
+  --ua-top: 80px;
   --ua-w: 169px;
   --ua-h: 171px;
   --ua-rot: 0deg;
@@ -147,7 +147,7 @@
     --c2-size: 10.5px;
 
     --ua-left: 20px;
-    --ua-top: 245px;
+    --ua-top: 170px;
     --ua-w: 262px;
     --ua-h: 265px;
     --ua-rot: 0deg;
@@ -217,7 +217,7 @@
     --c2-size: 20px;
 
     --ua-left: 60px;
-    --ua-top: 395px;
+    --ua-top: 305px;
     --ua-w: 304px;
     --ua-h: 308px;
     --ua-rot: 0deg;
@@ -288,7 +288,7 @@
     --c2-size: 20px;
 
     --ua-left: 90px;
-    --ua-top: 405px;
+    --ua-top: 320px;
     --ua-w: 304px;
     --ua-h: 308px;
     --ua-rot: 0deg;
@@ -425,6 +425,7 @@
   height: var(--pergunta-h);
   border: 0;
   cursor: pointer;
+  margin-top: 2px;
 
   display: flex;
   align-items: center;
@@ -440,7 +441,7 @@
   font-family: var(--font-luckiest) !important;
   font-weight: 400;
   font-size: var(--texto-size);
-  line-height: 1;
+  line-height: 10;
 
   background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
   -webkit-background-clip: text;
@@ -505,7 +506,7 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
 
   font-family: var(--font-crayon) !important;
-  font-size: calc(var(--texto-size) * 0.85);
+  font-size: calc(var(--texto-size) * 1);
   line-height: 1.15;
   color: #ffffff;
 

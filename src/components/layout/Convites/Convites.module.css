@@ -48,7 +48,7 @@
   --depo-h: 160px; /*aumenta*/
 
   --aspas-left: -30px;
-  --aspas-top: -20px;
+  --aspas-top: 02px;
   --aspas-w: 75px;
   --aspas-h: 39px;
   --aspas-size: 156px;
@@ -96,7 +96,7 @@
 
   /* Decorações */
   --uv-left: 25px;
-  --uv-top: 140px;
+  --uv-top: 100px;
   --uv-w: 120px;
   --uv-h: 126px;
   --uv-rot: 0deg;
@@ -153,7 +153,7 @@
     --depo-w: 243px;
     --depo-h: 232px;
 
-    --aspas-top: -40px;
+    --aspas-top: 0px;
     --aspas-w: 155px;
     --aspas-h: 80px;
     --aspas-size: 322px;
@@ -189,7 +189,7 @@
     --next-top: 97px;
 
     --uv-left: 40px;
-    --uv-top: 235px;
+    --uv-top: 170px;
     --uv-w: 186px;
     --uv-h: 196px;
 
@@ -279,7 +279,7 @@
     --next-top: 121px;
 
     --uv-left: 78px;
-    --uv-top: 310px;
+    --uv-top: 240px;
     --uv-w: 216px;
     --uv-h: 227px;
 
@@ -369,7 +369,7 @@
     --next-top: 121px;
 
     --uv-left: 98px;
-    --uv-top: 305px;
+    --uv-top: 230px;
     --uv-w: 216px;
     --uv-h: 227px;
 
@@ -520,9 +520,14 @@
   overflow: hidden;
 
   user-select: none;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom; /* ✅ mantém scroll vertical e zoom */
 
   cursor: grab;
+
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  pointer-events: auto;
 }
 
 .box:active {
@@ -742,5 +747,13 @@
   .btnPrev,
   .btnNext {
     display: block;
+  }
+}
+
+/* ✅ MOBILE: swipe horizontal 100% sob controle do carrossel */
+@media (max-width: 641px) {
+  .box {
+    touch-action: none;
+    -webkit-overflow-scrolling: touch;
   }
 }

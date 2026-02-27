@@ -9,7 +9,7 @@ function fileToBase64(file: File): Promise<string> {
     const reader = new FileReader();
     reader.onerror = () => reject(new Error("Falha ao ler arquivo"));
     reader.onload = () => resolve(String(reader.result || ""));
-    reader.readAsDataURL(file); // "data:image/png;base64,..."
+    reader.readAsDataURL(file);
   });
 }
 
@@ -110,7 +110,6 @@ function isValidBirthDate(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return false;
 
-  // não pode ser no futuro
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   d.setHours(0, 0, 0, 0);
@@ -140,7 +139,6 @@ export default function InscricaoPopup({
   function validateStep(stepId: StepId): FormErrors {
     const e: FormErrors = {};
 
-    // Step 2: nome completo (nome + sobrenome)
     if (stepId === 2) {
       const nome = data.nome.trim();
       const words = nome.split(/\s+/).filter(Boolean);
@@ -149,20 +147,17 @@ export default function InscricaoPopup({
       }
     }
 
-    // Step 3: apelido
     if (stepId === 3) {
       const a = data.apelido.trim();
       if (a.length < 2) e.apelido = "Digite como você gosta de ser chamado(a).";
     }
 
-    // Step 4: nascimento
     if (stepId === 4) {
       if (!isValidBirthDate(data.nascimento)) {
         e.nascimento = "Informe uma data válida (não no futuro).";
       }
     }
 
-    // Step 5: whatsapp (DDD + número 10/11 dígitos)
     if (stepId === 5) {
       const digits = cleanDigits(data.whatsapp);
       if (!(digits.length === 10 || digits.length === 11)) {
@@ -170,12 +165,10 @@ export default function InscricaoPopup({
       }
     }
 
-    // Step 6: email
     if (stepId === 6) {
       if (!isValidEmail(data.email)) e.email = "Digite um e-mail válido.";
     }
 
-    // Step 7: endereço
     if (stepId === 7) {
       if (!data.rua.trim()) e.rua = "Preencha a rua.";
       if (!data.numero.trim()) e.numero = "Preencha o número.";
@@ -183,14 +176,12 @@ export default function InscricaoPopup({
       if (!data.cidade.trim()) e.cidade = "Preencha a cidade.";
     }
 
-    // Step 8: macro > ger > ged
     if (stepId === 8) {
       if (!data.macro.trim()) e.macro = "Selecione sua Macrorregional.";
       if (!data.ger.trim()) e.ger = "Selecione seu GER.";
       if (!data.ged.trim()) e.ged = "Selecione seu GED.";
     }
 
-    // Step 9: servico mcc > Cursilho que fez
     if (stepId === 9) {
       const birthYear = data.nascimento
         ? new Date(data.nascimento).getFullYear()
@@ -215,7 +206,6 @@ export default function InscricaoPopup({
       }
     }
 
-    // ✅ Step 10 (AGORA NO LUGAR CERTO)
     if (stepId === 10) {
       if (!data.alergiaTem) {
         e.alergiaTem = "Escolha uma opção.";
@@ -231,7 +221,6 @@ export default function InscricaoPopup({
         data.alergiaTem === "Não tenho!" ||
         (data.alergiaTem === "Tenho!" && data.alergiaDesc.trim().length >= 3);
 
-      // Só mostra/valida restrição quando alergiaOk
       if (alergiaOk) {
         if (!data.restricaoTem) {
           e.restricaoTem = "Escolha uma opção.";
@@ -246,33 +235,30 @@ export default function InscricaoPopup({
       }
     }
 
-    // Step 11 - Selecionar Camiseta
     if (stepId === 11) {
       if (!data.camiseta) {
         e.camiseta = "Selecione um tamanho.";
       }
     }
 
-    // Step 12 - Pagamento
     if (stepId === 12) {
       if (!data.pagamento) {
         e.pagamento = "Selecione uma forma de pagamento.";
       }
     }
 
-    //Step 13 - Comprovante
     if (stepId === 13) {
       if (!data.comprovante) {
         e.comprovante = "Envie o print ou imagem do seu pagamento.";
       }
     }
 
-    //Step 14 - LGPD
     if (stepId === 14) {
       if (!data.lgpdOk) {
         e.lgpdOk = "Você precisa concordar para continuar.";
       }
     }
+
     return e;
   }
 
@@ -316,7 +302,6 @@ export default function InscricaoPopup({
         return;
       }
 
-      // 1) upload no Blob
       const fd = new FormData();
       fd.append("file", data.comprovante);
 
@@ -341,7 +326,6 @@ export default function InscricaoPopup({
 
       const comprovanteUrl = String(upOut.url);
 
-      // 2) envia inscrição (Apps Script via route.ts)
       const payload = {
         nome: data.nome,
         apelido: data.apelido,
@@ -370,7 +354,6 @@ export default function InscricaoPopup({
         pagamento: data.pagamento,
         lgpdOk: data.lgpdOk,
 
-        // ✅ AGORA É URL (NÃO BASE64)
         comprovanteUrl,
         comprovanteType: data.comprovante.type,
         comprovanteName: data.comprovante.name,
@@ -396,7 +379,6 @@ export default function InscricaoPopup({
         return;
       }
 
-      // ✅ sucesso
       setIsSubmitted(true);
       setIsSubmitting(false);
     } catch (err) {
@@ -410,14 +392,13 @@ export default function InscricaoPopup({
     setErrors({});
     setIsSubmitted(false);
     setSubmitError(null);
-    startedRef.current = false; // libera pra próxima inscrição
+    startedRef.current = false;
     onFinish();
   }
-  // Step Final Concluindo e Conclusão...
+
   useEffect(() => {
     if (!open) return;
 
-    // sempre que abrir o popup, reseta flags do submit
     if (step === 1) {
       setIsSubmitting(false);
       setIsSubmitted(false);
@@ -425,14 +406,12 @@ export default function InscricaoPopup({
       startedRef.current = false;
     }
 
-    // ✅ entrou no step 15 -> envia automaticamente 1x
     if (step === 15 && !startedRef.current) {
       startedRef.current = true;
       submitInscricao();
     }
   }, [open, step]);
 
-  //Envio de Comprovante
   useEffect(() => {
     return () => {
       if (data.comprovanteUrl) URL.revokeObjectURL(data.comprovanteUrl);
@@ -440,7 +419,6 @@ export default function InscricaoPopup({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ESC fecha
   useEffect(() => {
     if (!open) return;
 
@@ -457,7 +435,6 @@ export default function InscricaoPopup({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose, step, isSubmitting, isSubmitted]);
 
-  // trava scroll do body
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -467,7 +444,6 @@ export default function InscricaoPopup({
     };
   }, [open]);
 
-  // quando abrir modal, opcionalmente resetar erros
   useEffect(() => {
     if (!open) return;
     setErrors({});
@@ -481,20 +457,21 @@ export default function InscricaoPopup({
     <div
       className={styles.overlay}
       role="presentation"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      /* ✅ REMOVIDO: não fecha mais clicando fora */
     >
       <section
         className={styles.modal}
         role="dialog"
         aria-modal="true"
         aria-label="Inscrição"
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* HEADER fixo (nunca rola) */}
+        {/* HEADER fixo */}
         <header className={styles.header}>
           <div className={styles.headerLeft}>
-            <ProgressBar step={step} total={14} />
+            {/* ✅ total correto = 15 */}
+            <ProgressBar step={step} total={15} />
           </div>
 
           <button
@@ -513,7 +490,7 @@ export default function InscricaoPopup({
           </button>
         </header>
 
-        {/* BODY rolável (se precisar) */}
+        {/* BODY rolável */}
         <div className={styles.body} data-step={step}>
           {step === 1 && <StepBoasVindas />}
 
@@ -600,7 +577,7 @@ export default function InscricaoPopup({
               errCursilho={errors.cursilhoFez}
               onServico={(v) => {
                 setField("servicoMcc", v);
-                setField("cursilhoFez", ""); // limpa a pergunta 2 ao trocar serviço
+                setField("cursilhoFez", "");
               }}
               onCursilho={(v) => setField("cursilhoFez", v)}
               onEnterNext={onEnterNext}
@@ -683,7 +660,7 @@ export default function InscricaoPopup({
           )}
         </div>
 
-        {/* FOOTER fixo (nunca rola) */}
+        {/* FOOTER fixo */}
         <footer
           className={`${styles.footer} ${
             step === 1 || step === 15 ? styles.footerStart : styles.footerNav
@@ -748,17 +725,28 @@ export default function InscricaoPopup({
             </>
           )}
         </footer>
+
+        {/* opcional: se quiser mostrar erro do submit no step 15 */}
+        {submitError && (
+          <div
+            style={{
+              padding: 12,
+              fontFamily: "var(--font-crayon)",
+              color: "#ff0c07",
+            }}
+          >
+            {submitError}
+          </div>
+        )}
       </section>
     </div>
   );
 }
 
 /* =========================
-   BARRA DE ROGRESSO
+   BARRA DE PROGRESSO
 ========================= */
 function ProgressBar({ step, total }: { step: number; total: number }) {
-  // Step 1 = 0% (começou agora)
-  // Step 15 = 100%
   const pct = Math.max(0, Math.min(1, (step - 1) / (total - 1)));
   const width = `${pct * 100}%`;
 
@@ -771,7 +759,6 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
         <div className={styles.progressFill} style={{ width }} />
       </div>
 
-      {/* opcional (se quiser mostrar 2/15 bem pequeno) */}
       {/* <span className={styles.progressText}>{step}/{total}</span> */}
     </div>
   );
@@ -876,7 +863,7 @@ function StepApelido({
         <input
           type="text"
           name="apelido"
-          placeholder="Aquele nome que todo mundo usa quando te chama!"
+          placeholder="Aquele nome que todo mundo te chama!"
           className={styles.input}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -1124,7 +1111,7 @@ type SelectSearchProps = {
   options: string[];
   value: string;
   onChange: (v: string) => void;
-  onEnterNext?: () => void; // ✅ novo
+  onEnterNext?: () => void;
 };
 
 function SelectSearch({
@@ -1204,7 +1191,6 @@ function SelectSearch({
       return;
     }
 
-    // ✅ Enter com dropdown fechado = avançar
     if (!open && e.key === "Enter") {
       e.preventDefault();
       onEnterNext?.();
@@ -1266,7 +1252,9 @@ function SelectSearch({
                 <button
                   type="button"
                   key={opt}
-                  className={`${styles.option} ${idx === activeIndex ? styles.optionActive : ""}`}
+                  className={`${styles.option} ${
+                    idx === activeIndex ? styles.optionActive : ""
+                  }`}
                   data-idx={idx}
                   role="option"
                   aria-selected={idx === activeIndex}

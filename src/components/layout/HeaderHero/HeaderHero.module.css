@@ -5,18 +5,18 @@
 
   /* DEFAULT = 320 */
   --canvas-w: 320px;
-  --canvas-h: 440px;
+  --canvas-h: 470px;
   --scale: 1;
 
   /* CTA vars (coords do canvas) */
-  --cta-w: 138px;
+  --cta-w: 136px;
   --cta-h: 30.2927px;
   --cta-top: 12px;
   --cta-left: 91px;
 
   /* 320 */
   --callout-left: 16px;
-  --callout-top: 55px;
+  --callout-top: 85px;
   --callout-w: 213px;
   --callout-h: 119.7637px;
 
@@ -28,12 +28,12 @@
   --enjc-top: 54px;
 
   --jovens-left: 16px;
-  --jovens-top: 175px;
+  --jovens-top: 215px;
   --jovens-w: 288px;
   --jovens-h: 211.0176px;
 
   --floatTop-left: 180px;
-  --floatTop-top: 66px;
+  --floatTop-top: 96px;
   --floatTop-w: 62px;
   --floatTop-h: 51.4227px;
 
@@ -561,12 +561,42 @@
   }
 
   .floatTopAnim {
-    animation: floatYPopMobile 3s ease-in-out infinite; /* era 1.6s */
+    animation: floatYPopMobile ease-in-out infinite; /* era 1.6s */
     animation-delay: -1s;
   }
 
   .floatBottomAnim {
     animation: floatYPopMobile 2.8s ease-in-out infinite; /* era 1.3s */
     animation-delay: -1.4s;
+  }
+}
+
+/* ✅ CTA maior no mobile (320–641) */
+@media (max-width: 641.98px) {
+  .stage {
+    /* aumenta área clicável */
+    --cta-w: 210px; /* era 136px */
+    --cta-h: 48px; /* era ~30px */
+    --cta-top: 16px; /* opcional: desce um pouco */
+    --cta-left: 55px; /* recentraliza no canvas 320 */
+  }
+
+  /* opcional: mais “tolerante” ao toque */
+  .cta {
+    min-width: 210px;
+    min-height: 48px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* 320 */
+@media (max-width: 641.98px) {
+  .ctaAqui {
+    top: 14px;
+    left: 150px; /* desloca pro novo width */
+    width: 60px;
+    height: 20px;
+    font-size: 28px; /* maior pra não sumir */
   }
 }

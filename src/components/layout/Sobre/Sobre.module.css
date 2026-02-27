@@ -49,7 +49,7 @@
 
   /* Decorações (esq) */
   --uv-left: 20px;
-  --uv-top: 135px;
+  --uv-top: 100px;
   --uv-w: 120.565px;
   --uv-h: 126.6337px;
   --uv-rot: 0deg;
@@ -164,7 +164,7 @@
     --body-lh: 23.6067px;
 
     --uv-left: 20px;
-    --uv-top: 240px;
+    --uv-top: 180px;
     --uv-w: 186.6555px;
     --uv-h: 196.0509px;
     --uv-rot: -0deg;
@@ -280,7 +280,7 @@
     --body-lh: 25px;
 
     --uv-left: 66px;
-    --uv-top: 400px;
+    --uv-top: 330px;
     --uv-w: 216.8916px;
     --uv-h: 227.8089px;
     --uv-rot: 0deg;
@@ -396,7 +396,7 @@
     --body-lh: 25px;
 
     --uv-left: 100px;
-    --uv-top: 415px;
+    --uv-top: 305px;
     --uv-w: 226px;
     --uv-h: 327px;
     --uv-rot: 0deg;

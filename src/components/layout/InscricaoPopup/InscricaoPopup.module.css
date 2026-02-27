@@ -1104,3 +1104,118 @@
     font-size: 16px;
   }
 }
+
+/* ✅ MOBILE FULLSCREEN (100% tela) */
+@media (max-width: 641.98px) {
+  .overlay {
+    padding: 0; /* sem bordas */
+    overflow: hidden;
+  }
+
+  .modal {
+    width: 100%;
+    height: 100dvh; /* melhor no mobile (iOS/Android) */
+    max-height: none; /* remove limite anterior */
+    border-radius: 0; /* full mesmo */
+  }
+
+  /* respiros menores pra caber melhor */
+  .header {
+    padding: 12px 12px 0 12px;
+  }
+
+  .body {
+    padding: 12px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; /* evita “puxar” o fundo */
+  }
+
+  .footer {
+    padding: 0 12px 12px 12px;
+  }
+}
+
+/* =========================
+   MOBILE FULL AJUSTES
+========================= */
+@media (max-width: 641.98px) {
+  /* TITULOS */
+  .title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .formTitle {
+    font-size: 27px;
+    line-height: 1.25;
+  }
+
+  /* RESPOSTAS / TEXTOS */
+  .answer {
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  .helper {
+    font-size: 13px;
+  }
+
+  .error {
+    font-size: 13px;
+  }
+
+  /* INPUTS */
+  .input,
+  .inputDate {
+    font-size: 20px; /* evita zoom automático iOS */
+    padding: 12px 14px;
+  }
+
+  /* BOTÃO PRINCIPAL */
+  .primaryBtn {
+    height: 62px;
+    width: 180px;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+
+  .primaryText {
+    font-size: 20px;
+  }
+
+  /* BOTÕES SETAS */
+  .navBtnLeft,
+  .navBtnRight {
+    width: 54px;
+    height: 54px;
+  }
+
+  /* se as setas ficarem pequenas */
+  .navBtnLeft img,
+  .navBtnRight img {
+    width: 70%;
+    height: 70%;
+  }
+
+  /* PROGRESSO */
+  .progressTrack {
+    width: 90px;
+    height: 10px;
+  }
+
+  /* FECHAR */
+  .closeBtn {
+    width: 30px;
+    height: 27px;
+  }
+
+  /* GRID DA BOAS VINDAS */
+  .step1Grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .step1Image {
+    height: 180px;
+  }
+}

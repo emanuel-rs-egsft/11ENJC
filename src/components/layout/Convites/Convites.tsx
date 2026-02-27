@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Convites.module.css";
 
 import SeLigaNessesHandwrite from "@/components/ui/Convites/SeLigaNesses";
@@ -22,7 +22,7 @@ export default function Convites() {
   const slides: Depoimento[] = useMemo(
     () => [
       {
-        id: "daiana-1",
+        id: "milla",
         texto:
           "Se você vive o Cursilho, o ENJC é pra você. Queremos te encontrar, ouvir tua história e fortalecer juntos a nossa missão como jovens cursilhistas.”",
         nome: "Milla Munique",
@@ -30,7 +30,7 @@ export default function Convites() {
         fotoSrc: "/assets/convites/milla.png",
       },
       {
-        id: "daiana-1",
+        id: "ellen",
         texto:
           "É tempo de nos encontrarmos como irmãos, partilharmos nossa caminhada e fortalecermos juntos a missão que o Cursilho nos confia.”",
         nome: "Ellen Cristina Martins",
@@ -38,7 +38,7 @@ export default function Convites() {
         fotoSrc: "/assets/convites/ellen.png",
       },
       {
-        id: "daiana-1",
+        id: "davyd",
         texto:
           "O ENJC é um abraço que reúne jovens de todo o Brasil. É tempo de escuta, partilha e renovação da fé. Vem viver esse encontro conosco, porque tua presença faz diferença.”",
         nome: "Davyd Alisson",
@@ -46,7 +46,7 @@ export default function Convites() {
         fotoSrc: "/assets/convites/davyd.png",
       },
       {
-        id: "daiana-1",
+        id: "lenisse",
         texto:
           "O ENJC é um convite a estar junto, a partilhar a caminhada e a fortalecer a amizade que nos une no Cursilho.”",
         nome: "Lenisse Aquino",
@@ -54,7 +54,7 @@ export default function Convites() {
         fotoSrc: "/assets/convites/lenisse.png",
       },
       {
-        id: "daiana-1",
+        id: "daiana",
         texto:
           "O ENJC é um abraço que reúne jovens de todo o Brasil. É tempo de escuta, partilha e renovação da fé.”",
         nome: "Daiana Cristina Buzo",
@@ -72,16 +72,29 @@ export default function Convites() {
 
   // drag real (arrasta seguindo o mouse/dedo)
   const [dragX, setDragX] = useState(0);
-
   const [isDragging, setIsDragging] = useState(false);
   const dragXRef = useRef(0);
 
   const boxRef = useRef<HTMLDivElement | null>(null);
+
+  // Pointer drag state
   const dragRef = useRef({
     startX: 0,
+    startY: 0,
     isDown: false,
     width: 1,
     pointerId: -1,
+    locked: false,
+    lockDir: "" as "" | "x" | "y",
+  });
+
+  // Touch fallback state (iOS / webview)
+  const touchRef = useRef({
+    startX: 0,
+    startY: 0,
+    isDown: false,
+    locked: false,
+    lockDir: "" as "" | "x" | "y",
   });
 
   const goTo = (i: number) => {
@@ -97,11 +110,11 @@ export default function Convites() {
     if (total <= 1) return;
     if (isPaused) return;
 
-    const t = setInterval(() => {
+    const t = window.setInterval(() => {
       setIndex((i) => (i + 1) % total);
     }, 6500);
 
-    return () => clearInterval(t);
+    return () => window.clearInterval(t);
   }, [total, isPaused]);
 
   // teclado (← →)
@@ -120,25 +133,39 @@ export default function Convites() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, total]);
 
-  // ✅ NOVO: se clicou em um botão (seta/dot), não inicia drag
+  // ✅ se clicou em um botão (seta/dot), não inicia drag
   const isUIControl = (target: EventTarget | null) => {
     if (!(target instanceof HTMLElement)) return false;
     return Boolean(target.closest("button"));
   };
 
+  /* ==========================
+     POINTER EVENTS (desktop + android)
+  ========================== */
   const onPointerDown = (e: React.PointerEvent) => {
     if (isUIControl(e.target)) return;
     if (total <= 1) return;
 
+    // ✅ impede o browser de iniciar scroll/seleção no gesto
+    e.preventDefault();
+
     const el = boxRef.current;
     if (!el) return;
 
-    el.setPointerCapture(e.pointerId);
+    // mede width para threshold/limit
+    dragRef.current.width = el.getBoundingClientRect().width || 1;
+
+    // capture
+    try {
+      el.setPointerCapture(e.pointerId);
+    } catch {}
 
     dragRef.current.isDown = true;
     dragRef.current.startX = e.clientX;
-    dragRef.current.width = el.getBoundingClientRect().width || 1;
+    dragRef.current.startY = e.clientY;
     dragRef.current.pointerId = e.pointerId;
+    dragRef.current.locked = false;
+    dragRef.current.lockDir = "";
 
     setIsPaused(true);
     setIsDragging(true);
@@ -150,16 +177,31 @@ export default function Convites() {
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragRef.current.isDown) return;
 
-    const dx = e.clientX - dragRef.current.startX;
+    const dxRaw = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+
+    // ✅ trava direção quando o gesto "se decide"
+    if (!dragRef.current.locked) {
+      if (Math.abs(dxRaw) > 6 || Math.abs(dy) > 6) {
+        dragRef.current.locked = true;
+        dragRef.current.lockDir = Math.abs(dxRaw) > Math.abs(dy) ? "x" : "y";
+      }
+    }
+
+    // ✅ se virou scroll vertical, não atrapalha
+    if (dragRef.current.lockDir === "y") return;
+
+    // ✅ swipe horizontal
+    e.preventDefault();
 
     const limit = dragRef.current.width * 0.35;
-    const clamped = Math.max(-limit, Math.min(limit, dx));
+    const clamped = Math.max(-limit, Math.min(limit, dxRaw));
 
     dragXRef.current = clamped;
     setDragX(clamped);
   };
 
-  const finishDrag = () => {
+  const finishPointerDrag = () => {
     if (!dragRef.current.isDown) return;
 
     const el = boxRef.current;
@@ -182,13 +224,92 @@ export default function Convites() {
     if (dx <= -threshold) goNext();
     else if (dx >= threshold) goPrev();
 
-    setTimeout(() => setIsPaused(false), 1200);
+    window.setTimeout(() => setIsPaused(false), 1200);
   };
-  const onPointerUp = () => finishDrag();
-  const onPointerCancel = () => finishDrag();
+
+  const onPointerUp = () => finishPointerDrag();
+  const onPointerCancel = () => finishPointerDrag();
   const onPointerLeave = () => {
-    if (dragRef.current.isDown) finishDrag();
+    if (dragRef.current.isDown) finishPointerDrag();
   };
+
+  /* ==========================
+     TOUCH FALLBACK (iOS / webview)
+  ========================== */
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (total <= 1) return;
+    if (isUIControl(e.target)) return;
+
+    const t = e.touches[0];
+    if (!t) return;
+
+    // mede width para threshold/limit
+    const w = boxRef.current?.getBoundingClientRect().width || 1;
+    dragRef.current.width = w;
+
+    touchRef.current.isDown = true;
+    touchRef.current.startX = t.clientX;
+    touchRef.current.startY = t.clientY;
+    touchRef.current.locked = false;
+    touchRef.current.lockDir = "";
+
+    setIsPaused(true);
+    setIsDragging(true);
+    dragXRef.current = 0;
+    setDragX(0);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!touchRef.current.isDown) return;
+
+    const t = e.touches[0];
+    if (!t) return;
+
+    const dxRaw = t.clientX - touchRef.current.startX;
+    const dy = t.clientY - touchRef.current.startY;
+
+    if (!touchRef.current.locked) {
+      if (Math.abs(dxRaw) > 6 || Math.abs(dy) > 6) {
+        touchRef.current.locked = true;
+        touchRef.current.lockDir = Math.abs(dxRaw) > Math.abs(dy) ? "x" : "y";
+      }
+    }
+
+    // scroll vertical: deixa a página rolar
+    if (touchRef.current.lockDir === "y") return;
+
+    // swipe horizontal: impede scroll
+    e.preventDefault();
+
+    const w = dragRef.current.width || 1;
+    const limit = w * 0.35;
+    const clamped = Math.max(-limit, Math.min(limit, dxRaw));
+
+    dragXRef.current = clamped;
+    setDragX(clamped);
+  };
+
+  const finishTouchDrag = () => {
+    if (!touchRef.current.isDown) return;
+    touchRef.current.isDown = false;
+
+    setIsDragging(false);
+
+    const w = dragRef.current.width || 1;
+    const threshold = w * 0.18;
+    const dx = dragXRef.current;
+
+    dragXRef.current = 0;
+    setDragX(0);
+
+    if (dx <= -threshold) goNext();
+    else if (dx >= threshold) goPrev();
+
+    window.setTimeout(() => setIsPaused(false), 1200);
+  };
+
+  const onTouchEnd = () => finishTouchDrag();
+  const onTouchCancel = () => finishTouchDrag();
 
   return (
     <section
@@ -242,7 +363,6 @@ export default function Convites() {
         </div>
 
         {/* Decorações */}
-        {/*UNDERLINE VERDE*/}
         <div
           className={`${styles.underlineVerde} float-soft`}
           style={
@@ -262,7 +382,6 @@ export default function Convites() {
           />
         </div>
 
-        {/*LINHA ROXA*/}
         <div
           className={`${styles.linhaRoxa} float-pop`}
           style={
@@ -282,7 +401,6 @@ export default function Convites() {
           />
         </div>
 
-        {/*SETA ROSA*/}
         <div
           className={`${styles.setaRosa} float-pop`}
           style={
@@ -330,12 +448,16 @@ export default function Convites() {
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerCancel}
             onPointerLeave={onPointerLeave}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchCancel}
           >
             {/* Setas */}
             <button
               type="button"
               className={styles.btnPrev}
-              onPointerDown={(e) => e.stopPropagation()} // ✅ NOVO
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={goPrev}
               aria-label="Depoimento anterior"
               disabled={total <= 1}
@@ -351,7 +473,7 @@ export default function Convites() {
             <button
               type="button"
               className={styles.btnNext}
-              onPointerDown={(e) => e.stopPropagation()} // ✅ NOVO
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={goNext}
               aria-label="Próximo depoimento"
               disabled={total <= 1}
@@ -375,7 +497,9 @@ export default function Convites() {
               {slides.map((s, i) => (
                 <div
                   key={s.id}
-                  className={`${styles.slide} ${i === index ? styles.slideActive : ""}`}
+                  className={`${styles.slide} ${
+                    i === index ? styles.slideActive : ""
+                  }`}
                 >
                   <div className={styles.depoimento}>
                     <div className={styles.aspas} aria-hidden="true">
@@ -411,10 +535,10 @@ export default function Convites() {
             <div className={styles.dots} aria-label="Quantidade de slides">
               {slides.map((s, i) => (
                 <button
-                  key={s.id}
+                  key={`${s.id}-dot`}
                   type="button"
                   className={`${styles.dot} ${i === index ? styles.dotActive : ""}`}
-                  onPointerDown={(e) => e.stopPropagation()} // ✅ NOVO
+                  onPointerDown={(e) => e.stopPropagation()}
                   onClick={() => goTo(i)}
                   aria-label={`Ir para depoimento ${i + 1}`}
                 />
