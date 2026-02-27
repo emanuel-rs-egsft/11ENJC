@@ -1219,3 +1219,140 @@
     height: 180px;
   }
 }
+
+/* =========================
+   PAGAMENTO (steps 12.1 / 12.2)
+========================= */
+
+.payCard {
+  width: 100%;
+  border-radius: 18px;
+  padding: 14px 14px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.payRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap; /* ✅ permite quebrar linha */
+}
+
+.payTitle {
+  font-family: var(--font-luckiest);
+  font-size: 18px;
+  line-height: 1;
+  color: #8d48ef;
+}
+
+.payBtn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(154, 111, 224, 0.7);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-family: var(--font-crayon);
+  font-size: 16px;
+  color: #8d48ef;
+  transition: transform 120ms ease;
+}
+
+.payBtn:hover {
+  transform: translateY(-1px);
+}
+
+.payBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pixCode {
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  border-radius: 14px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 14px;
+  background: #ffffff;
+
+  font-family: var(--font-crayon);
+  font-size: 16px;
+  color: #00a0ff;
+  outline: none;
+
+  word-break: break-all; /* ✅ quebra o texto longo */
+  overflow-wrap: anywhere; /* ✅ garante quebra */
+}
+
+.pixCode:focus {
+  border-color: #ffc300;
+  box-shadow: 0 0 0 4px rgba(255, 195, 0, 0.18);
+}
+
+.qrWrap {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 12px;
+}
+
+.qrImg {
+  width: min(260px, 100%);
+  height: auto;
+  max-height: 38vh; /* ✅ evita estourar no mobile */
+  display: block;
+}
+
+@media (max-width: 641.98px) {
+  .qrImg {
+    width: min(220px, 100%);
+    max-height: 32vh;
+  }
+}
+
+.pagbankLink {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagbankImg {
+  width: 305px;
+  /*height: 30px;*/
+  display: block;
+}
+
+/* mobile */
+@media (max-width: 641.98px) {
+  .payTitle {
+    font-size: 15px;
+  }
+  .payBtn {
+    height: 34px;
+    font-size: 14px;
+    padding: 0 12px;
+    width: 100%; /* ✅ botão vira linha inteira */
+    justify-content: center;
+  }
+  .pixCode {
+    min-height: 96px; /* ✅ menor no mobile */
+    font-size: 14px; /* ✅ cabe melhor */
+  }
+  .pagbankImg {
+    width: 240px;
+    height: auto;
+  }
+}

@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./InscricaoPopup.module.css";
+import QRCode from "qrcode";
+
+import type React from "react";
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -13,7 +16,24 @@ function fileToBase64(file: File): Promise<string> {
   });
 }
 
-type StepId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
+type StepId =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 121 // ✅ 12.1 Pix
+  | 122 // ✅ 12.2 Cartão
+  | 13
+  | 14
+  | 15;
 
 type Props = {
   open: boolean;
@@ -23,6 +43,8 @@ type Props = {
   onFinish: () => void; // ✅
   onNext: () => void;
   onBack?: () => void;
+
+  onPagamentoChange?: (v: "" | "Pix ⚡" | "Cartão 💳") => void; // ✅ NOVO
 };
 
 type FormData = {
@@ -96,8 +118,35 @@ const initialData: FormData = {
   lgpdOk: false,
 };
 
+const PAGBANK_BUTTON_URL = "https://pag.ae/81xXbK1Qv/button";
+
+// Se você tiver “copia e cola” do Pix, coloca aqui:
+const PIX_COPIA_E_COLA = ""; // ex: "00020126...."
+
+// Se você tiver uma imagem do QR do Pix (URL pública), coloca aqui:
+const PIX_QR_IMAGE_URL = ""; // ex: "https://seusite.com/qr-pix.png"
+
 function cleanDigits(s: string) {
   return (s || "").replace(/\D/g, "");
+}
+
+//VALIDACAO WHATSAAP
+function formatWhatsapp(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+
+  if (digits.length <= 2) {
+    return digits.replace(/^(\d{0,2})/, "($1");
+  }
+
+  if (digits.length <= 3) {
+    return digits.replace(/^(\d{2})(\d{0,1})/, "($1) $2");
+  }
+
+  if (digits.length <= 7) {
+    return digits.replace(/^(\d{2})(\d{1})(\d{0,4})/, "($1) $2 $3");
+  }
+
+  return digits.replace(/^(\d{2})(\d{1})(\d{4})(\d{0,4}).*/, "($1) $2 $3-$4");
 }
 
 function isValidEmail(s: string) {
@@ -116,6 +165,84 @@ function isValidBirthDate(iso: string) {
   return d <= today;
 }
 
+function onlyAsciiUpper(s: string) {
+  return (s || "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\x20-\x7E]/g, "")
+    .toUpperCase()
+    .trim();
+}
+
+function pad2(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+function emv(id: string, value: string) {
+  const v = String(value ?? "");
+  return `${id}${pad2(v.length)}${v}`;
+}
+
+// CRC16-CCITT (FALSE)
+function crc16CCITT(payload: string) {
+  let crc = 0xffff;
+  for (let i = 0; i < payload.length; i++) {
+    crc ^= payload.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      crc = crc & 0x8000 ? (crc << 1) ^ 0x1021 : crc << 1;
+      crc &= 0xffff;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+function gerarPixCopiaECola({
+  chave,
+  nomeRecebedor,
+  cidadeRecebedor,
+  valor,
+  txid = "ENJC11",
+}: {
+  chave: string;
+  nomeRecebedor: string;
+  cidadeRecebedor: string;
+  valor: number;
+  txid?: string;
+}) {
+  const nome = onlyAsciiUpper(nomeRecebedor).slice(0, 25);
+  const cidade = onlyAsciiUpper(cidadeRecebedor).slice(0, 15);
+  const v = Number(valor).toFixed(2); // "750.00"
+
+  const gui = emv("00", "BR.GOV.BCB.PIX");
+  const key = emv("01", chave);
+  const mai26 = emv("26", `${gui}${key}`);
+
+  const add62 = emv("62", emv("05", txid.slice(0, 25)));
+
+  const payloadSemCrc =
+    emv("00", "01") +
+    emv("01", "11") + // ✅ estático
+    mai26 +
+    emv("52", "0000") +
+    emv("53", "986") +
+    emv("54", v) +
+    emv("58", "BR") +
+    emv("59", nome) +
+    emv("60", cidade) +
+    add62 +
+    "6304";
+
+  const crc = crc16CCITT(payloadSemCrc);
+
+  const chaveLimpa = cleanDigits(chave);
+
+  if (chaveLimpa.length !== 14) {
+    throw new Error("Chave Pix CNPJ precisa ter 14 dígitos.");
+  }
+
+  return `${payloadSemCrc}${crc}`;
+}
+
 export default function InscricaoPopup({
   open,
   step,
@@ -123,6 +250,7 @@ export default function InscricaoPopup({
   onFinish,
   onNext,
   onBack,
+  onPagamentoChange,
 }: Props) {
   const [data, setData] = useState<FormData>(initialData);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -160,8 +288,9 @@ export default function InscricaoPopup({
 
     if (stepId === 5) {
       const digits = cleanDigits(data.whatsapp);
-      if (!(digits.length === 10 || digits.length === 11)) {
-        e.whatsapp = "Digite um WhatsApp com DDD (ex: 51999999999).";
+
+      if (digits.length !== 11) {
+        e.whatsapp = "Digite um WhatsApp válido no formato (55) 9 0000-0000.";
       }
     }
 
@@ -247,6 +376,11 @@ export default function InscricaoPopup({
       }
     }
 
+    // ✅ novo: 121 e 122 não bloqueiam
+    if (stepId === 121 || stepId === 122) {
+      // sem validação — o próximo passo é enviar comprovante
+    }
+
     if (stepId === 13) {
       if (!data.comprovante) {
         e.comprovante = "Envie o print ou imagem do seu pagamento.";
@@ -265,6 +399,10 @@ export default function InscricaoPopup({
   function canGoNext(stepId: StepId) {
     if (stepId === 1) return true;
     if (stepId === 15) return true;
+
+    // ✅ novos steps não exigem validação: só conteúdo / instrução
+    if (stepId === 121 || stepId === 122) return true;
+
     return Object.keys(validateStep(stepId)).length === 0;
   }
 
@@ -422,7 +560,7 @@ export default function InscricaoPopup({
   useEffect(() => {
     if (!open) return;
 
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") onClose();
 
       if (e.key === "Enter" && step === 15) {
@@ -449,6 +587,43 @@ export default function InscricaoPopup({
     setErrors({});
   }, [open, step]);
 
+  // ✅ PIX (Hooks SEMPRE antes do return)
+  const PIX_KEY = cleanDigits("62.641.147/0001-18"); // 62641147000118
+
+  const pixCopiaEColaGerado = useMemo(() => {
+    return gerarPixCopiaECola({
+      chave: PIX_KEY,
+      valor: 750,
+      nomeRecebedor: "GEN MCC BRASIL",
+      cidadeRecebedor: "SAO PAULO",
+      txid: "ENJC11",
+    });
+  }, []);
+
+  const [pixQrDataUrl, setPixQrDataUrl] = useState("");
+
+  useEffect(() => {
+    // ✅ só gera QR quando o modal está aberto (mas o hook existe sempre)
+    if (!open) {
+      setPixQrDataUrl("");
+      return;
+    }
+
+    let alive = true;
+
+    QRCode.toDataURL(pixCopiaEColaGerado, { width: 320, margin: 1 })
+      .then((url) => {
+        if (alive) setPixQrDataUrl(url);
+      })
+      .catch(() => {
+        if (alive) setPixQrDataUrl("");
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, [open, pixCopiaEColaGerado]);
+
   if (!open) return null;
 
   const nextDisabled = !canGoNext(step);
@@ -471,7 +646,10 @@ export default function InscricaoPopup({
         <header className={styles.header}>
           <div className={styles.headerLeft}>
             {/* ✅ total correto = 15 */}
-            <ProgressBar step={step} total={15} />
+            <ProgressBar
+              step={step === 121 || step === 122 ? 12.5 : step}
+              total={15}
+            />
           </div>
 
           <button
@@ -493,7 +671,6 @@ export default function InscricaoPopup({
         {/* BODY rolável */}
         <div className={styles.body} data-step={step}>
           {step === 1 && <StepBoasVindas />}
-
           {step === 2 && (
             <StepNome
               value={data.nome}
@@ -502,7 +679,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 3 && (
             <StepApelido
               value={data.apelido}
@@ -511,7 +687,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 4 && (
             <StepNascimento
               apelido={data.apelido || "meu amigo(a)"}
@@ -521,16 +696,14 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 5 && (
             <StepWhatsapp
               value={data.whatsapp}
               error={errors.whatsapp}
-              onChange={(v) => setField("whatsapp", v)}
+              onChange={(v) => setField("whatsapp", formatWhatsapp(v))}
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 6 && (
             <StepEmail
               value={data.email}
@@ -539,7 +712,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 7 && (
             <StepEndereco
               data={data}
@@ -548,7 +720,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 8 && (
             <StepMccRelacao
               macro={data.macro}
@@ -566,7 +737,6 @@ export default function InscricaoPopup({
               onGed={(v) => setField("ged", v)}
             />
           )}
-
           {step === 9 && (
             <StepServicoMcc
               apelido={data.apelido || "meu amigo(a)"}
@@ -583,7 +753,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 10 && (
             <StepAlergiaRestricao
               alergiaTem={data.alergiaTem}
@@ -609,7 +778,6 @@ export default function InscricaoPopup({
               onEnterNext={onEnterNext}
             />
           )}
-
           {step === 11 && (
             <StepCamiseta
               value={data.camiseta}
@@ -618,17 +786,32 @@ export default function InscricaoPopup({
               onEnterNextAttempt={attemptNext}
             />
           )}
-
           {step === 12 && (
             <StepPagamento
               nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
               value={data.pagamento}
               error={errors.pagamento}
-              onChange={(v) => setField("pagamento", v as any)}
+              onChange={(v) => {
+                setField("pagamento", v as any);
+                onPagamentoChange?.(v as any); // ✅ avisa o pai
+              }}
               onEnterNextAttempt={attemptNext}
             />
           )}
-
+          {step === 121 && (
+            <StepPagamentoPix
+              nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
+              pixCopiaECola={pixCopiaEColaGerado}
+              qrUrl={pixQrDataUrl}
+              pagbankUrl={PAGBANK_BUTTON_URL}
+            />
+          )}
+          {step === 122 && (
+            <StepPagamentoCartao
+              nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
+              pagbankUrl={PAGBANK_BUTTON_URL}
+            />
+          )}
           {step === 13 && (
             <StepComprovante
               nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
@@ -642,7 +825,6 @@ export default function InscricaoPopup({
               onEnterNextAttempt={attemptNext}
             />
           )}
-
           {step === 14 && (
             <StepLgpd
               checked={data.lgpdOk}
@@ -651,7 +833,6 @@ export default function InscricaoPopup({
               onEnterNextAttempt={attemptNext}
             />
           )}
-
           {step === 15 && (
             <StepEncerramento
               nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
@@ -750,16 +931,16 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
   const pct = Math.max(0, Math.min(1, (step - 1) / (total - 1)));
   const width = `${pct * 100}%`;
 
+  const stepLabel = Math.min(total, Math.max(1, Math.ceil(step)));
+
   return (
     <div
       className={styles.progressWrap}
-      aria-label={`Progresso: ${step} de ${total}`}
+      aria-label={`Progresso: ${stepLabel} de ${total}`}
     >
       <div className={styles.progressTrack} aria-hidden="true">
         <div className={styles.progressFill} style={{ width }} />
       </div>
-
-      {/* <span className={styles.progressText}>{step}/{total}</span> */}
     </div>
   );
 }
@@ -942,7 +1123,7 @@ function StepWhatsapp({
         <input
           type="tel"
           name="whatsapp"
-          placeholder="(51) 99999-9999"
+          placeholder="(55) 9 0000-0000"
           className={styles.input}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -1852,6 +2033,157 @@ function StepPagamento({
           onEnterNext={onEnterNextAttempt} // Enter avança
         />
         {error && <p className={styles.error}>{error}</p>}
+      </div>
+    </div>
+  );
+}
+
+/* =========================
+   STEP 12.1 12.2 — Tranferencia
+========================= */
+function StepPagamentoPix({
+  nome,
+  pixCopiaECola,
+  qrUrl,
+  pagbankUrl,
+}: {
+  nome: string;
+  pixCopiaECola: string;
+  qrUrl: string;
+  pagbankUrl: string;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  async function copyPix() {
+    if (!pixCopiaECola) return;
+    try {
+      await navigator.clipboard.writeText(pixCopiaECola);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      // fallback: seleciona o texto (quando clipboard falhar)
+      const el = document.getElementById(
+        "pix-code",
+      ) as HTMLTextAreaElement | null;
+      el?.select();
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    }
+  }
+
+  return (
+    <div className={styles.stepForm}>
+      <h2 className={styles.formTitle}>
+        Fechou, {nome}! ⚡
+        <br />
+        Bora pagar no Pix rapidinho?
+      </h2>
+
+      {/* Card do Pix */}
+      <div className={styles.payCard}>
+        <div className={styles.payRow}>
+          <div className={styles.payTitle}>Pix “copia e cola”</div>
+
+          <button
+            type="button"
+            className={styles.payBtn}
+            onClick={copyPix}
+            disabled={!pixCopiaECola}
+            aria-label="Copiar código Pix"
+          >
+            {copied ? "Copiado! ✅" : "Copiar código"}
+          </button>
+        </div>
+
+        <textarea
+          id="pix-code"
+          className={styles.pixCode}
+          value={pixCopiaECola || "62.641.147/0001-18"}
+          readOnly
+        />
+        <p className={styles.helper}>
+          Depois de pagar, volta aqui e envia o comprovante no próximo passo
+          🙏💛
+        </p>
+      </div>
+
+      {/* QR Code */}
+      <div className={styles.payCard}>
+        <div className={styles.payTitle}>Ou lê o QR Code</div>
+
+        {qrUrl ? (
+          <div className={styles.qrWrap}>
+            {/* usando <img> pra aceitar URL externa sem configurar next/image */}
+            <img src={qrUrl} alt="QR Code do Pix" className={styles.qrImg} />
+          </div>
+        ) : (
+          <p className={styles.helper}>
+            ⚠️ Se você tiver o QR em imagem/URL, coloque em{" "}
+            <b>PIX_QR_IMAGE_URL</b>.
+            <br />
+            Por enquanto, use o botão PagBank abaixo.
+          </p>
+        )}
+
+        <a
+          href={pagbankUrl}
+          target="_blank"
+          rel="noreferrer"
+          className={styles.pagbankLink}
+          title="Pagar com PagBank"
+        >
+          <img
+            src="https://assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif"
+            alt="Pague com PagBank - é rápido, grátis e seguro!"
+            className={styles.pagbankImg}
+          />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function StepPagamentoCartao({
+  nome,
+  pagbankUrl,
+}: {
+  nome: string;
+  pagbankUrl: string;
+}) {
+  return (
+    <div className={styles.stepForm}>
+      <h2 className={styles.formTitle}>
+        Certo, {nome}!
+        <br />
+        Vamos pro cartão com segurança!
+      </h2>
+
+      <p className={styles.answer}>
+        Ao clicar abaixo, você abre o checkout do PagBank para inserir os dados
+        do cartão.
+        <br />
+        Depois é só voltar aqui e enviar o comprovante no próximo passo 🙏💛
+      </p>
+
+      <div className={styles.payCard}>
+        <a
+          href={pagbankUrl}
+          target="_blank"
+          rel="noreferrer"
+          className={styles.pagbankLink}
+          title="Pagar com PagBank"
+        >
+          <img
+            src="https://assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif"
+            alt="Pague com PagBank - é rápido, grátis e seguro!"
+            className={styles.pagbankImg}
+          />
+        </a>
+
+        <p className={styles.helper}>
+          Dica: se você estiver no celular, o PagBank pode abrir no
+          app/navegador. Finaliza o pagamento e retorna pro pop-up.
+        </p>
       </div>
     </div>
   );

@@ -17,6 +17,9 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<number>(1);
 
+  // ✅ NOVO: guarda a escolha do pagamento
+  const [pagamento, setPagamento] = useState<"" | "Pix ⚡" | "Cartão 💳">("");
+
   const openModal = () => {
     setStep(1);
     setOpen(true);
@@ -24,8 +27,21 @@ export default function Home() {
 
   const closeModal = () => setOpen(false);
 
-  const next = () => setStep((s) => (s < 16 ? s + 1 : s));
-  const back = () => setStep((s) => (s > 1 ? s - 1 : s));
+  const next = () =>
+    setStep((s) => {
+      if (s === 12) return pagamento === "Pix ⚡" ? 121 : 122;
+      if (s === 121 || s === 122) return 13;
+      if (s < 15) return s + 1;
+      return s;
+    });
+
+  const back = () =>
+    setStep((s) => {
+      if (s === 13) return pagamento === "Pix ⚡" ? 121 : 122;
+      if (s === 121 || s === 122) return 12;
+      if (s > 1) return s - 1;
+      return s;
+    });
 
   return (
     <main>
@@ -51,9 +67,11 @@ export default function Home() {
         onFinish={() => {
           setOpen(false);
           setStep(1);
+          setPagamento(""); // ✅ reseta também
         }}
         onNext={next}
         onBack={step > 1 ? back : undefined}
+        onPagamentoChange={setPagamento} // ✅ AQUI
       />
     </main>
   );

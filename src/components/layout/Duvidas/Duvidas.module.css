@@ -55,8 +55,8 @@
 
   /* Rodapé */
   --rodape-w: 288px;
-  --rodape-h: 56px;
-  --rodape-radius: 6px;
+  --rodape-h: 90px;
+  --rodape-radius: 12px;
 
   --logos-w: 139px;
   --logos-h: 22px;
@@ -69,8 +69,8 @@
   --logo-enjc-left: 98px;
   --logo-enjc-top: 0.3px;
 
-  --c1-size: 6.5px;
-  --c2-size: 6.5px;
+  --c1-size: 8.5px;
+  --c2-size: 8.5px;
 
   /* Decorações */
   --ua-left: 25px;
@@ -441,7 +441,7 @@
   font-family: var(--font-luckiest) !important;
   font-weight: 400;
   font-size: var(--texto-size);
-  line-height: 10;
+  line-height: 1;
 
   background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
   -webkit-background-clip: text;
@@ -587,17 +587,10 @@
   border-radius: 0;
 }
 
-/* =========================
-   ✅ 1025–1439: remove “espaço fantasma” do scale usando zoom
-========================= */
-@supports (zoom: 1) {
-  .canvas {
-    left: 0;
-    transform: none;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    zoom: var(--scale);
-  }
+.bg,
+.underlineAmarelo,
+.setaRoxa,
+.duvidasWord,
+.frequentesWord {
+  pointer-events: none;
 }
