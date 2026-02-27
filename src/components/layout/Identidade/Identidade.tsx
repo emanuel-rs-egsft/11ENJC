@@ -140,7 +140,7 @@ export default function Identidade() {
             {/*SETA MAPA BRASIL;*/}
             <div className={styles.itemSeta} aria-hidden="true">
               <SetaMapaBrasilDrawn
-                className={styles.contain}
+                className={styles.svgFill}
                 drawDelay={0.25}
                 drawDuration={1.2}
                 strokeWidth={1}
@@ -163,7 +163,7 @@ export default function Identidade() {
             {/*SETA SILHUETAS;*/}
             <div className={styles.itemSeta} aria-hidden="true">
               <SetaSilhuetasDrawn
-                className={styles.contain}
+                className={styles.svgFill}
                 drawDelay={0.25}
                 drawDuration={1.2}
                 strokeWidth={1}
@@ -184,7 +184,7 @@ export default function Identidade() {
             {/*SETA MCC;*/}
             <div className={styles.itemSeta} aria-hidden="true">
               <SetaMCCDrawn
-                className={styles.contain}
+                className={styles.svgFill}
                 drawDelay={0.25}
                 drawDuration={1.2}
                 strokeWidth={1}
@@ -205,7 +205,7 @@ export default function Identidade() {
             {/*SETA 11;*/}
             <div className={styles.itemSeta} aria-hidden="true">
               <Seta11Drawn
-                className={styles.contain}
+                className={styles.svgFill}
                 drawDelay={0.25}
                 drawDuration={1.2}
                 strokeWidth={1}

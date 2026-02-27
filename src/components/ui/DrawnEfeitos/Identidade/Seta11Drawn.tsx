@@ -1,12 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 
 type Props = {
   className?: string;
   drawDuration?: number;
   drawDelay?: number;
   strokeWidth?: number;
+};
+
+const vp = {
+  once: false,
+  amount: 0.15,
+  margin: "120px 0px 120px 0px",
 };
 
 const D =
@@ -18,12 +24,37 @@ export default function Seta11Drawn({
   drawDelay = 0.25,
   strokeWidth = 3,
 }: Props) {
+  const strokeControls = useAnimationControls();
+
+  const play = () => {
+    // reset
+    strokeControls.set({ pathLength: 0, opacity: 1 });
+
+    // anima
+    strokeControls.start({
+      pathLength: 1,
+      opacity: 1,
+      transition: {
+        duration: drawDuration,
+        delay: drawDelay,
+        ease: [0.65, 0, 0.35, 1],
+      },
+    });
+  };
+
+  const reset = () => {
+    strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
+
   return (
-    <svg
+    <motion.svg
       className={className}
       viewBox="0 0 154 66"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewport={vp}
+      onViewportEnter={play}
+      onViewportLeave={reset}
     >
       <motion.path
         d={D}
@@ -34,14 +65,8 @@ export default function Seta11Drawn({
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 1 }}
-        whileInView={{ pathLength: 1, opacity: 1 }}
-        viewport={{ once: false, amount: 0.6 }}
-        transition={{
-          duration: drawDuration,
-          delay: drawDelay,
-          ease: [0.65, 0, 0.35, 1],
-        }}
+        animate={strokeControls}
       />
-    </svg>
+    </motion.svg>
   );
 }
