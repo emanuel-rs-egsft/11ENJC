@@ -37,9 +37,10 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description,
+  // ...
   openGraph: {
     type: "website",
-    url: "/",
+    url: "https://11-enjc.vercel.app/",
     title: siteTitle,
     description,
     siteName,
