@@ -31,6 +31,7 @@ const description =
   "Inscrições abertas para o 11º ENJC! Um encontro jovem, alegre e cheio de fé. Vem com a gente! 🙏💛";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://11-enjc.vercel.app"),
   // ✅ Quando você tiver o link final (Vercel/domínio), troque aqui:
   // metadataBase: new URL("https://seu-dominio.com"),
   title: {

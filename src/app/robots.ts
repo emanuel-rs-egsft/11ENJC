@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://SEU-DOMINIO-AQUI.com/sitemap.xml",
+    sitemap: "https://11-enjc.vercel.app/sitemap.xml",
   };
 }
