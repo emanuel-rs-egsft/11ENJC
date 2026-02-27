@@ -2442,6 +2442,10 @@ function StepEncerramento({
               Em breve enviaremos mais informações no seu E-mail.
               <br />
               <br />
+              Mas fique atento... se a mensagem não aparecer na caixa principal,
+              vale conferir também outras abas ou o spam.
+              <br />
+              <br />
               Nos vemos lá!
             </p>
           </>
