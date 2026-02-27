@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 
 import HeaderHero from "@/components/layout/HeaderHero/HeaderHero";
