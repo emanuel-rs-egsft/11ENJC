@@ -22,40 +22,37 @@ export default function SetaVermelhaDrawn({
   drawDelay = 0.25,
   strokeWidth = 2,
 }: Props) {
-  const fillDelay = drawDelay + drawDuration + 0.08;
-
   const fillControls = useAnimationControls();
   const strokeControls = useAnimationControls();
 
-  const play = async () => {
-    // reset (garante replay)
+  const reset = () => {
     fillControls.set({ opacity: 0 });
     strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
 
-    // anima
-    strokeControls.start({
+  const play = async () => {
+    reset();
+
+    // 1) desenha stroke (usa drawDuration ✅)
+    await strokeControls.start({
       pathLength: 1,
       transition: {
-        duration: 1.05,
+        duration: drawDuration,
         delay: drawDelay,
         ease: [0.65, 0, 0.35, 1],
       },
     });
 
+    // 2) some stroke + aparece fill
     strokeControls.start({
       opacity: 0,
-      transition: { duration: 0.25, delay: fillDelay, ease: "easeOut" },
+      transition: { duration: 0.25, delay: 0.08, ease: "easeOut" },
     });
 
     fillControls.start({
       opacity: 1,
-      transition: { duration: 0.28, delay: fillDelay, ease: "easeOut" },
+      transition: { duration: 0.28, delay: 0.08, ease: "easeOut" },
     });
-  };
-
-  const reset = () => {
-    fillControls.set({ opacity: 0 });
-    strokeControls.set({ pathLength: 0, opacity: 1 });
   };
 
   return (

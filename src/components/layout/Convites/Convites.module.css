@@ -3,8 +3,9 @@
   width: 100%;
 
   /* ✅ não corta as bolinhas abaixo */
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: visible;
+  overflow-x: hidden; /* fallback */
+  overflow-x: clip; /* melhor que hidden quando disponível */
 
   /* DEFAULT = 320 */
   --canvas-w: 320px;
@@ -520,7 +521,7 @@
   overflow: hidden;
 
   user-select: none;
-  touch-action: pan-y pinch-zoom; /* ✅ mantém scroll vertical e zoom */
+  touch-action: pan-y; /* ✅ mantém scroll vertical e zoom */
 
   cursor: grab;
 
@@ -654,6 +655,7 @@
   background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
@@ -715,6 +717,10 @@
   pointer-events: auto;
 }
 
+.dots > * + * {
+  margin-left: var(--dots-gap);
+}
+
 .dot {
   width: var(--dot-size);
   height: var(--dot-size);
@@ -753,7 +759,7 @@
 /* ✅ MOBILE: swipe horizontal 100% sob controle do carrossel */
 @media (max-width: 641px) {
   .box {
-    touch-action: none;
+    touch-action: pan-y; /* em vez de none */
     -webkit-overflow-scrolling: touch;
   }
 }

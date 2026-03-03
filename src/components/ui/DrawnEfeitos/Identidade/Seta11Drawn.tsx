@@ -26,12 +26,15 @@ export default function Seta11Drawn({
 }: Props) {
   const strokeControls = useAnimationControls();
 
-  const play = () => {
-    // reset
+  const reset = () => {
+    strokeControls.stop(); // ✅ evita “fila” de animações no Safari
     strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
 
-    // anima
-    strokeControls.start({
+  const play = async () => {
+    reset();
+
+    await strokeControls.start({
       pathLength: 1,
       opacity: 1,
       transition: {
@@ -40,10 +43,6 @@ export default function Seta11Drawn({
         ease: [0.65, 0, 0.35, 1],
       },
     });
-  };
-
-  const reset = () => {
-    strokeControls.set({ pathLength: 0, opacity: 1 });
   };
 
   return (

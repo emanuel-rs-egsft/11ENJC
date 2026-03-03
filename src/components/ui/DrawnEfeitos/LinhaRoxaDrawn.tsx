@@ -24,46 +24,46 @@ export default function LinhaRoxaDrawn({
   drawDelay = 0.25,
   strokeWidth = 2,
 }: Props) {
-  const fillDelay = drawDelay + drawDuration + 0.08;
-
   const fillControls = useAnimationControls();
   const strokeControls = useAnimationControls();
 
-  const play = () => {
+  const reset = () => {
     fillControls.set({ opacity: 0 });
     strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
 
-    strokeControls.start({
+  const play = async () => {
+    reset();
+
+    // 1) desenha
+    await strokeControls.start({
       pathLength: 1,
       transition: {
-        duration: 1.05,
+        duration: drawDuration, // ✅ agora usa o prop
         delay: drawDelay,
         ease: [0.65, 0, 0.35, 1],
       },
     });
 
+    // 2) some o traço
     strokeControls.start({
       opacity: 0,
       transition: {
         duration: 0.25,
-        delay: fillDelay,
+        delay: 0.08,
         ease: "easeOut",
       },
     });
 
+    // 3) aparece o fill
     fillControls.start({
       opacity: 1,
       transition: {
         duration: 0.28,
-        delay: fillDelay,
+        delay: 0.08,
         ease: "easeOut",
       },
     });
-  };
-
-  const reset = () => {
-    fillControls.set({ opacity: 0 });
-    strokeControls.set({ pathLength: 0, opacity: 1 });
   };
 
   return (

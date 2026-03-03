@@ -575,10 +575,51 @@ export default function InscricaoPopup({
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+
+    const body = document.body;
+    const html = document.documentElement;
+
+    const scrollY = window.scrollY;
+
+    const prevBody = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+
+    const prevHtmlOverflow = html.style.overflow;
+
+    // trava o fundo (iOS-safe)
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+
+    // ajuda a impedir scroll do doc no iOS
+    html.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = prev;
+      // pega o top que foi setado: "-123px"
+      const top = body.style.top;
+      const y = top ? -parseInt(top, 10) : scrollY;
+
+      // restaura styles
+      body.style.position = prevBody.position;
+      body.style.top = prevBody.top;
+      body.style.left = prevBody.left;
+      body.style.right = prevBody.right;
+      body.style.width = prevBody.width;
+      body.style.overflow = prevBody.overflow;
+
+      html.style.overflow = prevHtmlOverflow;
+
+      // volta pro scroll exato
+      window.scrollTo(0, y);
     };
   }, [open]);
 
@@ -953,7 +994,7 @@ function StepBoasVindas() {
     <div className={styles.step1Grid}>
       <div className={styles.step1Image} aria-hidden="true">
         <Image
-          src="/assets/formulario/imagem-boasvindas.png"
+          src="/assets/formulario/imagem-initial.png"
           alt=""
           fill
           className={styles.cover}
@@ -2402,7 +2443,7 @@ function StepEncerramento({
     <div className={styles.step1Grid}>
       <div className={styles.step1Image} aria-hidden="true">
         <Image
-          src="/assets/formulario/imagem-boasvindas.png"
+          src="/assets/formulario/imagem-inicial.png"
           alt=""
           fill
           className={styles.cover}

@@ -21,15 +21,27 @@ export default function ScrollReveal({
   useEffect(() => {
     const observed = new WeakSet<HTMLElement>();
 
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           const el = entry.target as HTMLElement;
 
           if (entry.isIntersecting) {
-            // garante que o browser viu o estado inicial
+            if (reduceMotion) {
+              el.classList.add("is-in");
+              if (once) io.unobserve(el);
+              continue;
+            }
+
+            // garante estado inicial aplicado antes do "is-in"
             void el.offsetHeight;
             requestAnimationFrame(() => el.classList.add("is-in"));
+
             if (once) io.unobserve(el);
           } else {
             if (!once) el.classList.remove("is-in");
@@ -45,6 +57,13 @@ export default function ScrollReveal({
 
       el.classList.add("reveal");
       el.classList.remove("is-in");
+
+      // se reduz movimento, já deixa visível e não observa
+      if (reduceMotion) {
+        el.classList.add("is-in");
+        return;
+      }
+
       io.observe(el);
     };
 
@@ -52,14 +71,19 @@ export default function ScrollReveal({
       document.querySelectorAll<HTMLElement>(selector).forEach(applyTo);
     };
 
-    // 1) scan inicial
+    // scan inicial
     scan();
 
-    // 2) pega elementos que “aparecem depois” (streaming/hydration)
-    const mo = new MutationObserver(() => scan());
+    // debounce simples pro MutationObserver
+    let raf = 0;
+    const mo = new MutationObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(scan);
+    });
     mo.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      cancelAnimationFrame(raf);
       mo.disconnect();
       io.disconnect();
     };

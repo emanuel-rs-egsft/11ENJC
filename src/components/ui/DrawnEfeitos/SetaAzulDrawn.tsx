@@ -24,50 +24,46 @@ export default function SetaAzulDrawn({
   drawDelay = 0.25,
   strokeWidth = 2,
 }: Props) {
-  const fillDelay = drawDelay + drawDuration + 0.08;
-
   const fillControls = useAnimationControls();
   const strokeControls = useAnimationControls();
 
-  const play = () => {
-    // reset antes de animar
+  const reset = () => {
     fillControls.set({ opacity: 0 });
     strokeControls.set({ pathLength: 0, opacity: 1 });
+  };
 
-    // desenha o traço
-    strokeControls.start({
+  const play = async () => {
+    reset();
+
+    // 1) desenha o traço (usa drawDuration!)
+    await strokeControls.start({
       pathLength: 1,
       transition: {
-        duration: 1.05,
+        duration: drawDuration,
         delay: drawDelay,
         ease: [0.65, 0, 0.35, 1],
       },
     });
 
-    // desaparece traço
+    // 2) some o traço
     strokeControls.start({
       opacity: 0,
       transition: {
         duration: 0.25,
-        delay: fillDelay,
+        delay: 0.08,
         ease: "easeOut",
       },
     });
 
-    // aparece preenchimento
+    // 3) aparece o preenchimento
     fillControls.start({
       opacity: 1,
       transition: {
         duration: 0.28,
-        delay: fillDelay,
+        delay: 0.08,
         ease: "easeOut",
       },
     });
-  };
-
-  const reset = () => {
-    fillControls.set({ opacity: 0 });
-    strokeControls.set({ pathLength: 0, opacity: 1 });
   };
 
   return (

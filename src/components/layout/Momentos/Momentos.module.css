@@ -37,7 +37,7 @@
   position: absolute;
   left: 50%;
   top: calc(
-    -1 * (var(--h) / 2)
+    var(--h) * -0.5
   ); /* ✅ metade em cima (Sobre) e metade embaixo (Identidade) */
   transform: translateX(-50%);
 
@@ -93,6 +93,7 @@
   background: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 }
 

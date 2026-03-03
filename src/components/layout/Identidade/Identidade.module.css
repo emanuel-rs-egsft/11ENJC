@@ -11,7 +11,6 @@
   --canvas-w: 320px;
   --canvas-h: 660px;
   --scale: 1;
-  --pad-top: 200px;
 
   /* Chamada */
   --chamada-left: 16.5px;
@@ -144,7 +143,8 @@
   --e11-arrow-top: 29px;
   --e11-arrow-rot: 0deg;
 
-  height: calc(var(--canvas-h) * var(--scale));
+  min-height: calc(var(--canvas-h) * var(--scale) + var(--pad-top));
+  height: auto;
 }
 
 /* 642 */
@@ -527,7 +527,9 @@
   width: var(--canvas-w);
   height: var(--canvas-h);
   transform: translateX(-50%) scale(var(--scale));
+  -webkit-transform: translateX(-50%) scale(var(--scale));
   transform-origin: top center;
+  -webkit-transform-origin: top center;
   z-index: 10;
 }
 

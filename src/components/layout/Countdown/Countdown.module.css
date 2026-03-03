@@ -18,8 +18,11 @@
 
   position: absolute;
   left: 50%;
-  top: calc(-1 * (var(--h) / 2)); /* ✅ metade no Hero e metade no Sobre */
+  top: calc(var(--h) * -0.5); /* ✅ metade no Hero e metade no Sobre */
   transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   width: var(--w);
   height: var(--h);

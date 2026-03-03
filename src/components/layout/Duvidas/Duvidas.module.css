@@ -14,8 +14,9 @@
   position: relative;
   width: 100%;
 
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: visible;
+  overflow-x: hidden; /* fallback */
+  overflow-x: clip; /* melhor quando suportado */
 
   /* DEFAULT = 320 */
   --canvas-w: 320px;
@@ -337,6 +338,7 @@
   flex-direction: column;
 
   /* ✅ altura mínima pra rodapé colar no fundo quando faltar conteúdo */
+  min-height: var(--canvas-h); /* fallback */
   min-height: max(var(--canvas-h), calc(100vh / var(--scale)));
 
   height: auto;
@@ -416,6 +418,10 @@
   margin-bottom: var(--gap-faq-rodape);
 }
 
+.faqBox > * + * {
+  margin-top: var(--pergunta-gap);
+}
+
 .faqItem {
   position: relative;
 }
@@ -446,6 +452,7 @@
   background: linear-gradient(215deg, #8d48ef 20.81%, #512989 105.57%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 
   white-space: nowrap;
@@ -567,6 +574,10 @@
   align-items: center;
   justify-content: center;
   gap: 14px;
+}
+
+.creditos > * + * {
+  margin-left: 14px;
 }
 
 .credito1,

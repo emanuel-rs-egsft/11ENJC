@@ -11,7 +11,7 @@
 
   /* DEFAULT = 320 */
   --canvas-w: 320px;
-  --canvas-h: 800px;
+  --canvas-h: 880px;
   --scale: 1;
 
   /* Chamada */
@@ -70,55 +70,55 @@
 
   /* Tópico 01 */
   --t1u1-left: 50px;
-  --t1u1-top: 60px;
+  --t1u1-top: 78px;
   --t1u1-w: 100px;
   --t1u1-h: 5.0007px;
   --t1u1-rot: 1.46deg;
 
   --t1u2-left: 155px;
-  --t1u2-top: 132px;
+  --t1u2-top: 150px;
   --t1u2-w: 65px;
   --t1u2-h: 6px;
   --t1u2-rot: 1.46deg;
 
   --t1c-left: 140px;
-  --t1c-top: -5px;
+  --t1c-top: 10px;
   --t1c-w: 76px;
   --t1c-h: 25px;
 
   /* Tópico 02 */
   --t2u1-left: 75px;
-  --t2u1-top: 40px;
+  --t2u1-top: 60px;
   --t2u1-w: 120px;
   --t2u1-h: 5.0007px;
   --t2u1-rot: 1.46deg;
 
   --t2c-left: 48px;
-  --t2c-top: -5px;
+  --t2c-top: 10px;
   --t2c-w: 88px;
   --t2c-h: 27px;
 
   /* Tópico 03 */
   --t3u1-left: 90px;
-  --t3u1-top: 40px;
+  --t3u1-top: 60px;
   --t3u1-w: 155px;
   --t3u1-h: 5.7011px;
   --t3u1-rot: 1.48deg;
 
   --t3u2-left: -280px;
-  --t3u2-top: 58px;
+  --t3u2-top: 78px;
   --t3u2-w: 900px;
   --t3u2-h: 3px;
   --t3u2-rot: 0.74deg;
 
   --t3u3-left: 10px;
-  --t3u3-top: 95px;
+  --t3u3-top: 113px;
   --t3u3-w: 100px;
   --t3u3-h: 6.7195px;
   --t3u3-rot: 1.28deg;
 
   --t3c-left: 50px;
-  --t3c-top: -10px;
+  --t3c-top: 5px;
   --t3c-w: 116px;
   --t3c-h: 36px;
 
@@ -185,55 +185,55 @@
 
     /* Tópico 01 */
     --t1u1-left: 0px;
-    --t1u1-top: 80px;
+    --t1u1-top: 90px;
     --t1u1-w: 204.6117px;
     --t1u1-h: 5.0007px;
     --t1u1-rot: 1.46deg;
 
     --t1u2-left: 255px;
-    --t1u2-top: 150px;
+    --t1u2-top: 160px;
     --t1u2-w: 112.996px;
     --t1u2-h: 4.766px;
     --t1u2-rot: 1.46deg;
 
     --t1c-left: 256px;
-    --t1c-top: -5px;
+    --t1c-top: 0px;
     --t1c-w: 86px;
     --t1c-h: 35px;
 
     /* Tópico 02 */
     --t2u1-left: 115px;
-    --t2u1-top: 60px;
+    --t2u1-top: 65px;
     --t2u1-w: 172.1603px;
     --t2u1-h: 5.0007px;
     --t2u1-rot: 1.46deg;
 
     --t2c-left: 100px;
-    --t2c-top: -5px;
+    --t2c-top: 0px;
     --t2c-w: 104px;
     --t2c-h: 42px;
 
     /* Tópico 03 */
-    --t3u1-left: 210px;
-    --t3u1-top: 55px;
+    --t3u1-left: 235px;
+    --t3u1-top: 65px;
     --t3u1-w: 127.5554px;
     --t3u1-h: 5.7011px;
     --t3u1-rot: 1.48deg;
 
     --t3u2-left: 160px;
-    --t3u2-top: 78px;
+    --t3u2-top: 85px;
     --t3u2-w: 248.7082px;
     --t3u2-h: 8.0653px;
     --t3u2-rot: 0.74deg;
 
     --t3u3-left: 240px;
-    --t3u3-top: 105px;
+    --t3u3-top: 112px;
     --t3u3-w: 263.6811px;
     --t3u3-h: 6.7195px;
     --t3u3-rot: 1.28deg;
 
     --t3c-left: 80px;
-    --t3c-top: -5px;
+    --t3c-top: 0px;
     --t3c-w: 196px;
     --t3c-h: 36px;
 
@@ -301,55 +301,55 @@
 
     /* Tópico 01 */
     --t1u1-left: 33.4888px;
-    --t1u1-top: 83.4323px;
+    --t1u1-top: 88px;
     --t1u1-w: 204.6117px;
     --t1u1-h: 5.0007px;
     --t1u1-rot: 1.46deg;
 
     --t1u2-left: 282.0062px;
-    --t1u2-top: 159.6692px;
+    --t1u2-top: 165px;
     --t1u2-w: 112.996px;
     --t1u2-h: 4.766px;
     --t1u2-rot: 1.46deg;
 
     --t1c-left: 256px;
-    --t1c-top: -5px;
+    --t1c-top: 0px;
     --t1c-w: 86px;
     --t1c-h: 35px;
 
     /* Tópico 02 */
     --t2u1-left: 131.6457px;
-    --t2u1-top: 60px;
+    --t2u1-top: 65px;
     --t2u1-w: 172.1603px;
     --t2u1-h: 5.0007px;
     --t2u1-rot: 1.46deg;
 
     --t2c-left: 100px;
-    --t2c-top: -10px;
+    --t2c-top: 0px;
     --t2c-w: 104px;
     --t2c-h: 42px;
 
     /* Tópico 03 */
-    --t3u1-left: 270.2826px;
-    --t3u1-top: 60px;
+    --t3u1-left: 250px;
+    --t3u1-top: 65px;
     --t3u1-w: 127.5554px;
     --t3u1-h: 5.7011px;
     --t3u1-rot: 1.48deg;
 
     --t3u2-left: 143.178px;
-    --t3u2-top: 82px;
+    --t3u2-top: 88px;
     --t3u2-w: 248.7082px;
     --t3u2-h: 8.0653px;
     --t3u2-rot: 0.74deg;
 
-    --t3u3-left: 298.1907px;
-    --t3u3-top: 108px;
+    --t3u3-left: 290px;
+    --t3u3-top: 115px;
     --t3u3-w: 263.6811px;
     --t3u3-h: 6.7195px;
     --t3u3-rot: 1.28deg;
 
     --t3c-left: 80px;
-    --t3c-top: -5px;
+    --t3c-top: 0px;
     --t3c-w: 196px;
     --t3c-h: 36px;
 
@@ -417,55 +417,55 @@
 
     /* Tópico 01 */
     --t1u1-left: 33.4888px;
-    --t1u1-top: 83.4323px;
+    --t1u1-top: 90px;
     --t1u1-w: 204.6117px;
     --t1u1-h: 5.0007px;
     --t1u1-rot: 1.46deg;
 
     --t1u2-left: 282.0062px;
-    --t1u2-top: 159.6692px;
+    --t1u2-top: 165px;
     --t1u2-w: 112.996px;
     --t1u2-h: 4.766px;
     --t1u2-rot: 1.46deg;
 
     --t1c-left: 256px;
-    --t1c-top: -5px;
+    --t1c-top: 0px;
     --t1c-w: 86px;
     --t1c-h: 35px;
 
     /* Tópico 02 */
     --t2u1-left: 131.6457px;
-    --t2u1-top: 60px;
+    --t2u1-top: 65px;
     --t2u1-w: 172.1603px;
     --t2u1-h: 5.0007px;
     --t2u1-rot: 1.46deg;
 
     --t2c-left: 100px;
-    --t2c-top: -5px;
+    --t2c-top: 0px;
     --t2c-w: 104px;
     --t2c-h: 42px;
 
     /* Tópico 03 */
-    --t3u1-left: 270.2826px;
-    --t3u1-top: 60px;
+    --t3u1-left: 250px;
+    --t3u1-top: 65px;
     --t3u1-w: 127.5554px;
     --t3u1-h: 5.7011px;
     --t3u1-rot: 1.48deg;
 
-    --t3u2-left: 143.178px;
-    --t3u2-top: 82px;
+    --t3u2-left: 130px;
+    --t3u2-top: 88px;
     --t3u2-w: 248.7082px;
     --t3u2-h: 8.0653px;
     --t3u2-rot: 0.74deg;
 
-    --t3u3-left: 298.1907px;
-    --t3u3-top: 108px;
+    --t3u3-left: 275px;
+    --t3u3-top: 115px;
     --t3u3-w: 263.6811px;
     --t3u3-h: 6.7195px;
     --t3u3-rot: 1.28deg;
 
     --t3c-left: 80px;
-    --t3c-top: -5px;
+    --t3c-top: 0px;
     --t3c-w: 196px;
     --t3c-h: 36px;
 
@@ -590,6 +590,7 @@
   display: grid;
   grid-template-rows: auto auto auto;
   gap: 24px;
+  transform: translateZ(0);
 }
 
 .topico {
@@ -599,15 +600,23 @@
 /* TÍTULO: Luckiest Guy */
 .tituloGradiente {
   margin: 0 0 12px 0;
-  font-family: var(--font-luckiest) !important;
+  font-family: var(--font-luckiest);
   font-weight: 400;
   font-size: var(--titulo-font);
   line-height: 1;
 
-  background: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
+  background-image: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
   -webkit-background-clip: text;
   background-clip: text;
+
   color: transparent;
+  -webkit-text-fill-color: transparent; /* ✅ ESSENCIAL no Safari */
+  display: inline-block; /* ✅ ajuda Safari a “pintar” o gradiente */
+
+  transform: translateZ(0);
 }
 
 /* DESCRIÇÃO dos tópicos = DK Crayon */

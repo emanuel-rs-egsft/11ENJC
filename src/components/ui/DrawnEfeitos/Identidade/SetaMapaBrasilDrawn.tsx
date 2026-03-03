@@ -26,9 +26,15 @@ export default function SetaMapaBrasilDrawn({
 }: Props) {
   const strokeControls = useAnimationControls();
 
-  const play = () => {
+  const reset = () => {
+    strokeControls.stop(); // ✅ evita “fila” de animações
     strokeControls.set({ pathLength: 0, opacity: 1 });
-    strokeControls.start({
+  };
+
+  const play = async () => {
+    reset();
+
+    await strokeControls.start({
       pathLength: 1,
       opacity: 1,
       transition: {
@@ -37,10 +43,6 @@ export default function SetaMapaBrasilDrawn({
         ease: [0.65, 0, 0.35, 1],
       },
     });
-  };
-
-  const reset = () => {
-    strokeControls.set({ pathLength: 0, opacity: 1 });
   };
 
   return (
