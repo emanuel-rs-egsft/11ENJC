@@ -994,7 +994,7 @@ function StepBoasVindas() {
     <div className={styles.step1Grid}>
       <div className={styles.step1Image} aria-hidden="true">
         <Image
-          src="/assets/formulario/imagem-initial.png"
+          src="/assets/formulario/macrorepresentantes.png"
           alt=""
           fill
           className={styles.cover}
@@ -2443,7 +2443,7 @@ function StepEncerramento({
     <div className={styles.step1Grid}>
       <div className={styles.step1Image} aria-hidden="true">
         <Image
-          src="/assets/formulario/imagem-inicial.png"
+          src="/assets/formulario/macrorepresentantes.png"
           alt=""
           fill
           className={styles.cover}

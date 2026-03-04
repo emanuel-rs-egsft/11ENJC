@@ -119,7 +119,7 @@ export default function HeaderHero({ onOpenInscricao }: Props) {
         <div className={styles.jovens} data-reveal="right">
           <div className={styles.floatJovens}>
             <Image
-              src="/assets/hero/imagem-jovens.png"
+              src="/assets/hero/macrorepresentantes.png"
               alt="Jovens"
               fill
               className={styles.cover}
