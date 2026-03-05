@@ -578,6 +578,8 @@
   color: #f7f7f7;
   transform: rotate(-5.2deg);
   transform-origin: top left;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 /* Tópicos */
@@ -591,6 +593,7 @@
   grid-template-rows: auto auto auto;
   gap: 24px;
   transform: translateZ(0);
+  will-change: transform;
 }
 
 .topico {
@@ -603,20 +606,27 @@
   font-family: var(--font-luckiest);
   font-weight: 400;
   font-size: var(--titulo-font);
-  line-height: 1;
+  line-height: 1, 1;
 
-  background-image: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  /* ✅ fallback (se não suportar gradiente no texto) */
+  color: #ffc300;
 
-  -webkit-background-clip: text;
-  background-clip: text;
+  display: inline-block;
+}
 
-  color: transparent;
-  -webkit-text-fill-color: transparent; /* ✅ ESSENCIAL no Safari */
-  display: inline-block; /* ✅ ajuda Safari a “pintar” o gradiente */
+/* ✅ só liga o gradiente se houver suporte real */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .tituloGradiente {
+    background-image: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 
-  transform: translateZ(0);
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
 
 /* DESCRIÇÃO dos tópicos = DK Crayon */

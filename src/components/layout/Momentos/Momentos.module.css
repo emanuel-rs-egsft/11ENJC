@@ -48,6 +48,16 @@
   background: linear-gradient(235deg, #ffc300 12.61%, #ff9a15 88.83%);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
   overflow: hidden;
+
+  /* fallback */
+  background-color: #ffc300;
+  background-image: linear-gradient(235deg, #ffc300 12.61%, #ff9a15 88.83%);
+
+  /* ajuda em bugs de render no Android */
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* título svg */
@@ -81,6 +91,13 @@
   background: linear-gradient(219deg, #00a0ff 17.56%, #006099 110.84%);
   padding: var(--pad-t) var(--pad-x);
   box-sizing: border-box;
+
+  background-color: #00a0ff; /* fallback */
+  background-image: linear-gradient(219deg, #00a0ff 17.56%, #006099 100%);
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cardTitle {
@@ -90,11 +107,22 @@
   font-size: var(--h-font);
   line-height: 1;
 
-  background: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  /* ✅ fallback (se o Android não suportar clip no texto) */
+  color: #ffc300;
+
+  /* melhora compatibilidade em alguns Android */
+  display: inline-block;
+}
+
+/* ✅ só aplica degradê no texto se o navegador suportar */
+@supports (-webkit-background-clip: text) {
+  .cardTitle {
+    background-image: linear-gradient(96deg, #ffc300 -0.61%, #ff9a15 86.42%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
 
 .cardDesc {
