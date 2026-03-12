@@ -40,13 +40,15 @@ type Props = {
   step: StepId;
 
   onClose: () => void;
-  onFinish: () => void; // ✅
+  onFinish: () => void;
   onNext: () => void;
   onBack?: () => void;
 
   onPagamentoChange?: (
     v: "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰",
-  ) => void; // ✅ NOVO
+  ) => void;
+
+  onGoToStep?: (step: StepId) => void;
 };
 
 type FormData = {
@@ -253,6 +255,7 @@ export default function InscricaoPopup({
   onNext,
   onBack,
   onPagamentoChange,
+  onGoToStep,
 }: Props) {
   const [data, setData] = useState<FormData>(initialData);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -408,14 +411,23 @@ export default function InscricaoPopup({
     return Object.keys(validateStep(stepId)).length === 0;
   }
 
-  function attemptNext() {
+  async function attemptNext() {
     if (step === 1) {
       onNext();
       return;
     }
+
     const e = validateStep(step);
     setErrors(e);
-    if (Object.keys(e).length === 0) onNext();
+
+    if (Object.keys(e).length !== 0) return;
+
+    if (step === 4) {
+      await verificarPreInscricaoAutomatica(data.nome, data.nascimento);
+      return;
+    }
+
+    onNext();
   }
 
   function onEnterNext(
@@ -537,6 +549,86 @@ export default function InscricaoPopup({
     }
   }
 
+  async function buscarPreInscricao(nome: string, nascimento: string) {
+    try {
+      const res = await fetch("/api/inscricao", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "buscar_pre_inscricao",
+          nome,
+          nascimento,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!data?.ok) {
+        throw new Error(data?.error || "Erro ao buscar inscrição");
+      }
+
+      return data;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  async function handleBuscarPreInscricao(nome: string, nascimento: string) {
+    setBuscandoPre(true);
+    setPreError(null);
+
+    const result = await buscarPreInscricao(nome, nascimento);
+
+    setBuscandoPre(false);
+
+    if (!result?.found) {
+      setPreError("Não encontramos uma pré-inscrição com esses dados.");
+      return;
+    }
+
+    const inscricao = result.inscricao;
+
+    setData((prev) => ({
+      ...prev,
+      nome: inscricao.nome,
+      apelido: inscricao.apelido,
+      nascimento: inscricao.nascimento,
+      pagamento: "Pix ⚡",
+    }));
+
+    onPagamentoChange?.("Pix ⚡");
+  }
+
+  async function verificarPreInscricaoAutomatica(
+    nome: string,
+    nascimento: string,
+  ) {
+    if (!nome.trim() || !nascimento.trim()) {
+      onNext();
+      return;
+    }
+
+    setVerificandoPreAuto(true);
+    setPreError(null);
+    setPreEncontrada(null);
+    setMostrarAvisoPre(false);
+
+    const result = await buscarPreInscricao(nome, nascimento);
+
+    setVerificandoPreAuto(false);
+
+    if (!result?.found || !result?.inscricao?.isPagarDepois) {
+      onNext();
+      return;
+    }
+
+    setPreEncontrada(result.inscricao);
+    setMostrarAvisoPre(true);
+  }
+
   function finishAndReset() {
     setData(initialData);
     setErrors({});
@@ -655,6 +747,12 @@ export default function InscricaoPopup({
 
   const [pixQrDataUrl, setPixQrDataUrl] = useState("");
 
+  const [buscandoPre, setBuscandoPre] = useState(false);
+  const [preError, setPreError] = useState<string | null>(null);
+  const [preEncontrada, setPreEncontrada] = useState<any | null>(null);
+  const [mostrarAvisoPre, setMostrarAvisoPre] = useState(false);
+  const [verificandoPreAuto, setVerificandoPreAuto] = useState(false);
+
   useEffect(() => {
     // ✅ só gera QR quando o modal está aberto (mas o hook existe sempre)
     if (!open) {
@@ -741,13 +839,78 @@ export default function InscricaoPopup({
             />
           )}
           {step === 4 && (
-            <StepNascimento
-              apelido={data.apelido || "meu amigo(a)"}
-              value={data.nascimento}
-              error={errors.nascimento}
-              onChange={(v) => setField("nascimento", v)}
-              onEnterNext={onEnterNext}
-            />
+            <div className={styles.stepForm}>
+              <StepNascimento
+                apelido={data.apelido || "meu amigo(a)"}
+                value={data.nascimento}
+                error={errors.nascimento}
+                onChange={(v) => {
+                  setField("nascimento", v);
+                  setMostrarAvisoPre(false);
+                  setPreEncontrada(null);
+                  setPreError(null);
+                }}
+                onEnterNext={onEnterNext}
+              />
+
+              {verificandoPreAuto && (
+                <p className={styles.helper}>
+                  Verificando se você já tem pré-inscrição...
+                </p>
+              )}
+
+              {mostrarAvisoPre && preEncontrada && (
+                <div className={styles.preCard}>
+                  <h3 className={styles.preTitle}>
+                    Encontramos sua pré-inscrição 💛
+                  </h3>
+
+                  <p className={styles.preText}>
+                    {preEncontrada.apelido || preEncontrada.nome}, identificamos
+                    um cadastro anterior com este nome e data de nascimento.
+                    <br />
+                    Você deseja continuar direto para o pagamento?
+                  </p>
+
+                  <div className={styles.preActions}>
+                    <button
+                      type="button"
+                      className={styles.preBtnPrimary}
+                      onClick={() => {
+                        setData((prev) => ({
+                          ...prev,
+                          nome: preEncontrada.nome || prev.nome,
+                          apelido: preEncontrada.apelido || prev.apelido,
+                          nascimento:
+                            preEncontrada.nascimento || prev.nascimento,
+                          email: preEncontrada.email || prev.email,
+                          pagamento: "",
+                        }));
+
+                        onPagamentoChange?.("");
+                        setMostrarAvisoPre(false);
+                        onGoToStep?.(12);
+                      }}
+                    >
+                      Continuar pagamento
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.preBtnSecondary}
+                      onClick={() => {
+                        setMostrarAvisoPre(false);
+                        onNext();
+                      }}
+                    >
+                      Fazer novo cadastro
+                    </button>
+                  </div>
+
+                  {preError && <p className={styles.error}>{preError}</p>}
+                </div>
+              )}
+            </div>
           )}
           {step === 5 && (
             <StepWhatsapp
@@ -889,7 +1052,13 @@ export default function InscricaoPopup({
           {step === 15 && (
             <StepEncerramento
               nome={data.apelido || data.nome.split(" ")[0] || "amigo(a)"}
-              mode={isSubmitted ? "done" : "pending"}
+              mode={
+                isSubmitted
+                  ? data.pagamento === "Pagar depois ⏰"
+                    ? "pre"
+                    : "done"
+                  : "pending"
+              }
             />
           )}
         </div>
@@ -2449,7 +2618,7 @@ function StepEncerramento({
   mode,
 }: {
   nome: string;
-  mode: "pending" | "done";
+  mode: "pending" | "done" | "pre";
 }) {
   return (
     <div className={styles.step1Grid}>
@@ -2476,6 +2645,29 @@ function StepEncerramento({
             <p className={styles.answer}>
               Estamos analisando os seus dados e já vamos confirmar sua
               inscrição! 🙏✨
+            </p>
+          </>
+        ) : mode === "pre" ? (
+          <>
+            <h2 className={styles.title}>
+              Quase lá! ⏳💛
+              <br />
+              <br />
+              {nome}, sua pré-inscrição foi realizada!
+            </h2>
+
+            <p className={styles.answer}>
+              Agora falta só mais um passo para garantir sua vaga no ENJC:
+              <br />
+              👉 realizar o pagamento da inscrição até o dia 05 de maio.
+              <br />
+              <br />
+              Você pode fazer o pagamento no mesmo botão de inscrição aqui no
+              site, acessando novamente e escolhendo a opção de pagamento.
+              <br />
+              <br />
+              🙏 Enquanto isso, já vá preparando o coração… porque Deus já está
+              preparando algo grande para vivermos juntos!
             </p>
           </>
         ) : (

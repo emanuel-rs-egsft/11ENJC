@@ -1363,3 +1363,79 @@
     height: auto;
   }
 }
+
+/* =========================
+   PRÉ-INSCRICAO FEITA AVISO
+========================= */
+.preCard {
+  margin-top: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(0, 160, 255, 0.16);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 12px;
+}
+
+.preTitle {
+  margin: 0;
+  font-family: var(--font-luckiest);
+  font-size: 20px;
+  line-height: 1.1;
+  color: #8d48ef;
+}
+
+.preText {
+  margin: 0;
+  font-family: var(--font-crayon);
+  font-size: 18px;
+  line-height: 22px;
+  color: #00a0ff;
+}
+
+.preActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.preBtnPrimary,
+.preBtnSecondary {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-crayon);
+  font-size: 16px;
+}
+
+.preBtnPrimary {
+  border: 0;
+  background: linear-gradient(234deg, #ffc300 -6.07%, #ffa937 120.13%);
+  color: #512989;
+}
+
+.preBtnSecondary {
+  border: 2px solid rgba(141, 72, 239, 0.6);
+  background: rgba(255, 255, 255, 0.82);
+  color: #8d48ef;
+}
+
+@media (max-width: 641.98px) {
+  .preTitle {
+    font-size: 15px;
+  }
+
+  .preText {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .preBtnPrimary,
+  .preBtnSecondary {
+    width: 100%;
+    height: 36px;
+    font-size: 14px;
+  }
+}

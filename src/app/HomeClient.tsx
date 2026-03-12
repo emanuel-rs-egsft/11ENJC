@@ -79,6 +79,7 @@ export default function HomeClient() {
         onNext={next}
         onBack={step > 1 ? back : undefined}
         onPagamentoChange={setPagamento}
+        onGoToStep={(targetStep) => setStep(targetStep)}
       />
     </main>
   );

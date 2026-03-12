@@ -198,6 +198,8 @@ function buildEmailHtml(payload: any) {
 export async function POST(req: Request) {
   const payload = await req.json();
 
+  const action = String(payload?.action || "create");
+
   const url = process.env.SHEETS_WEBAPP_URL;
   if (!url) {
     return new Response(
@@ -236,6 +238,13 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
       },
     );
+  }
+
+  if (action === "buscar_pre_inscricao") {
+    return new Response(JSON.stringify(out), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // 🔒 valida se tem email antes de tentar enviar
