@@ -16,7 +16,9 @@ import TabTitleBlink from "@/components/seo/TabTitleBlink";
 export default function HomeClient() {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<number>(1);
-  const [pagamento, setPagamento] = useState<"" | "Pix ⚡" | "Cartão 💳">("");
+  const [pagamento, setPagamento] = useState<
+    "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰"
+  >("");
 
   const openModal = () => {
     setStep(1);
@@ -27,8 +29,14 @@ export default function HomeClient() {
 
   const next = () =>
     setStep((s) => {
-      if (s === 12) return pagamento === "Pix ⚡" ? 121 : 122;
+      if (s === 12) {
+        if (pagamento === "Pix ⚡") return 121;
+        if (pagamento === "Cartão 💳") return 122;
+        if (pagamento === "Pagar depois ⏰") return 14;
+      }
+
       if (s === 121 || s === 122) return 13;
+
       if (s < 15) return s + 1;
       return s;
     });
@@ -37,6 +45,7 @@ export default function HomeClient() {
     setStep((s) => {
       if (s === 13) return pagamento === "Pix ⚡" ? 121 : 122;
       if (s === 121 || s === 122) return 12;
+      if (s === 14 && pagamento === "Pagar depois ⏰") return 12;
       if (s > 1) return s - 1;
       return s;
     });

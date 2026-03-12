@@ -44,7 +44,9 @@ type Props = {
   onNext: () => void;
   onBack?: () => void;
 
-  onPagamentoChange?: (v: "" | "Pix ⚡" | "Cartão 💳") => void; // ✅ NOVO
+  onPagamentoChange?: (
+    v: "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰",
+  ) => void; // ✅ NOVO
 };
 
 type FormData = {
@@ -74,7 +76,7 @@ type FormData = {
 
   camiseta: "" | "P" | "M" | "G" | "GG" | "EXG" | "EXGG";
 
-  pagamento: "" | "Pix ⚡" | "Cartão 💳";
+  pagamento: "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰";
 
   comprovante: File | null;
   comprovanteUrl: string; // preview (ObjectURL)
@@ -430,39 +432,49 @@ export default function InscricaoPopup({
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const pagarDepois = data.pagamento === "Pagar depois ⏰";
+
     try {
-      if (!data.comprovante) {
-        setErrors((prev) => ({
-          ...prev,
-          comprovante: "Envie o comprovante antes de concluir.",
-        }));
-        setIsSubmitting(false);
-        return;
+      let comprovanteUrl = "";
+      let comprovanteType = "";
+      let comprovanteName = "";
+
+      if (!pagarDepois) {
+        if (!data.comprovante) {
+          setErrors((prev) => ({
+            ...prev,
+            comprovante: "Envie o comprovante antes de concluir.",
+          }));
+          setIsSubmitting(false);
+          return;
+        }
+
+        const fd = new FormData();
+        fd.append("file", data.comprovante);
+
+        const up = await fetch("/api/upload-comprovante", {
+          method: "POST",
+          body: fd,
+        });
+
+        const upRaw = await up.text();
+        let upOut: any = null;
+        try {
+          upOut = JSON.parse(upRaw);
+        } catch {
+          upOut = { ok: false, error: "Upload não é JSON", raw: upRaw };
+        }
+
+        if (!up.ok || !upOut?.url) {
+          setSubmitError(upOut?.error || "Falha no upload do comprovante");
+          setIsSubmitting(false);
+          return;
+        }
+
+        comprovanteUrl = String(upOut.url);
+        comprovanteType = data.comprovante.type;
+        comprovanteName = data.comprovante.name;
       }
-
-      const fd = new FormData();
-      fd.append("file", data.comprovante);
-
-      const up = await fetch("/api/upload-comprovante", {
-        method: "POST",
-        body: fd,
-      });
-
-      const upRaw = await up.text();
-      let upOut: any = null;
-      try {
-        upOut = JSON.parse(upRaw);
-      } catch {
-        upOut = { ok: false, error: "Upload não é JSON", raw: upRaw };
-      }
-
-      if (!up.ok || !upOut?.url) {
-        setSubmitError(upOut?.error || "Falha no upload do comprovante");
-        setIsSubmitting(false);
-        return;
-      }
-
-      const comprovanteUrl = String(upOut.url);
 
       const payload = {
         nome: data.nome,
@@ -493,8 +505,8 @@ export default function InscricaoPopup({
         lgpdOk: data.lgpdOk,
 
         comprovanteUrl,
-        comprovanteType: data.comprovante.type,
-        comprovanteName: data.comprovante.name,
+        comprovanteType,
+        comprovanteName,
       };
 
       const res = await fetch("/api/inscricao", {
@@ -2049,12 +2061,12 @@ function StepPagamento({
   onEnterNextAttempt,
 }: {
   nome: string;
-  value: "" | "Pix ⚡" | "Cartão 💳";
+  value: "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰";
   error?: string;
-  onChange: (v: "" | "Pix ⚡" | "Cartão 💳") => void;
+  onChange: (v: "" | "Pix ⚡" | "Cartão 💳" | "Pagar depois ⏰") => void;
   onEnterNextAttempt: () => void;
 }) {
-  const OPTIONS = ["Pix ⚡", "Cartão 💳"];
+  const OPTIONS = ["Pix ⚡", "Cartão 💳", "Pagar depois ⏰"];
 
   return (
     <div className={styles.stepForm}>
