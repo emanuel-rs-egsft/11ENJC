@@ -247,7 +247,9 @@ export async function POST(req: Request) {
     });
   }
 
-  const pagamento = String(payload?.pagamento || "");
+  const emailPayload = out?.inscricao || payload;
+
+  const pagamento = String(emailPayload?.pagamento || payload?.pagamento || "");
   const isPreInscricao = pagamento === "Pagar depois ⏰";
 
   if (isPreInscricao) {
@@ -266,7 +268,7 @@ export async function POST(req: Request) {
   }
 
   // 🔒 valida se tem email antes de tentar enviar
-  if (!payload?.email) {
+  if (!emailPayload?.email) {
     return new Response(
       JSON.stringify({
         ok: true,
@@ -298,8 +300,8 @@ export async function POST(req: Request) {
 
   const resend = new Resend(resendKey);
 
-  const apelido = (payload?.apelido || "").trim();
-  const firstName = ((payload?.nome || "").split(" ")[0] || "").trim();
+  const apelido = (emailPayload?.apelido || "").trim();
+  const firstName = ((emailPayload?.nome || "").split(" ")[0] || "").trim();
   const nomeJovem = apelido || firstName || "Jovem";
 
   const subject = `${escapeHtml(nomeJovem)}, você estará conosco no 11º ENJC!!!`;
@@ -307,9 +309,9 @@ export async function POST(req: Request) {
   try {
     await resend.emails.send({
       from,
-      to: String(payload.email),
+      to: String(emailPayload.email),
       subject,
-      html: buildEmailHtml(payload),
+      html: buildEmailHtml(emailPayload),
     });
 
     return new Response(
