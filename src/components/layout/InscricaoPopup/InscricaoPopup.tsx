@@ -2007,6 +2007,8 @@ function StepServicoMcc({
       "Coordenador(a)",
       "Vice-coordenador(a)",
       "Assessor(a) Eclesiástico",
+      "Representante Macrorregional",
+      "GEN/Grupo de Apoio",
       canYoungRep ? "Representante Jovem" : null,
     ].filter(Boolean) as string[],
   );
