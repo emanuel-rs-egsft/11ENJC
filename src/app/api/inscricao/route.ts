@@ -247,6 +247,24 @@ export async function POST(req: Request) {
     });
   }
 
+  const pagamento = String(payload?.pagamento || "");
+  const isPreInscricao = pagamento === "Pagar depois ⏰";
+
+  if (isPreInscricao) {
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        saved: true,
+        emailSent: false,
+        mode: "pre_inscricao",
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
   // 🔒 valida se tem email antes de tentar enviar
   if (!payload?.email) {
     return new Response(
