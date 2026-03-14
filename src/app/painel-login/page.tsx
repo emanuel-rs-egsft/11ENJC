@@ -1,11 +1,12 @@
 import styles from "./PainelLogin.module.css";
 
-export default function PainelLoginPage({
+export default async function PainelLoginPage({
   searchParams,
 }: {
-  searchParams?: { error?: string };
+  searchParams?: Promise<{ error?: string }>;
 }) {
-  const error = searchParams?.error;
+  const params = await searchParams;
+  const error = params?.error;
 
   return (
     <main className={styles.page}>
@@ -16,7 +17,7 @@ export default function PainelLoginPage({
 
         <form action="/api/painel-login" method="POST" className={styles.form}>
           <div className={styles.field}>
-            <label className={styles.label}>Usuário:</label>
+            <label className={styles.label}>Usuário</label>
 
             <input
               name="username"
@@ -27,7 +28,7 @@ export default function PainelLoginPage({
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>Senha:</label>
+            <label className={styles.label}>Senha</label>
 
             <input
               name="password"
