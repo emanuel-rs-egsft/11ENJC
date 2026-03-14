@@ -1,0 +1,138 @@
+/*--font-crayon*/
+/*--font-luckiest*/
+/*--font-madinah*/
+/*letter-spacing: 1px;*/
+/*word-spacing: 5px;*/
+.page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  padding: 24px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--font-luckiest);
+  letter-spacing: 1px;
+  word-spacing: 5px;
+}
+
+.subtitle {
+  margin-top: 8px;
+  opacity: 1;
+  color: var(--text-secondary);
+  font-family: var(--font-crayon);
+  font-size: 26px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.downloadButton {
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border-strong);
+  background: var(--button-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: var(--font-luckiest);
+  font-size: 20px;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  color: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  min-height: 120px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.cardTitle {
+  font-size: 30px;
+  opacity: 0.95;
+  font-family: var(--font-crayon);
+  font-weight: 550;
+}
+
+.cardValue {
+  font-size: 52px;
+  font-weight: 800;
+  margin-top: 10px;
+  line-height: 1;
+  font-family: var(--font-luckiest);
+  letter-spacing: 3px;
+}
+
+.camisetasSection {
+  margin-top: 30px;
+}
+
+.sectionTitle {
+  margin-bottom: 14px;
+  font-family: var(--font-luckiest);
+  font-size: 28px;
+  letter-spacing: 1px;
+  word-spacing: 5px;
+}
+
+.camisetasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 14px;
+}
+
+.camisetaCard {
+  background: #12b981;
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  min-width: 110px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.camisetaLabel {
+  font-size: 18px;
+  opacity: 0.95;
+  font-family: var(--font-crayon);
+}
+
+.camisetaTamanho {
+  font-size: 34px;
+  font-weight: 800;
+  margin-top: -8px;
+  font-family: var(--font-crayon);
+}
+
+.camisetaQuantidade {
+  margin-top: 8px;
+  font-size: 38px;
+  font-family: var(--font-luckiest);
+}

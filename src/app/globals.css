@@ -138,3 +138,34 @@ a {
   opacity: 1;
   transform: translateX(0);
 }
+
+/*==TEMA CLARO/ESCURO NO DASHBOARD==*/
+:root {
+  --bg-page: linear-gradient(180deg, #0b1020 0%, #0f1830 100%);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --panel-surface: rgba(255, 255, 255, 0.06);
+  --panel-surface-2: #121a30;
+  --panel-surface-3: #0d1428;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-border-strong: rgba(255, 255, 255, 0.12);
+  --table-head: #16203a;
+  --table-row-alt: rgba(255, 255, 255, 0.02);
+  --link-color: #8ab4ff;
+  --button-primary: #5b7cff;
+}
+
+body.light-theme {
+  --bg-page: linear-gradient(180deg, #f4f7fb 0%, #eaf0f8 100%);
+  --text-primary: #0f172a;
+  --text-secondary: rgba(15, 23, 42, 0.8);
+  --panel-surface: rgba(255, 255, 255, 0.82);
+  --panel-surface-2: #ffffff;
+  --panel-surface-3: #f3f6fb;
+  --panel-border: rgba(15, 23, 42, 0.08);
+  --panel-border-strong: rgba(15, 23, 42, 0.14);
+  --table-head: #dfe8f5;
+  --table-row-alt: rgba(15, 23, 42, 0.03);
+  --link-color: #2563eb;
+  --button-primary: #4f46e5;
+}
