@@ -1,5 +1,6 @@
 import ThemeToggle from "./ThemeToggle";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 120;
 
 /*==LINHA PARA EDITAR DADOS REAIS E LAYOUT ATIVAR/DESATIVAR==*/
