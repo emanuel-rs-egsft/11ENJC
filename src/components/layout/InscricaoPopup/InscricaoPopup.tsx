@@ -1902,6 +1902,7 @@ function StepMccRelacao({
       "GED BARRETOS VOTUPORANGA",
       "GED ITAPETININGA",
       "GED SOROCABA",
+      "GED BRAGANÇA PAULISTA",
     ],
   };
 
