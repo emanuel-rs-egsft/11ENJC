@@ -1892,7 +1892,6 @@ function StepMccRelacao({
       "GED PIRACICABA",
       "GED CAMPINAS",
       "GED SÃO CARLOS",
-      "GED BRAGANÇA",
       "GED FRANCA",
       "GED JABOTICABAL",
       "GED RIBEIRÃO PRETO",
