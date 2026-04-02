@@ -219,6 +219,7 @@ export async function POST(req: Request) {
   });
 
   const raw = await r.text();
+  console.log("RAW DO APPS SCRIPT:", raw);
   let out: any = null;
   try {
     out = JSON.parse(raw);
