@@ -464,6 +464,10 @@ export default function InscricaoPopup({
         const fd = new FormData();
         fd.append("file", data.comprovante);
 
+        fd.append("nome", data.nome);
+        fd.append("ger", data.ger);
+        fd.append("ged", data.ged);
+
         const up = await fetch("/api/upload-comprovante", {
           method: "POST",
           body: fd,
@@ -474,7 +478,12 @@ export default function InscricaoPopup({
         try {
           upOut = JSON.parse(upRaw);
         } catch {
-          upOut = { ok: false, error: "Upload não é JSON", raw: upRaw };
+          upOut = {
+            ok: false,
+            error:
+              "Houve um erro técnico da sua Inscrição (Tente Novamente ou nos contate)",
+            raw: upRaw,
+          };
         }
 
         if (!up.ok || !upOut?.url) {
