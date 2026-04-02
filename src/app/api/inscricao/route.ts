@@ -226,7 +226,7 @@ export async function POST(req: Request) {
     out = { ok: false, error: "Resposta do Sheets não é JSON", raw };
   }
 
-  if (!r.ok || !out?.ok) {
+  if (!r.ok || out?.status !== "ok") {
     return new Response(
       JSON.stringify({
         ok: false,
