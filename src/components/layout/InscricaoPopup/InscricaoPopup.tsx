@@ -447,10 +447,11 @@ export default function InscricaoPopup({
     const pagarDepois = data.pagamento === "Pagar depois ⏰";
 
     try {
+      let comprovanteUrl = "";
       let comprovanteName = "";
       let comprovanteType = "";
 
-      // ✅ AGORA NÃO ENVIA MAIS PRO APPS SCRIPT DIRETO
+      // 🔥 1. UPLOAD PARA O BLOB (SE NÃO FOR PAGAR DEPOIS)
       if (!pagarDepois) {
         if (!data.comprovante) {
           setErrors((prev) => ({
@@ -461,53 +462,42 @@ export default function InscricaoPopup({
           return;
         }
 
-        comprovanteName = data.comprovante.name;
-        comprovanteType = data.comprovante.type;
+        const uploadForm = new FormData();
+        uploadForm.append("file", data.comprovante);
+        uploadForm.append("nome", data.nome);
+        uploadForm.append("ger", data.ger);
+        uploadForm.append("ged", data.ged);
+
+        const uploadRes = await fetch("/api/upload-comprovante", {
+          method: "POST",
+          body: uploadForm,
+        });
+
+        const uploadData = await uploadRes.json();
+
+        if (!uploadData.ok) {
+          setSubmitError("Erro no upload do comprovante 😢");
+          setIsSubmitting(false);
+          return;
+        }
+
+        comprovanteUrl = uploadData.url;
+        comprovanteName = uploadData.name;
+        comprovanteType = uploadData.contentType;
       }
 
-      // 🔥 MONTAR FORMDATA (IMPORTANTE!)
-      const formData = new FormData();
-
-      // dados normais
-      formData.append("nome", data.nome);
-      formData.append("apelido", data.apelido);
-      formData.append("nascimento", data.nascimento);
-      formData.append("whatsapp", data.whatsapp);
-      formData.append("email", data.email);
-
-      formData.append("rua", data.rua);
-      formData.append("numero", data.numero);
-      formData.append("bairro", data.bairro);
-      formData.append("cidade", data.cidade);
-
-      formData.append("macro", data.macro);
-      formData.append("ger", data.ger);
-      formData.append("ged", data.ged);
-
-      formData.append("servicoMcc", data.servicoMcc);
-      formData.append("cursilhoFez", data.cursilhoFez);
-
-      formData.append("alergiaTem", data.alergiaTem);
-      formData.append("alergiaDesc", data.alergiaDesc);
-      formData.append("restricaoTem", data.restricaoTem);
-      formData.append("restricaoDesc", data.restricaoDesc);
-
-      formData.append("camiseta", data.camiseta);
-      formData.append("pagamento", data.pagamento);
-      formData.append("lgpdOk", String(data.lgpdOk));
-
-      formData.append("comprovanteName", comprovanteName);
-      formData.append("comprovanteType", comprovanteType);
-
-      // 🔥 ARQUIVO
-      if (data.comprovante) {
-        formData.append("file", data.comprovante);
-      }
-
-      // 🔥 ENVIA PRA API (AGORA CERTO)
+      // 🔥 2. ENVIA PARA O BACKEND (JSON)
       const res = await fetch("/api/inscricao", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          comprovanteUrl,
+          comprovanteName,
+          comprovanteType,
+        }),
       });
 
       const raw = await res.text();
@@ -525,6 +515,7 @@ export default function InscricaoPopup({
         return;
       }
 
+      // ✅ sucesso
       setIsSubmitted(true);
       setIsSubmitting(false);
     } catch (err) {
