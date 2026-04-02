@@ -197,17 +197,36 @@ function buildEmailHtml(payload: any) {
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData();
+    let payload: any = {};
+    let file: File | null = null;
 
-    // 🔥 CAMPOS
-    const payload: any = {};
-    formData.forEach((value, key) => {
-      if (key !== "file") {
-        payload[key] = value;
-      }
-    });
+    const contentType = req.headers.get("content-type") || "";
 
-    const file = formData.get("file") as File | null;
+    // 🔥 JSON (buscar pré-inscrição)
+    if (contentType.includes("application/json")) {
+      payload = await req.json();
+    }
+
+    // 🔥 FORMDATA (inscrição normal)
+    else if (contentType.includes("multipart/form-data")) {
+      const formData = await req.formData();
+
+      formData.forEach((value, key) => {
+        if (key !== "file") {
+          payload[key] = value;
+        }
+      });
+
+      file = formData.get("file") as File | null;
+    }
+
+    // ❌ ERRO
+    else {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Content-Type inválido" }),
+        { status: 400 },
+      );
+    }
 
     const action = String(payload?.action || "create");
 
