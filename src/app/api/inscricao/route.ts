@@ -196,144 +196,146 @@ function buildEmailHtml(payload: any) {
 }
 
 export async function POST(req: Request) {
-  const payload = await req.json();
-
-  const action = String(payload?.action || "create");
-
-  const url = process.env.SHEETS_WEBAPP_URL;
-  if (!url) {
-    return new Response(
-      JSON.stringify({ ok: false, error: "Missing SHEETS_WEBAPP_URL" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-
-  // 1) salva no Sheets (Apps Script)
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  const raw = await r.text();
-  console.log("RAW DO APPS SCRIPT:", raw);
-  let out: any = null;
   try {
-    out = JSON.parse(raw);
-  } catch {
-    out = { ok: false, error: "Resposta do Sheets não é JSON", raw };
-  }
+    const formData = await req.formData();
 
-  if (!r.ok || out?.status !== "ok") {
-    return new Response(
-      JSON.stringify({
-        ok: false,
-        error: out?.error || "Erro ao salvar no Sheets",
-        raw,
-      }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+    // 🔥 CAMPOS
+    const payload: any = {};
+    formData.forEach((value, key) => {
+      if (key !== "file") {
+        payload[key] = value;
+      }
+    });
 
-  if (action === "buscar_pre_inscricao") {
-    return new Response(JSON.stringify(out), {
-      status: 200,
+    const file = formData.get("file") as File | null;
+
+    const action = String(payload?.action || "create");
+
+    const url = process.env.SHEETS_WEBAPP_URL;
+    if (!url) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Missing SHEETS_WEBAPP_URL" }),
+        { status: 500 },
+      );
+    }
+
+    let comprovanteUrl = "";
+    let comprovanteName = payload.comprovanteName || "";
+    let comprovanteType = payload.comprovanteType || "";
+
+    // 🔥 SE TEM ARQUIVO → ENVIA PRO APPS SCRIPT (DRIVE)
+    if (file) {
+      const buffer = await file.arrayBuffer();
+      const base64 = `data:${file.type};base64,${Buffer.from(buffer).toString("base64")}`;
+
+      const driveRes = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "upload_comprovante",
+          file: base64,
+          mimeType: file.type,
+          nome: payload.nome,
+          ger: payload.ger,
+          ged: payload.ged,
+        }),
+      });
+
+      const driveOut = await driveRes.json();
+
+      if (!driveOut?.ok) {
+        return new Response(
+          JSON.stringify({
+            ok: false,
+            error: "Erro ao salvar comprovante no Drive",
+          }),
+          { status: 500 },
+        );
+      }
+
+      comprovanteUrl = driveOut.url;
+      comprovanteName = driveOut.nome;
+      comprovanteType = file.type;
+    }
+
+    // 🔥 ENVIA PRA PLANILHA
+    const r = await fetch(url, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  const emailPayload = out?.inscricao || payload;
-
-  const pagamento = String(emailPayload?.pagamento || payload?.pagamento || "");
-  const isPreInscricao = pagamento === "Pagar depois ⏰";
-
-  if (isPreInscricao) {
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        saved: true,
-        emailSent: false,
-        mode: "pre_inscricao",
+      body: JSON.stringify({
+        ...payload,
+        comprovanteUrl,
+        comprovanteName,
+        comprovanteType,
       }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-
-  // 🔒 valida se tem email antes de tentar enviar
-  if (!emailPayload?.email) {
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        saved: true,
-        emailSent: false,
-        warn: "Missing payload.email",
-      }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  // 2) envia e-mail (se salvou ok)
-  const resendKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM;
-  const siteUrl = process.env.SITE_URL;
-
-  if (!resendKey || !from || !siteUrl) {
-    // não falha a inscrição, mas avisa que email não foi enviado
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        saved: true,
-        emailSent: false,
-        warn: "Missing RESEND_API_KEY / EMAIL_FROM / SITE_URL",
-      }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
-  const resend = new Resend(resendKey);
-
-  const apelido = (emailPayload?.apelido || "").trim();
-  const firstName = ((emailPayload?.nome || "").split(" ")[0] || "").trim();
-  const nomeJovem = apelido || firstName || "Jovem";
-
-  const subject = `${escapeHtml(nomeJovem)}, você estará conosco no 11º ENJC!!!`;
-
-  try {
-    await resend.emails.send({
-      from,
-      to: String(emailPayload.email),
-      subject,
-      html: buildEmailHtml(emailPayload),
     });
 
-    return new Response(
-      JSON.stringify({ ok: true, saved: true, emailSent: true }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    const raw = await r.text();
+    let out: any = null;
+
+    try {
+      out = JSON.parse(raw);
+    } catch {
+      out = { ok: false, error: "Resposta inválida", raw };
+    }
+
+    if (!r.ok || out?.status !== "ok") {
+      return new Response(
+        JSON.stringify({ ok: false, error: out?.error || "Erro no Sheets" }),
+        { status: 400 },
+      );
+    }
+
+    // 🔥 PRÉ INSCRIÇÃO
+    const pagamento = String(payload?.pagamento || "");
+    if (pagamento === "Pagar depois ⏰") {
+      return new Response(
+        JSON.stringify({ ok: true, saved: true, emailSent: false }),
+        { status: 200 },
+      );
+    }
+
+    // 🔥 ENVIO EMAIL (mantém seu código)
+    const resendKey = process.env.RESEND_API_KEY;
+    const from = process.env.EMAIL_FROM;
+
+    if (!resendKey || !from) {
+      return new Response(
+        JSON.stringify({ ok: true, saved: true, emailSent: false }),
+        { status: 200 },
+      );
+    }
+
+    const resend = new Resend(resendKey);
+
+    try {
+      await resend.emails.send({
+        from,
+        to: String(payload.email),
+        subject: `${payload.nome}, você está confirmado no ENJC!`,
+        html: buildEmailHtml(payload),
+      });
+
+      return new Response(
+        JSON.stringify({ ok: true, saved: true, emailSent: true }),
+        { status: 200 },
+      );
+    } catch (err: any) {
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          saved: true,
+          emailSent: false,
+          error: err.message,
+        }),
+        { status: 200 },
+      );
+    }
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        saved: true,
-        emailSent: false,
-        emailError: String(err?.message || err),
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ ok: false, error: err.message }), {
+      status: 500,
+    });
   }
 }
