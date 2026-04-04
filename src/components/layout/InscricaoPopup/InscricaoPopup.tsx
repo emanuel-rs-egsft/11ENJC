@@ -263,6 +263,7 @@ export default function InscricaoPopup({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const startedRef = useRef(false);
+  const preCheckRef = useRef("");
 
   function setField<K extends keyof FormData>(key: K, value: FormData[K]) {
     setData((prev) => ({ ...prev, [key]: value }));
@@ -422,11 +423,6 @@ export default function InscricaoPopup({
 
     if (Object.keys(e).length !== 0) return;
 
-    if (step === 4) {
-      await verificarPreInscricaoAutomatica(data.nome, data.nascimento);
-      return;
-    }
-
     onNext();
   }
 
@@ -579,29 +575,37 @@ export default function InscricaoPopup({
 
   async function verificarPreInscricaoAutomatica(
     nome: string,
+    apelido: string,
     nascimento: string,
   ) {
-    if (!nome.trim() || !nascimento.trim()) {
-      onNext();
-      return;
-    }
+    // 🚫 evita múltiplas chamadas simultâneas
+    if (verificandoPreAuto) return;
+
+    if (!nome.trim() || !apelido.trim() || !nascimento.trim()) return;
 
     setVerificandoPreAuto(true);
-    setPreError(null);
-    setPreEncontrada(null);
-    setMostrarAvisoPre(false);
 
     const result = await buscarPreInscricao(nome, nascimento);
 
     setVerificandoPreAuto(false);
 
-    if (!result?.found || !result?.inscricao?.isPagarDepois) {
-      onNext();
-      return;
-    }
+    if (!result?.found || !result?.inscricao?.isPagarDepois) return;
 
-    setPreEncontrada(result.inscricao);
-    setMostrarAvisoPre(true);
+    const inscricao = result.inscricao;
+
+    setData((prev) => ({
+      ...prev,
+      nome: inscricao.nome || prev.nome,
+      apelido: inscricao.apelido || prev.apelido,
+      nascimento: inscricao.nascimento || prev.nascimento,
+      email: inscricao.email || prev.email,
+      pagamento: "Pix ⚡",
+    }));
+
+    onPagamentoChange?.("Pix ⚡");
+
+    // 🔥 vai direto pro PIX
+    onGoToStep?.(121);
   }
 
   function finishAndReset() {
@@ -628,6 +632,29 @@ export default function InscricaoPopup({
       submitInscricao();
     }
   }, [open, step]);
+
+  useEffect(() => {
+    if (step !== 4) return;
+
+    const nomeValido = data.nome.trim().split(" ").length >= 2;
+    const apelidoValido = data.apelido.trim().length >= 2;
+    const nascimentoValido = data.nascimento.length > 0;
+
+    if (!nomeValido || !apelidoValido || !nascimentoValido) return;
+
+    // 🔥 chave única pra evitar chamadas repetidas
+    const key = `${data.nome}-${data.apelido}-${data.nascimento}`;
+
+    if (preCheckRef.current === key) return;
+
+    const timeout = setTimeout(() => {
+      preCheckRef.current = key;
+
+      verificarPreInscricaoAutomatica(data.nome, data.apelido, data.nascimento);
+    }, 700);
+
+    return () => clearTimeout(timeout);
+  }, [data.nome, data.apelido, data.nascimento, step]);
 
   useEffect(() => {
     return () => {
