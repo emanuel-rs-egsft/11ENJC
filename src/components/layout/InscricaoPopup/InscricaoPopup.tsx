@@ -578,7 +578,6 @@ export default function InscricaoPopup({
     apelido: string,
     nascimento: string,
   ) {
-    // 🚫 evita múltiplas chamadas simultâneas
     if (verificandoPreAuto) return;
 
     if (!nome.trim() || !apelido.trim() || !nascimento.trim()) return;
@@ -589,23 +588,34 @@ export default function InscricaoPopup({
 
     setVerificandoPreAuto(false);
 
-    if (!result?.found || !result?.inscricao?.isPagarDepois) return;
+    // ❌ não encontrou → não faz nada
+    if (!result?.found) return;
 
     const inscricao = result.inscricao;
 
-    setData((prev) => ({
-      ...prev,
-      nome: inscricao.nome || prev.nome,
-      apelido: inscricao.apelido || prev.apelido,
-      nascimento: inscricao.nascimento || prev.nascimento,
-      email: inscricao.email || prev.email,
-      pagamento: "Pix ⚡",
-    }));
+    // 🔥 GUARDA PRA USAR NA UI
+    setPreEncontrada(inscricao);
 
-    onPagamentoChange?.("Pix ⚡");
+    // 👉 CASO 1: já era "pagar depois"
+    if (inscricao?.isPagarDepois) {
+      setData((prev) => ({
+        ...prev,
+        nome: inscricao.nome || prev.nome,
+        apelido: inscricao.apelido || prev.apelido,
+        nascimento: inscricao.nascimento || prev.nascimento,
+        email: inscricao.email || prev.email,
+        pagamento: "Pix ⚡",
+      }));
 
-    // 🔥 vai direto pro PIX
-    onGoToStep?.(121);
+      onPagamentoChange?.("Pix ⚡");
+
+      // 🚀 pula direto pro PIX
+      onGoToStep?.(121);
+      return;
+    }
+
+    // 👉 CASO 2: já tem inscrição NORMAL
+    setMostrarAvisoPre(true);
   }
 
   function finishAndReset() {
