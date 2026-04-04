@@ -1,88 +1,49 @@
-import { Resend } from "resend";
-
 export async function POST(req: Request) {
-  try {
-    const payload = await req.json();
+  const payload = await req.json();
 
-    const url = process.env.SHEETS_WEBAPP_URL;
+  const action = String(payload?.action || "create");
 
-    if (!url) {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "Missing SHEETS_WEBAPP_URL",
-        }),
-        { status: 500 },
-      );
-    }
+  const url = process.env.SHEETS_WEBAPP_URL!;
 
-    // 🔥 ENVIA PRO APPS SCRIPT (COM URL DO BLOB)
+  // 🔥 BUSCAR PRÉ INSCRIÇÃO (NÃO SALVA)
+  if (action === "buscar_pre_inscricao") {
     const r = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...payload,
-        comprovanteUrl: payload.comprovanteUrl,
-        comprovanteName: payload.comprovanteName,
-        comprovanteType: payload.comprovanteType,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    const raw = await r.text();
-    console.log("APPS SCRIPT:", raw);
+    const out = await r.json();
 
-    let out: any;
-    try {
-      out = JSON.parse(raw);
-    } catch {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "Resposta inválida do Apps Script",
-          raw,
-        }),
-        { status: 500 },
-      );
-    }
+    return new Response(JSON.stringify(out), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
-    if (out?.status !== "ok") {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: out?.message || "Erro ao salvar",
-        }),
-        { status: 400 },
-      );
-    }
+  // 🔥 SALVAR INSCRIÇÃO
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 
-    // ✉️ EMAIL
-    const resend = new Resend(process.env.RESEND_API_KEY);
+  const out = await r.json();
 
-    if (payload.email) {
-      await resend.emails.send({
-        from: process.env.EMAIL_FROM!,
-        to: payload.email,
-        subject: "Inscrição confirmada",
-        html: `<p>Inscrição confirmada com sucesso!</p>`,
-      });
-    }
-
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        saved: true,
-      }),
-      { status: 200 },
-    );
-  } catch (err: any) {
+  if (!out || out.status !== "ok") {
     return new Response(
       JSON.stringify({
         ok: false,
-        error: String(err?.message || err),
+        error: "Erro ao salvar",
       }),
-      { status: 500 },
+      { status: 400 },
     );
   }
+
+  return new Response(
+    JSON.stringify({
+      ok: true,
+    }),
+    { status: 200 },
+  );
 }
