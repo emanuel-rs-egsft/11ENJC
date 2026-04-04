@@ -534,15 +534,18 @@ export default function InscricaoPopup({
         }),
       });
 
+      if (!res.ok) {
+        console.error("Erro na API");
+        return null;
+      }
+
       const data = await res.json();
 
-      if (!data?.ok) {
-        throw new Error(data?.error || "Erro ao buscar inscrição");
-      }
+      console.log("PRE CHECK RESULT:", data); // 🔥 DEBUG
 
       return data;
     } catch (err) {
-      console.error(err);
+      console.error("Erro ao buscar pré-inscrição:", err);
       return null;
     }
   }
@@ -588,15 +591,13 @@ export default function InscricaoPopup({
 
     setVerificandoPreAuto(false);
 
-    // ❌ não encontrou → não faz nada
     if (!result?.found) return;
 
     const inscricao = result.inscricao;
 
-    // 🔥 GUARDA PRA USAR NA UI
     setPreEncontrada(inscricao);
 
-    // 👉 CASO 1: já era "pagar depois"
+    // 👉 CASO: pagar depois
     if (inscricao?.isPagarDepois) {
       setData((prev) => ({
         ...prev,
@@ -609,14 +610,36 @@ export default function InscricaoPopup({
 
       onPagamentoChange?.("Pix ⚡");
 
-      // 🚀 pula direto pro PIX
+      // 🔥 pula direto pro PIX
       onGoToStep?.(121);
       return;
     }
 
-    // 👉 CASO 2: já tem inscrição NORMAL
+    // 👉 já tem inscrição normal
     setMostrarAvisoPre(true);
   }
+
+  useEffect(() => {
+    if (step !== 4) return;
+
+    const nomeValido = data.nome.trim().split(" ").length >= 2;
+    const apelidoValido = data.apelido.trim().length >= 2;
+    const nascimentoValido = data.nascimento.length > 0;
+
+    if (!nomeValido || !apelidoValido || !nascimentoValido) return;
+
+    const key = `${data.nome}-${data.apelido}-${data.nascimento}`;
+
+    if (preCheckRef.current === key) return;
+
+    const timeout = setTimeout(() => {
+      preCheckRef.current = key;
+
+      verificarPreInscricaoAutomatica(data.nome, data.apelido, data.nascimento);
+    }, 700);
+
+    return () => clearTimeout(timeout);
+  }, [data.nome, data.apelido, data.nascimento, step]);
 
   function finishAndReset() {
     setData(initialData);
@@ -642,29 +665,6 @@ export default function InscricaoPopup({
       submitInscricao();
     }
   }, [open, step]);
-
-  useEffect(() => {
-    if (step !== 4) return;
-
-    const nomeValido = data.nome.trim().split(" ").length >= 2;
-    const apelidoValido = data.apelido.trim().length >= 2;
-    const nascimentoValido = data.nascimento.length > 0;
-
-    if (!nomeValido || !apelidoValido || !nascimentoValido) return;
-
-    // 🔥 chave única pra evitar chamadas repetidas
-    const key = `${data.nome}-${data.apelido}-${data.nascimento}`;
-
-    if (preCheckRef.current === key) return;
-
-    const timeout = setTimeout(() => {
-      preCheckRef.current = key;
-
-      verificarPreInscricaoAutomatica(data.nome, data.apelido, data.nascimento);
-    }, 700);
-
-    return () => clearTimeout(timeout);
-  }, [data.nome, data.apelido, data.nascimento, step]);
 
   useEffect(() => {
     return () => {
