@@ -1915,6 +1915,7 @@ function StepMccRelacao({
       "GED SOROCABA",
       "GED BRAGANÇA PAULISTA",
       "GED BRAGANÇA",
+      "GED SÃO JOÃO DA BOA VISTA",
     ],
   };
 
